@@ -1,0 +1,79 @@
+package client_View;
+
+import java.awt.Font;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
+public class Launcher{
+  
+	final int WIDTH = 1280;
+	final int HEIGHT = 720;
+	
+	Font normalfont = new Font("Arial", Font.BOLD, 20);
+	Font bigfont = new Font("Arial", Font.BOLD, 40);
+
+	private JFrame frame;
+    private JPanel mainPanel;
+    
+	//Just the labels that appear beside the text boxes
+    private JLabel passwordLabel;
+    private JLabel nameLabel;
+    
+    //Text fields that the user will be able to type into
+    private JTextField textName;
+    private JPasswordField textPassword;
+    
+    //Submit button
+	private JButton jButton1;
+	
+	public Launcher(){
+
+        frame = new JFrame();
+		mainPanel = new JPanel();
+        nameLabel = new JLabel();
+        passwordLabel = new JLabel();
+        textName = new JTextField();
+        textPassword = new JPasswordField();
+        jButton1 = new JButton();
+        
+        nameLabel.setText("Name: ");
+        passwordLabel.setText("Password: ");
+        textName.setSize(100, 50);
+        jButton1.setText("Submit");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        mainPanel.add(nameLabel);
+        mainPanel.add(textName);
+        mainPanel.add(passwordLabel);
+        mainPanel.add(textPassword);
+        mainPanel.add(jButton1);
+        
+        frame.add(mainPanel);
+        frame.setTitle("Launcher");
+		frame.setSize(WIDTH, HEIGHT);
+		frame.setResizable(false);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+	}
+    
+	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
+        String name = textName.getText();
+        String password = String.valueOf(textPassword.getPassword());
+
+        if("".equals(password) || "".equals(name)){
+            JOptionPane.showMessageDialog(frame, "Name or password is empty!", "Incorrect Input", JOptionPane.ERROR_MESSAGE);
+        }else{
+            JOptionPane.showMessageDialog(frame, "Hello "+name+" with password "+password, "Logged in", JOptionPane.PLAIN_MESSAGE);
+        }
+    }
+}
+
