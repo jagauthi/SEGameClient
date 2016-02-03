@@ -1,6 +1,13 @@
 package client_View;
 
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.LayoutManager;
+
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -18,15 +25,15 @@ public class Launcher{
 	Font bigfont = new Font("Arial", Font.BOLD, 40);
 
 	private JFrame frame;
-    private JPanel mainPanel;
+    private JPanel panel1;
     
 	//Just the labels that appear beside the text boxes
     private JLabel passwordLabel;
     private JLabel nameLabel;
     
     //Text fields that the user will be able to type into
-    private JTextField textName;
-    private JPasswordField textPassword;
+    private JTextField nameText;
+    private JPasswordField passwordText;
     
     //Submit button
 	private JButton jButton1;
@@ -34,16 +41,17 @@ public class Launcher{
 	public Launcher(){
 
         frame = new JFrame();
-		mainPanel = new JPanel();
+		panel1 = new JPanel();
         nameLabel = new JLabel();
         passwordLabel = new JLabel();
-        textName = new JTextField();
-        textPassword = new JPasswordField();
+        nameText = new JTextField();
+        passwordText = new JPasswordField();
         jButton1 = new JButton();
         
         nameLabel.setText("Name: ");
         passwordLabel.setText("Password: ");
-        //textName.setPreferredSize(new Dimension(100, 50));
+        nameText.setPreferredSize(new Dimension(150, 40));
+        passwordText.setPreferredSize(new Dimension(150, 40));
         
         jButton1.setText("Submit");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -51,28 +59,52 @@ public class Launcher{
                 jButton1ActionPerformed(evt);
             }
         });
-
-        mainPanel.add(nameLabel);
-        mainPanel.add(textName);
-        mainPanel.add(passwordLabel);
-        mainPanel.add(textPassword);
-        mainPanel.add(jButton1);
         
-        frame.add(mainPanel);
+        panel1.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        //NameLabel
+        c.fill = GridBagConstraints.NONE;
+        c.gridx = 0;
+        c.gridy = 0;
+        panel1.add(nameLabel, c);
+        //
+        c.gridx = 1;
+        c.gridy = 0;
+        panel1.add(nameText, c);
+        
+        c.gridx = 0;
+        c.gridy = 1;
+        panel1.add(passwordLabel, c);
+        
+        c.gridx = 1;
+        c.gridy = 1;
+        panel1.add(passwordText, c);
+        
+        c.gridx = 0;
+        c.gridy = 2;
+        panel1.add(jButton1, c);
+        
+        panel1.setBorder(BorderFactory.createCompoundBorder(
+        		BorderFactory.createTitledBorder("asdf"),
+        		BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+
+        frame.getContentPane().add(panel1, "West");
         frame.setTitle("Launcher");
 		frame.setSize(WIDTH, HEIGHT);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+        
 	}
     
 	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
-        String name = textName.getText();
-        String password = String.valueOf(textPassword.getPassword());
+        String name = nameText.getText();
+        String password = String.valueOf(passwordText.getPassword());
 
         if("".equals(password) || "".equals(name)){
             JOptionPane.showMessageDialog(frame, "Name or password is empty!", "Incorrect Input", JOptionPane.ERROR_MESSAGE);
-        }else{
+        }
+        else{
             JOptionPane.showMessageDialog(frame, "Hello "+name+" with password "+password, "Logged in", JOptionPane.PLAIN_MESSAGE);
         }
     }
