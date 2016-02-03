@@ -43,7 +43,8 @@ public class Launcher{
         
         nameLabel.setText("Name: ");
         passwordLabel.setText("Password: ");
-        textName.setSize(100, 50);
+        //textName.setPreferredSize(new Dimension(100, 50));
+        
         jButton1.setText("Submit");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
