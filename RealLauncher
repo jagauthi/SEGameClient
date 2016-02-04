@@ -1,0 +1,126 @@
+package client_View;
+
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.LayoutManager;
+import java.io.IOException;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
+import client_Controller.ChatClient;
+
+public class Launcher{
+  
+	final int WIDTH = 1280;
+	final int HEIGHT = 720;
+	
+	Font normalfont = new Font("Arial", Font.BOLD, 20);
+	Font bigfont = new Font("Arial", Font.BOLD, 40);
+
+	private JFrame frame;
+	
+	//Panels
+    private JPanel connectPanel;
+    private JPanel loginPanel;
+    
+    //Labels
+    private JLabel passwordLabel;
+    private JLabel nameLabel;
+    
+    //Text fields
+    private JTextField nameText;
+    private JPasswordField passwordText;
+    
+    //Buttons
+	private JButton connectButton;
+	private JButton logInButton;
+	private JButton createAccountButton;
+	private JButton forgotPasswordButton;
+	
+	public Launcher(){
+		connectToServer();
+        frame = new JFrame();
+        
+        initConnectPanel();
+        
+        frame.setTitle("Launcher");
+		frame.setSize(600, 400);
+		frame.setResizable(false);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+	}
+	
+	public void initConnectPanel()
+	{
+		connectPanel = new JPanel();
+        connectButton = new JButton();
+        connectButton.setPreferredSize(new Dimension(400, 200));
+        connectButton.setText("Play!");
+        connectButton.setFont(bigfont);
+        connectButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                goToLogin(evt);
+            }
+        });
+        
+        connectPanel.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        //NameLabel
+        c.fill = GridBagConstraints.NONE;
+        
+        c.gridx = 0;
+        c.gridy = 0;
+        connectPanel.add(connectButton, c);
+        
+        frame.getContentPane().add(connectPanel, "South");
+	}
+	
+	public void initLoginPanel()
+	{
+		
+	}
+	
+	public void connectToServer()
+	{
+		ChatClient client = new ChatClient();
+		client.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        client.frame.setVisible(true);
+        try {
+			client.run();
+		} 
+        catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+    
+	private void goToLogin(java.awt.event.ActionEvent evt) {
+		/*
+		 * We will have multiple panels. The first panel is just the connect button.
+		 * The next panel will be the login panel, with a text field for username and password,
+		 * label for username and password, and a submit button. When this method is 
+		 * called, we will just switch panel one out with panel two
+		 */
+		/*
+        String name = nameText.getText();
+        String password = String.valueOf(passwordText.getPassword());
+
+        if("".equals(password) || "".equals(name)){
+            JOptionPane.showMessageDialog(frame, "Name or password is empty!", "Incorrect Input", JOptionPane.ERROR_MESSAGE);
+        }
+        else{
+            JOptionPane.showMessageDialog(frame, "Hello "+name+" with password "+password, "Logged in", JOptionPane.PLAIN_MESSAGE);
+        }
+        */
+    }
+}
+
