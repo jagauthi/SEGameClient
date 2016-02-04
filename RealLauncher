@@ -8,6 +8,12 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -32,10 +38,12 @@ public class Launcher{
 	private JPanel cards;
     private JPanel connectPanel;
     private JPanel loginPanel;
+    private JPanel charSelectPanel;
     
     //Labels
     private JLabel passwordLabel;
     private JLabel nameLabel;
+    private JLabel char1Label;
     
     //Text fields
     private JTextField nameText;
@@ -53,12 +61,15 @@ public class Launcher{
 		cards = new JPanel(new CardLayout());
 		connectPanel = new JPanel();
 		loginPanel = new JPanel();
+		charSelectPanel = new JPanel();
 
 		initConnectPanel();
 		initLoginPanel();
+		initCharSelectPanel();
 		
 		cards.add(connectPanel, "Connect Panel");
 		cards.add(loginPanel, "Login Panel");
+		cards.add(charSelectPanel, "Char Select Panel");
         
         frame.add(cards, BorderLayout.CENTER);
         
@@ -150,6 +161,19 @@ public class Launcher{
         loginPanel.add(loginButton , c);
 	}
 	
+	public void initCharSelectPanel()
+	{
+        char1Label = new JLabel();
+        char1Label.setText("Character 1");
+        charSelectPanel.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.NONE;
+        
+        c.gridx = 0;
+        c.gridy = 0;
+        charSelectPanel.add(char1Label, c);
+	}
+	
 	private void switchCards(String cardName)
 	{
 		CardLayout cl = (CardLayout)(cards.getLayout());
@@ -164,15 +188,10 @@ public class Launcher{
 	
 	private void logIn(ActionEvent evt)
 	{
-		String name = nameText.getText();
-        String password = String.valueOf(passwordText.getPassword());
-
-        if("".equals(password) || "".equals(name)){
-            JOptionPane.showMessageDialog(frame, "Name or password is empty!", "Incorrect Input", JOptionPane.ERROR_MESSAGE);
-        }
-        else{
-            JOptionPane.showMessageDialog(frame, "Hello "+name+" with password "+password, "Logged in", JOptionPane.PLAIN_MESSAGE);
-        }
+		if(connectToDatabase())
+		{
+			switchCards("Char Select Panel");
+		}
 	}
 	
 	private void createAccount(ActionEvent evt)
@@ -192,5 +211,104 @@ public class Launcher{
 			e.printStackTrace();
 		}
 	}
+	
+	public Boolean connectToDatabase()
+	{
+		try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+	      }
+	      catch(ClassNotFoundException ex) {
+	            System.out.println("Error: unable to load driver class!");
+	            System.exit(1);
+	      }
+	      catch(IllegalAccessException ex) {
+	            System.out.println("Error: access problem while loading!");
+	            System.exit(2);
+	      }
+	      catch(InstantiationException ex) {
+	            System.out.println("Error: unable to instantiate driver!");
+	            System.exit(3);
+	      }
+	      
+	      String URL = "jdbc:mysql://sql5.freesqldatabase.com:3306/sql5104581";
+	      String USER = "sql5104581";
+	      String PASS = "8CHGkEPagu";
+	      Connection con = null;
+	      Statement stmt = null;
+	      try
+	      {
+	         con = DriverManager.getConnection(URL, USER, PASS);
+	         stmt = con.createStatement();String sql;
+	         sql = "SELECT * from AccountsTable where Username = \'" + nameText.getText() + "\';";
+	         ResultSet rs = stmt.executeQuery(sql);
+	          
+	         //If there is no results for the entered username
+	         if (!rs.next()) {
+	           System.out.println("No account found with username: " + nameText.getText());
+	           return false;
+	           //Call a method that suggests the player to make a new account.
+	         }
+	
+	         //Set the ResultSet counter back to the beginning of the ResultSet
+	         //This is necessary since the previous method moves the counter forward to
+	         //check if the ResultSet is empty.
+	         rs.beforeFirst();
+	         while(rs.next())
+	         {
+	             int accountNumber = rs.getInt("AccountNumber");
+	             String accountUsername = rs.getString("Username");
+	             String accountPassword = rs.getString("Password");
+	
+	             if(nameText.getText().equals(accountUsername))
+	             {
+	             	if(String.valueOf(passwordText.getPassword()).equals(accountPassword))
+	             	{
+	             		System.out.println("Yay! Password correct!");
+	             	}
+	             	else
+	             	{
+	             		System.out.println("Oh no :( Password incorrect");
+	             		return false;
+	             		//numFailedLoginAttempts++;
+	             		/*
+	             		 * Clear out password field
+	             		 * leave username populated
+	             		 * display message "Invalid login"
+	             		 */
+	             	}
+	             }
+	         }
+	         // cleaning up
+	         rs.close();
+	         stmt.close();
+	         con.close();
+	      } 
+	      catch (SQLException e) {
+	         e.printStackTrace();
+	      }
+	      catch (Exception e) {
+	          e.printStackTrace();
+	      }
+	      finally
+	      {  
+	          //closing the resources in case they weren't closed earlier
+	          try {
+	          if (stmt != null)
+	                  stmt.close();
+	          }
+	          catch (SQLException e2) {
+	             e2.printStackTrace();
+	          }
+	          try {
+	              if (con != null) {
+	                  con.close();
+	               }
+	          } 
+	          catch (SQLException e2) {
+	                 e2.printStackTrace();
+	          }
+	      }
+	      return true;
+      }
 }
 
