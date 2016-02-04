@@ -1,14 +1,13 @@
 package client_View;
 
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.LayoutManager;
+import java.awt.event.ActionEvent;
 import java.io.IOException;
-
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -24,12 +23,13 @@ public class Launcher{
 	final int WIDTH = 1280;
 	final int HEIGHT = 720;
 	
-	Font normalfont = new Font("Arial", Font.BOLD, 20);
-	Font bigfont = new Font("Arial", Font.BOLD, 40);
+	Font normalFont = new Font("Arial", Font.BOLD, 30);
+	Font bigFont = new Font("Arial", Font.BOLD, 60);
 
 	private JFrame frame;
 	
 	//Panels
+	private JPanel cards;
     private JPanel connectPanel;
     private JPanel loginPanel;
     
@@ -43,15 +43,24 @@ public class Launcher{
     
     //Buttons
 	private JButton connectButton;
-	private JButton logInButton;
+	private JButton loginButton;
 	private JButton createAccountButton;
 	private JButton forgotPasswordButton;
 	
 	public Launcher(){
-		connectToServer();
+	//	connectToServer();
         frame = new JFrame();
+		cards = new JPanel(new CardLayout());
+		connectPanel = new JPanel();
+		loginPanel = new JPanel();
+
+		initConnectPanel();
+		initLoginPanel();
+		
+		cards.add(connectPanel, "Connect Panel");
+		cards.add(loginPanel, "Login Panel");
         
-        initConnectPanel();
+        frame.add(cards, BorderLayout.CENTER);
         
         frame.setTitle("Launcher");
 		frame.setSize(600, 400);
@@ -62,11 +71,10 @@ public class Launcher{
 	
 	public void initConnectPanel()
 	{
-		connectPanel = new JPanel();
         connectButton = new JButton();
         connectButton.setPreferredSize(new Dimension(400, 200));
         connectButton.setText("Play!");
-        connectButton.setFont(bigfont);
+        connectButton.setFont(bigFont);
         connectButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 goToLogin(evt);
@@ -75,19 +83,101 @@ public class Launcher{
         
         connectPanel.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
-        //NameLabel
         c.fill = GridBagConstraints.NONE;
         
         c.gridx = 0;
         c.gridy = 0;
         connectPanel.add(connectButton, c);
-        
-        frame.getContentPane().add(connectPanel, "South");
 	}
 	
 	public void initLoginPanel()
 	{
-		
+		nameLabel = new JLabel();
+        passwordLabel = new JLabel();
+        nameText = new JTextField();
+        passwordText = new JPasswordField();
+        loginButton = new JButton();
+        createAccountButton = new JButton();
+        
+        nameLabel.setText("Username: ");
+        passwordLabel.setText("Password: ");
+        nameText.setPreferredSize(new Dimension(200, 40));
+        passwordText.setPreferredSize(new Dimension(200, 40));
+        
+        loginButton.setText("Login!");
+        loginButton.setFont(normalFont);
+        createAccountButton.setText("Create Account");
+        
+        loginButton.setPreferredSize(new Dimension(100, 50));
+        loginButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logIn(evt);
+            }
+        });
+        //createAccountButton.setPreferredSize(newDimension(100, 50));
+        createAccountButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createAccount(evt);
+            }
+        });
+        
+        loginPanel.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.NONE;
+        
+        c.gridx = 0;
+        c.gridy = 0;
+        loginPanel.add(nameLabel, c);
+        
+        c.gridx = 1;
+        c.gridy = 0;
+        loginPanel.add(nameText, c);
+
+        c.gridx = 0;
+        c.gridy = 1;
+        loginPanel.add(passwordLabel, c);
+
+        c.gridx = 1;
+        c.gridy = 1;
+        loginPanel.add(passwordText, c);
+
+        c.gridx = 0;
+        c.gridy = 3;
+        loginPanel.add(createAccountButton, c);
+        
+        c.gridx = 1;
+        c.gridy = 2;
+        loginPanel.add(loginButton , c);
+	}
+	
+	private void switchCards(String cardName)
+	{
+		CardLayout cl = (CardLayout)(cards.getLayout());
+        cl.show(cards, cardName);
+	}
+    
+	private void goToLogin(ActionEvent evt) {
+		//Maybe check to make sure we're connected to server first, before
+		//switching over to the login screen??
+		switchCards("Login Panel");
+    }
+	
+	private void logIn(ActionEvent evt)
+	{
+		String name = nameText.getText();
+        String password = String.valueOf(passwordText.getPassword());
+
+        if("".equals(password) || "".equals(name)){
+            JOptionPane.showMessageDialog(frame, "Name or password is empty!", "Incorrect Input", JOptionPane.ERROR_MESSAGE);
+        }
+        else{
+            JOptionPane.showMessageDialog(frame, "Hello "+name+" with password "+password, "Logged in", JOptionPane.PLAIN_MESSAGE);
+        }
+	}
+	
+	private void createAccount(ActionEvent evt)
+	{
+		//Will switch the user over to the createAccountPanel
 	}
 	
 	public void connectToServer()
@@ -102,25 +192,5 @@ public class Launcher{
 			e.printStackTrace();
 		}
 	}
-    
-	private void goToLogin(java.awt.event.ActionEvent evt) {
-		/*
-		 * We will have multiple panels. The first panel is just the connect button.
-		 * The next panel will be the login panel, with a text field for username and password,
-		 * label for username and password, and a submit button. When this method is 
-		 * called, we will just switch panel one out with panel two
-		 */
-		/*
-        String name = nameText.getText();
-        String password = String.valueOf(passwordText.getPassword());
-
-        if("".equals(password) || "".equals(name)){
-            JOptionPane.showMessageDialog(frame, "Name or password is empty!", "Incorrect Input", JOptionPane.ERROR_MESSAGE);
-        }
-        else{
-            JOptionPane.showMessageDialog(frame, "Hello "+name+" with password "+password, "Logged in", JOptionPane.PLAIN_MESSAGE);
-        }
-        */
-    }
 }
 
