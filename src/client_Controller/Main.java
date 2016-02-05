@@ -1,11 +1,13 @@
 package client_Controller;
 
 import client_Model.*;
+import client_View.Launcher;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
+
 import javax.swing.JFrame;
 
 public class Main extends JFrame implements Runnable{
@@ -135,10 +137,14 @@ public class Main extends JFrame implements Runnable{
 	 
 ///*
  	public static void main(String[] args) throws Exception {
+ 		
+ 		new Launcher();
+ 		/*
         ChatClient client = new ChatClient();
         client.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         client.frame.setVisible(true);
         client.run();
+        */
     }
  //*/
  	

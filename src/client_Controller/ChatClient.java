@@ -18,7 +18,7 @@ public class ChatClient {
  
     BufferedReader in;
     PrintWriter out;
-    JFrame frame = new JFrame("Chatter");
+    public JFrame frame = new JFrame("Chatter");
     JTextField textField = new JTextField(40);
     JTextArea messageArea = new JTextArea(8, 40);
 
