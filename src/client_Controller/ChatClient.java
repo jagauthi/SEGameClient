@@ -83,5 +83,9 @@ public class ChatClient extends Thread{
     		e.printStackTrace();
     	}
     }
+    
+    public void sendMessage(String message)
+    {
+    	out.println(message);
+    }
 }
-
