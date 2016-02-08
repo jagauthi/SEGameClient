@@ -270,6 +270,11 @@ public class Launcher{
 		switchCards("Login Panel");
     }
 	
+	/*
+	 * DEFINITELY NEED TO MAKE SURE WE CHECK THAT ALL THE
+	 * FIELDS ARE FILLED IN BEFORE WE SEND IT OFF
+	 * TO THE DATABASE
+	 */
 	private void logIn(ActionEvent evt)
 	{
 		//Make switch statement for options of clearing 
@@ -297,6 +302,11 @@ public class Launcher{
 		}
 	}
 	
+	/*
+	 * DEFINITELY NEED TO MAKE SURE WE CHECK THAT ALL THE
+	 * FIELDS ARE FILLED IN BEFORE WE SEND IT OFF
+	 * TO THE DATABASE
+	 */
 	private void create(ActionEvent evt)
 	{
 		System.out.println("Creating account...");
