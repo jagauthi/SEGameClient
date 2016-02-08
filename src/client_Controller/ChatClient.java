@@ -14,7 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-public class ChatClient {
+public class ChatClient extends Thread{
  
     BufferedReader in;
     PrintWriter out;
@@ -48,7 +48,7 @@ public class ChatClient {
             JOptionPane.QUESTION_MESSAGE);
     }
 
-    private String getName() {
+    public String getScreenName() {
         return JOptionPane.showInputDialog(
             frame,
             "Choose a screen name:",
@@ -56,26 +56,32 @@ public class ChatClient {
             JOptionPane.PLAIN_MESSAGE);
     }
 
-    public void run() throws IOException {
-
+    public void run() {
         // Make connection and initialize streams
-        String serverAddress = getServerAddress();
-        Socket socket = new Socket(serverAddress, 9001);
-        in = new BufferedReader(new InputStreamReader(
-            socket.getInputStream()));
-        out = new PrintWriter(socket.getOutputStream(), true);
+    	try{
+	        String serverAddress = getServerAddress();
+	        Socket socket = new Socket(serverAddress, 9001);
+	        in = new BufferedReader(new InputStreamReader(
+	            socket.getInputStream()));
+	        out = new PrintWriter(socket.getOutputStream(), true);
 
-        // Process all messages from server, according to the protocol.
-        while (true) {
-            String line = in.readLine();
-            if (line.startsWith("SUBMITNAME")) {
-                out.println(getName());
-            } else if (line.startsWith("NAMEACCEPTED")) {
-                textField.setEditable(true);
-            } else if (line.startsWith("MESSAGE")) {
-                messageArea.append(line.substring(8) + "\n");
-            }
-        }
+	        // Process all messages from server, according to the protocol.
+	        while (true) {
+	            String line = in.readLine();
+	            if (line.startsWith("SUBMITNAME")) {
+	                out.println(getScreenName());
+	            } 
+	            else if (line.startsWith("NAMEACCEPTED")) {
+	                textField.setEditable(true);
+	            } 
+	            else if (line.startsWith("MESSAGE")) {
+	                messageArea.append(line.substring(8) + "\n");
+	            }
+	        }
+    	}
+    	catch(Exception e){
+    		e.printStackTrace();
+    	}
     }
 }
 
