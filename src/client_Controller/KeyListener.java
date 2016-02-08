@@ -36,10 +36,7 @@ public class KeyListener extends KeyAdapter{
 		}
 		
 		if(keyCode == KeyEvent.VK_SPACE){
-			if(!game.running)
-			{
-				game.start();
-			}
+
 		}
 	}
 	
