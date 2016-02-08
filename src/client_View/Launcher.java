@@ -64,6 +64,8 @@ public class Launcher{
 	private JButton createAccountBackButton;
 	private JButton forgotPasswordButton;
 	
+	ChatClient client;
+	
 	public Launcher(){
 		connectToServer();
         frame = new JFrame();
@@ -293,6 +295,7 @@ public class Launcher{
 			
 		//They entered correct username and password
 		case 3:
+			client.sendMessage("LOGIN:" + loginNameText.getText() + " " + String.valueOf(loginPasswordText.getPassword()));
 			switchCards("Char Select Panel");
 			break;
 			
@@ -326,11 +329,11 @@ public class Launcher{
 	
 	public void connectToServer()
 	{
-		ChatClient client = new ChatClient();
+		client = new ChatClient();
 		client.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         client.frame.setVisible(true);
         try {
-			client.run();
+			client.start();
 		} 
         catch (Exception e) {
 			e.printStackTrace();
