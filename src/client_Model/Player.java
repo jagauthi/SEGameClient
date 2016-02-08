@@ -135,7 +135,6 @@ public class Player {
 	public void die()
 	{
 		isAlive = false;
-		System.out.println("Player has died, stopping game. (Player.die())");
-		game.stop();
+		System.out.println("Oh no :( im ded lul");
 	}
 }
