@@ -38,37 +38,49 @@ public class Launcher{
 	private JPanel cards;
     private JPanel connectPanel;
     private JPanel loginPanel;
+    private JPanel createAccountPanel;
     private JPanel charSelectPanel;
     
     //Labels
-    private JLabel passwordLabel;
-    private JLabel nameLabel;
+    private JLabel loginPasswordLabel;
+    private JLabel loginNameLabel;
+    private JLabel createPasswordLabel;
+    private JLabel createNameLabel;
+    private JLabel createBirthdayLabel;
     private JLabel char1Label;
     
     //Text fields
-    private JTextField nameText;
-    private JPasswordField passwordText;
+    private JTextField loginNameText;
+    private JPasswordField loginPasswordText;
+    private JTextField createNameText;
+    private JTextField createBirthdayText;
+    private JPasswordField createPasswordText;
     
     //Buttons
 	private JButton connectButton;
 	private JButton loginButton;
 	private JButton createAccountButton;
+	private JButton createButton;
+	private JButton createAccountBackButton;
 	private JButton forgotPasswordButton;
 	
 	public Launcher(){
-	//	connectToServer();
+		connectToServer();
         frame = new JFrame();
 		cards = new JPanel(new CardLayout());
 		connectPanel = new JPanel();
 		loginPanel = new JPanel();
+		createAccountPanel = new JPanel();
 		charSelectPanel = new JPanel();
 
 		initConnectPanel();
 		initLoginPanel();
+		initCreateAccountPanel();
 		initCharSelectPanel();
 		
 		cards.add(connectPanel, "Connect Panel");
 		cards.add(loginPanel, "Login Panel");
+		cards.add(createAccountPanel, "Create Account Panel");
 		cards.add(charSelectPanel, "Char Select Panel");
         
         frame.add(cards, BorderLayout.CENTER);
@@ -103,17 +115,17 @@ public class Launcher{
 	
 	public void initLoginPanel()
 	{
-		nameLabel = new JLabel();
-        passwordLabel = new JLabel();
-        nameText = new JTextField();
-        passwordText = new JPasswordField();
+		loginNameLabel = new JLabel();
+        loginPasswordLabel = new JLabel();
+        loginNameText = new JTextField();
+        loginPasswordText = new JPasswordField();
         loginButton = new JButton();
         createAccountButton = new JButton();
         
-        nameLabel.setText("Username: ");
-        passwordLabel.setText("Password: ");
-        nameText.setPreferredSize(new Dimension(200, 40));
-        passwordText.setPreferredSize(new Dimension(200, 40));
+        loginNameLabel.setText("Username: ");
+        loginPasswordLabel.setText("Password: ");
+        loginNameText.setPreferredSize(new Dimension(200, 40));
+        loginPasswordText.setPreferredSize(new Dimension(200, 40));
         
         loginButton.setText("Login!");
         loginButton.setFont(normalFont);
@@ -138,19 +150,19 @@ public class Launcher{
         
         c.gridx = 0;
         c.gridy = 0;
-        loginPanel.add(nameLabel, c);
+        loginPanel.add(loginNameLabel, c);
         
         c.gridx = 1;
         c.gridy = 0;
-        loginPanel.add(nameText, c);
+        loginPanel.add(loginNameText, c);
 
         c.gridx = 0;
         c.gridy = 1;
-        loginPanel.add(passwordLabel, c);
+        loginPanel.add(loginPasswordLabel, c);
 
         c.gridx = 1;
         c.gridy = 1;
-        loginPanel.add(passwordText, c);
+        loginPanel.add(loginPasswordText, c);
 
         c.gridx = 0;
         c.gridy = 3;
@@ -159,6 +171,78 @@ public class Launcher{
         c.gridx = 1;
         c.gridy = 2;
         loginPanel.add(loginButton , c);
+	}
+	
+	public void initCreateAccountPanel()
+	{
+		createNameLabel = new JLabel();
+        createPasswordLabel = new JLabel();
+        createBirthdayLabel = new JLabel();
+        createNameText = new JTextField();
+        createPasswordText = new JPasswordField();
+        createBirthdayText = new JTextField();
+        createButton = new JButton();
+        createAccountBackButton = new JButton();
+        
+        createNameLabel.setText("Username: ");
+        createPasswordLabel.setText("Password: ");
+        createBirthdayLabel.setText("Birthday: ");
+        createNameText.setPreferredSize(new Dimension(200, 40));
+        createPasswordText.setPreferredSize(new Dimension(200, 40));
+        createBirthdayText.setPreferredSize(new Dimension(200, 40));
+        
+        createButton.setText("Create!");
+        //createButton.setFont(normalFont);
+        createAccountBackButton.setText("<< Back");
+        
+        createButton.setPreferredSize(new Dimension(100, 50));
+        createButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                create(evt);
+            }
+        });
+
+        createAccountBackButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createAccountGoBack(evt);
+            }
+        });
+        
+        createAccountPanel.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.NONE;
+        
+        c.gridx = 0;
+        c.gridy = 0;
+        createAccountPanel.add(createAccountBackButton, c);
+        
+        c.gridx = 1;
+        c.gridy = 1;
+        createAccountPanel.add(createNameLabel, c);
+        
+        c.gridx = 2;
+        c.gridy = 1;
+        createAccountPanel.add(createNameText, c);
+
+        c.gridx = 1;
+        c.gridy = 2;
+        createAccountPanel.add(createPasswordLabel, c);
+
+        c.gridx = 2;
+        c.gridy = 2;
+        createAccountPanel.add(createPasswordText, c);
+        
+        c.gridx = 1;
+        c.gridy = 3;
+        createAccountPanel.add(createBirthdayLabel, c);
+
+        c.gridx = 2;
+        c.gridy = 3;
+        createAccountPanel.add(createBirthdayText, c);
+
+        c.gridx = 2;
+        c.gridy = 4;
+        createAccountPanel.add(createButton, c);
 	}
 	
 	public void initCharSelectPanel()
@@ -186,17 +270,58 @@ public class Launcher{
 		switchCards("Login Panel");
     }
 	
+	/*
+	 * DEFINITELY NEED TO MAKE SURE WE CHECK THAT ALL THE
+	 * FIELDS ARE FILLED IN BEFORE WE SEND IT OFF
+	 * TO THE DATABASE
+	 */
 	private void logIn(ActionEvent evt)
 	{
-		if(connectToDatabase())
+		//Make switch statement for options of clearing 
+		switch(connectToDatabase())
 		{
+		//They entered the wrong username
+		case 1:
+			loginNameText.setText("");
+			loginPasswordText.setText("");
+			break;
+			
+		//They entered the wrong password
+		case 2:
+			loginPasswordText.setText("");
+			break;
+			
+		//They entered correct username and password
+		case 3:
 			switchCards("Char Select Panel");
+			break;
+			
+		default:
+			//Something
+			break;
 		}
+	}
+	
+	/*
+	 * DEFINITELY NEED TO MAKE SURE WE CHECK THAT ALL THE
+	 * FIELDS ARE FILLED IN BEFORE WE SEND IT OFF
+	 * TO THE DATABASE
+	 */
+	private void create(ActionEvent evt)
+	{
+		System.out.println("Creating account...");
+		System.out.println("Username: " + createNameText.getText());
+		System.out.println("Password: " + String.valueOf(loginPasswordText.getPassword()));
+	}
+	
+	private void createAccountGoBack(ActionEvent evt)
+	{
+		switchCards("Login Panel");
 	}
 	
 	private void createAccount(ActionEvent evt)
 	{
-		//Will switch the user over to the createAccountPanel
+		switchCards("Create Account Panel");
 	}
 	
 	public void connectToServer()
@@ -207,12 +332,12 @@ public class Launcher{
         try {
 			client.run();
 		} 
-        catch (IOException e) {
+        catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public Boolean connectToDatabase()
+	public int connectToDatabase()
 	{
 		try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -239,13 +364,13 @@ public class Launcher{
 	      {
 	         con = DriverManager.getConnection(URL, USER, PASS);
 	         stmt = con.createStatement();String sql;
-	         sql = "SELECT * from AccountsTable where Username = \'" + nameText.getText() + "\';";
+	         sql = "SELECT * from AccountsTable where Username = \'" + loginNameText.getText() + "\';";
 	         ResultSet rs = stmt.executeQuery(sql);
 	          
 	         //If there is no results for the entered username
 	         if (!rs.next()) {
-	           System.out.println("No account found with username: " + nameText.getText());
-	           return false;
+	           System.out.println("No account found with username: " + loginNameText.getText());
+	           return 1;
 	           //Call a method that suggests the player to make a new account.
 	         }
 	
@@ -259,16 +384,16 @@ public class Launcher{
 	             String accountUsername = rs.getString("Username");
 	             String accountPassword = rs.getString("Password");
 	
-	             if(nameText.getText().equals(accountUsername))
+	             if(loginNameText.getText().equals(accountUsername))
 	             {
-	             	if(String.valueOf(passwordText.getPassword()).equals(accountPassword))
+	             	if(String.valueOf(loginPasswordText.getPassword()).equals(accountPassword))
 	             	{
 	             		System.out.println("Yay! Password correct!");
 	             	}
 	             	else
 	             	{
 	             		System.out.println("Oh no :( Password incorrect");
-	             		return false;
+	             		return 2;
 	             		//numFailedLoginAttempts++;
 	             		/*
 	             		 * Clear out password field
@@ -308,7 +433,6 @@ public class Launcher{
 	                 e2.printStackTrace();
 	          }
 	      }
-	      return true;
+	      return 3;
       }
 }
-
