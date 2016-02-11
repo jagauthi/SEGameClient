@@ -77,6 +77,9 @@ public class ChatClient extends Thread{
 	            else if (line.startsWith("MESSAGE")) {
 	                messageArea.append(line.substring(8) + "\n");
 	            }
+	            else if (line.startsWith("loginSuccess")) {
+	                System.out.println("SWITCH OVER TO CHAR SELECTION SCREEN");
+	            }
 	        }
     	}
     	catch(Exception e){
