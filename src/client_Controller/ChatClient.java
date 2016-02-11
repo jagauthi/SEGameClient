@@ -14,6 +14,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import client_View.Launcher;
+
 public class ChatClient extends Thread{
  
     BufferedReader in;
@@ -21,15 +23,19 @@ public class ChatClient extends Thread{
     public JFrame frame = new JFrame("Chatter");
     JTextField textField = new JTextField(40);
     JTextArea messageArea = new JTextArea(8, 40);
+    Launcher launcher;
 
-    public ChatClient() {
-
+    public ChatClient(Launcher launch) {
+    	launcher = launch;
         // Layout GUI
         textField.setEditable(false);
         messageArea.setEditable(false);
         frame.getContentPane().add(textField, "North");
         frame.getContentPane().add(new JScrollPane(messageArea), "Center");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
         frame.pack();
+        frame.setLocationRelativeTo(null);
 
         // Add Listeners
         textField.addActionListener(new ActionListener() {
@@ -68,17 +74,23 @@ public class ChatClient extends Thread{
 	        // Process all messages from server, according to the protocol.
 	        while (true) {
 	            String line = in.readLine();
-	            if (line.startsWith("SUBMITNAME")) {
+	            String[] message = line.split(":");
+	            if (message[0].equals("SUBMITNAME")) {
 	                out.println(getScreenName());
 	            } 
-	            else if (line.startsWith("NAMEACCEPTED")) {
+	            else if (message[0].equals("NAMEACCEPTED")) {
 	                textField.setEditable(true);
 	            } 
-	            else if (line.startsWith("MESSAGE")) {
+	            else if (message[0].equals("MESSAGE")) {
 	                messageArea.append(line.substring(8) + "\n");
 	            }
-	            else if (line.startsWith("loginSuccess")) {
-	                System.out.println("SWITCH OVER TO CHAR SELECTION SCREEN");
+	            else if (message[0].equals("loginSuccess")) { 
+	                System.out.println("SWITCH OVER TO CHAR SELECTION SCREEN... Not implemented yet");
+	                //The server should send each of the characters that belong to 
+	                //our account. All the information in each character will be separated
+	                //with spaces (or some other delimiter) and each of the individual
+	                //characters will be separated by a colon (or some other delimiter)
+	                launcher.loadCharacterInfo(message);
 	            }
 	        }
     	}
