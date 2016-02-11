@@ -13,6 +13,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -27,8 +28,8 @@ import client_Controller.ChatClient;
 
 public class Launcher{
   
-	final int WIDTH = 1280;
-	final int HEIGHT = 720;
+	final int WIDTH = 600;
+	final int HEIGHT = 400;
 	
 	Font normalFont = new Font("Arial", Font.BOLD, 30);
 	Font bigFont = new Font("Arial", Font.BOLD, 60);
@@ -41,20 +42,7 @@ public class Launcher{
     private JPanel loginPanel;
     private JPanel createAccountPanel;
     private JPanel charSelectPanel;
-    
-    //Labels
-    private JLabel loginPasswordLabel;
-    private JLabel loginNameLabel;
-    
-    private JLabel createNameLabel;
-    private JLabel createEmailLabel;
-    private JLabel createPasswordLabel;
-    private JLabel createVerifyPasswordLabel;
-    private JLabel createSecAnswer1Label;
-    private JLabel createSecAnswer2Label;
-    
-    private JLabel char1Label;
-    
+
     //Text fields
     private JTextField loginNameText;
     private JPasswordField loginPasswordText;
@@ -67,20 +55,15 @@ public class Launcher{
     private JTextField createSecAnswer2Text;
     JComboBox secQuestions1;
     JComboBox secQuestions2;
-    
-    
-    //Buttons
-	private JButton connectButton;
-	
-	private JButton loginButton;
-	
-	private JButton createAccountButton;
-	private JButton createButton;
-	private JButton createAccountBackButton;
-	
-	private JButton forgotPasswordButton;
 	
 	ChatClient client;
+	
+	//Each of the elements holds a string with
+	//info about each individual character. Each
+	//of the strings hold values for the character's
+	//stats and stuff, and they're each separated
+	//by a space (or some other delimiter)
+	ArrayList<String> characters = new ArrayList<String>();
 	
 	public Launcher(){
 		connectToServer();
@@ -104,7 +87,8 @@ public class Launcher{
         frame.add(cards, BorderLayout.CENTER);
         
         frame.setTitle("Launcher");
-		frame.setSize(600, 400);
+		frame.setSize(WIDTH, HEIGHT);
+		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
@@ -112,7 +96,7 @@ public class Launcher{
 	
 	public void initConnectPanel()
 	{
-        connectButton = new JButton();
+        JButton connectButton = new JButton();
         connectButton.setPreferredSize(new Dimension(400, 200));
         connectButton.setText("Play!");
         connectButton.setFont(bigFont);
@@ -133,12 +117,12 @@ public class Launcher{
 	
 	public void initLoginPanel()
 	{
-		loginNameLabel = new JLabel();
-        loginPasswordLabel = new JLabel();
+		JLabel loginNameLabel = new JLabel();
+		JLabel loginPasswordLabel = new JLabel();
         loginNameText = new JTextField();
         loginPasswordText = new JPasswordField();
-        loginButton = new JButton();
-        createAccountButton = new JButton();
+        JButton loginButton = new JButton();
+        JButton createAccountButton = new JButton();
         
         loginNameLabel.setText("Username: ");
         loginPasswordLabel.setText("Password: ");
@@ -158,7 +142,7 @@ public class Launcher{
         //createAccountButton.setPreferredSize(newDimension(100, 50));
         createAccountButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                createAccount(evt);
+                goToCreateAccount(evt);
             }
         });
         
@@ -193,10 +177,10 @@ public class Launcher{
 	
 	public void initCreateAccountPanel()
 	{
-		createNameLabel = new JLabel();
-        createEmailLabel = new JLabel();
-        createPasswordLabel = new JLabel();
-        createVerifyPasswordLabel = new JLabel();
+		JLabel createNameLabel = new JLabel();
+		JLabel createEmailLabel = new JLabel();
+		JLabel createPasswordLabel = new JLabel();
+		JLabel createVerifyPasswordLabel = new JLabel();
         
         createNameText = new JTextField();
         createEmailText = new JTextField();
@@ -204,8 +188,8 @@ public class Launcher{
         createVerifyPasswordText = new JPasswordField();
         createSecAnswer1Text = new JTextField();
         createSecAnswer2Text = new JTextField();
-        createButton = new JButton();
-        createAccountBackButton = new JButton();
+        JButton createButton = new JButton();
+        JButton createAccountBackButton = new JButton();
         
         String[] questions1 = { "What's your mother's maiden name", "Sec Question 2", "Sec Question 3" };
         String[] questions2 = { "Name of your first pet", "Sec Question 2", "Sec Question 3" };
@@ -308,20 +292,57 @@ public class Launcher{
         c.gridy = 7;
         createAccountPanel.add(createButton, c);
         
-        
 	}
 	
 	public void initCharSelectPanel()
 	{
-        char1Label = new JLabel();
-        char1Label.setText("Character 1");
+		JButton[] buttons = new JButton[5];
+        JLabel[] labels = new JLabel[5];
+		for(int x = 0; x < characters.size(); x++)
+		{
+			String[] charInfo = characters.get(x).split(" ");
+			buttons[x] = new JButton();
+			//Adds the characters name to display on the button
+	        buttons[x].setText(charInfo[0]);
+	        buttons[x].setPreferredSize(new Dimension(100, 100));
+	        buttons[x].addActionListener(new java.awt.event.ActionListener() {
+	            public void actionPerformed(java.awt.event.ActionEvent evt) {
+	                selectChar(evt);
+	            }
+	        });
+	        //Sets the label with the characters name and the next piece of info. Maybe level?
+	        labels[x].setText(charInfo[0] + ", " + charInfo[1]);
+		}
+		JButton logoutButton = new JButton();
+		logoutButton.setText("Logout");
+        logoutButton.setPreferredSize(new Dimension(100, 50));
+		
+		if(characters.size() < 5)
+		{
+			//Make the empty "create new character" button(s)
+		}
+		
         charSelectPanel.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.NONE;
         
-        c.gridx = 0;
+        c.gridx = 10;
         c.gridy = 0;
-        charSelectPanel.add(char1Label, c);
+        charSelectPanel.add(logoutButton, c);
+        
+        for(int y = 0; y < characters.size(); y++)
+        {
+        	c.gridx = 0;
+            c.gridy = y;
+            charSelectPanel.add(buttons[y], c);
+        }
+        
+        for(int y = 0; y < characters.size(); y++)
+        {
+        	c.gridx = 1;
+            c.gridy = y;
+            charSelectPanel.add(labels[y], c);
+        }
 	}
 	
 	private void switchCards(String cardName)
@@ -336,11 +357,6 @@ public class Launcher{
 		switchCards("Login Panel");
     }
 	
-	/*
-	 * DEFINITELY NEED TO MAKE SURE WE CHECK THAT ALL THE
-	 * FIELDS ARE FILLED IN BEFORE WE SEND IT OFF
-	 * TO THE DATABASE
-	 */
 	private void logIn(ActionEvent evt)
 	{
 		String username = loginNameText.getText();
@@ -348,52 +364,21 @@ public class Launcher{
 		if(username.equals(""))
 		{
 			loginPasswordText.setText("");
-			System.out.println("Username field is empty");
+			JOptionPane.showMessageDialog(null, "Username field is empty.", "ERROR", 
+					JOptionPane.INFORMATION_MESSAGE);
 		}
 		else if(password.equals(""))
 		{
 			loginNameText.setText("");
-			System.out.println("Password field is empty");
+			JOptionPane.showMessageDialog(null, "Password field is empty.", "ERROR", 
+					JOptionPane.INFORMATION_MESSAGE);
 		}
 		else 
 		{
 			client.sendMessage("LOGIN:" + username + ":" + password);
 		}
-		
-		
-		/*
-		//Make switch statement for options of clearing 
-		switch(connectToDatabase())
-		{
-		//They entered the wrong username
-		case 1:
-			loginNameText.setText("");
-			loginPasswordText.setText("");
-			break;
-			
-		//They entered the wrong password
-		case 2:
-			loginPasswordText.setText("");
-			break;
-			
-		//They entered correct username and password
-		case 3:
-			client.sendMessage("LOGIN:" + loginNameText.getText() + " " + String.valueOf(loginPasswordText.getPassword()));
-			switchCards("Char Select Panel");
-			break;
-			
-		default:
-			//Something
-			break;
-		}
-		*/
 	}
 	
-	/*
-	 * DEFINITELY NEED TO MAKE SURE WE CHECK THAT ALL THE
-	 * FIELDS ARE FILLED IN BEFORE WE SEND IT OFF
-	 * TO THE DATABASE
-	 */
 	private void create(ActionEvent evt)
 	{
 		String username = createNameText.getText();
@@ -418,7 +403,6 @@ public class Launcher{
 		{
 			System.out.println("Passwords do not match");
 		}
-		
 		if(username.equals(""))
 		{
 			createNameText.setText("");
@@ -467,6 +451,14 @@ public class Launcher{
 			JOptionPane.showMessageDialog(null, "Please verify password.", "ERROR", 
 					JOptionPane.INFORMATION_MESSAGE);
 		}
+		else if(!password.equals(passwordVerify))
+		{
+			createPasswordText.setText("");
+			createVerifyPasswordText.setText("");
+			
+			JOptionPane.showMessageDialog(null, "Passwords do not match.", "ERROR", 
+					JOptionPane.INFORMATION_MESSAGE);
+		}
 		else if(securityAnswer1.equals(""))
 		{
 			JOptionPane.showMessageDialog(null, "Please enter a security answer.", "ERROR", 
@@ -486,10 +478,6 @@ public class Launcher{
 					+ securityQuestion2 + ":"
 					+ securityAnswer2);
 		}
-		
-		
-		
-		
 	}
 	
 	private void createAccountGoBack(ActionEvent evt)
@@ -497,16 +485,19 @@ public class Launcher{
 		switchCards("Login Panel");
 	}
 	
-	private void createAccount(ActionEvent evt)
+	private void goToCreateAccount(ActionEvent evt)
 	{
 		switchCards("Create Account Panel");
 	}
 	
+	private void selectChar(ActionEvent evt)
+	{
+		System.out.println("Doesn't do anything yet...");
+	}
+	
 	public void connectToServer()
 	{
-		client = new ChatClient();
-		client.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        client.frame.setVisible(true);
+		client = new ChatClient(this);
         try {
 			client.start();
 		} 
@@ -515,6 +506,20 @@ public class Launcher{
 		}
 	}
 	
+	public void loadCharacterInfo(String[] characterList)
+	{
+		//Each element in the characters array holds a line of information
+		//about a specific character, each of the fields separated
+		//by a space (or some other delimiter)
+		
+		//Starts at 1, because the first element in this list contains the string "loginSuccess"
+		for(int x = 1; x < characterList.length; x++)
+		{
+			characters.add(characterList[x]);
+		}
+	}
+	
+	/*
 	public int connectToDatabase()
 	{
 		try {
@@ -573,11 +578,6 @@ public class Launcher{
 	             		System.out.println("Oh no :( Password incorrect");
 	             		return 2;
 	             		//numFailedLoginAttempts++;
-	             		/*
-	             		 * Clear out password field
-	             		 * leave username populated
-	             		 * display message "Invalid login"
-	             		 */
 	             	}
 	             }
 	         }
@@ -613,4 +613,5 @@ public class Launcher{
 	      }
 	      return 3;
       }
+      */
 }
