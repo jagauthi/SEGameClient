@@ -191,7 +191,7 @@ public class Launcher{
         JButton createButton = new JButton();
         JButton createAccountBackButton = new JButton();
         
-        String[] questions1 = { "What's your mother's maiden name", "Sec Question 2", "Sec Question 3" };
+        String[] questions1 = { "What is your mothers maiden name", "Sec Question 2", "Sec Question 3" };
         String[] questions2 = { "Name of your first pet", "Sec Question 2", "Sec Question 3" };
         secQuestions1 = new JComboBox(questions1);
         secQuestions1.setSelectedIndex(0);
@@ -218,7 +218,7 @@ public class Launcher{
         createButton.setPreferredSize(new Dimension(100, 50));
         createButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                create(evt);
+                createAccount(evt);
             }
         });
 
@@ -311,31 +311,45 @@ public class Launcher{
 	            }
 	        });
 	        //Sets the label with the characters name and the next piece of info. Maybe level?
-	        labels[x].setText(charInfo[0] + ", " + charInfo[1]);
+	        labels[x].setText(charInfo[0] + ", level " + charInfo[1]);
 		}
 		JButton logoutButton = new JButton();
 		logoutButton.setText("Logout");
         logoutButton.setPreferredSize(new Dimension(100, 50));
 		
-		if(characters.size() < 5)
-		{
-			//Make the empty "create new character" button(s)
-		}
-		
         charSelectPanel.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.NONE;
         
-        c.gridx = 10;
+        c.gridx = 4;
         c.gridy = 0;
         charSelectPanel.add(logoutButton, c);
         
+        int lastY = 0;
         for(int y = 0; y < characters.size(); y++)
         {
         	c.gridx = 0;
             c.gridy = y;
             charSelectPanel.add(buttons[y], c);
+            lastY++;
         }
+        
+        if(characters.size() < 5)
+		{
+        	JButton addNewCharacterButton;
+			addNewCharacterButton = new JButton();
+			addNewCharacterButton.setText("Create New Character");
+			addNewCharacterButton.setPreferredSize(new Dimension(100, 100));
+			addNewCharacterButton.addActionListener(new java.awt.event.ActionListener() {
+	            public void actionPerformed(java.awt.event.ActionEvent evt) {
+	                createNewCharacter(evt);
+	            }
+	        });
+			
+			c.gridx = 0;
+            c.gridy = lastY;
+            charSelectPanel.add(addNewCharacterButton, c);
+		}
         
         for(int y = 0; y < characters.size(); y++)
         {
@@ -345,7 +359,7 @@ public class Launcher{
         }
 	}
 	
-	private void switchCards(String cardName)
+	public void switchCards(String cardName)
 	{
 		CardLayout cl = (CardLayout)(cards.getLayout());
         cl.show(cards, cardName);
@@ -379,7 +393,7 @@ public class Launcher{
 		}
 	}
 	
-	private void create(ActionEvent evt)
+	private void createAccount(ActionEvent evt)
 	{
 		String username = createNameText.getText();
 		String email = createEmailText.getText();
@@ -482,17 +496,30 @@ public class Launcher{
 	
 	private void createAccountGoBack(ActionEvent evt)
 	{
+		createNameText.setText("");
+		createEmailText.setText("");
+		createPasswordText.setText("");
+		createVerifyPasswordText.setText("");
+		createSecAnswer1Text.setText("");
+		createSecAnswer2Text.setText("");
 		switchCards("Login Panel");
 	}
 	
 	private void goToCreateAccount(ActionEvent evt)
 	{
+		loginNameText.setText("");
+		loginPasswordText.setText("");
 		switchCards("Create Account Panel");
 	}
 	
 	private void selectChar(ActionEvent evt)
 	{
 		System.out.println("Doesn't do anything yet...");
+	}
+	
+	public void createNewCharacter(ActionEvent evt)
+	{
+		//Create new character...
 	}
 	
 	public void connectToServer()
