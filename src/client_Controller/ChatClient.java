@@ -93,6 +93,21 @@ public class ChatClient extends Thread{
 	                launcher.switchCards("Char Select Panel");
 	                launcher.initCharSelectPanel();
 	            }
+	            else if (message[0].equals("usernameNotFound")) { 
+	                
+	            }
+	            else if (message[0].equals("accountLocked")) { 
+	                
+	            }
+	            else if (message[0].equals("accountBanned")) { 
+	                
+	            }
+	            else if (message[0].equals("incorrectPassword")) { 
+	                
+	            }
+	            else if (message[0].equals("moreThanOneAccountFound")) { 
+	                
+	            }
 	            else if (message[0].equals("accountCreated")) { 
 	                System.out.println("Account succesfully created.");
 	            }
