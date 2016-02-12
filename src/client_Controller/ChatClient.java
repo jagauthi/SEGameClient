@@ -33,7 +33,7 @@ public class ChatClient extends Thread{
         frame.getContentPane().add(textField, "North");
         frame.getContentPane().add(new JScrollPane(messageArea), "Center");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
+        //frame.setVisible(true);
         frame.pack();
         frame.setLocationRelativeTo(null);
 
@@ -85,12 +85,16 @@ public class ChatClient extends Thread{
 	                messageArea.append(line.substring(8) + "\n");
 	            }
 	            else if (message[0].equals("loginSuccess")) { 
-	                System.out.println("SWITCH OVER TO CHAR SELECTION SCREEN... Not implemented yet");
 	                //The server should send each of the characters that belong to 
 	                //our account. All the information in each character will be separated
 	                //with spaces (or some other delimiter) and each of the individual
 	                //characters will be separated by a colon (or some other delimiter)
-	                launcher.loadCharacterInfo(message);
+	            	launcher.loadCharacterInfo(message);
+	                launcher.switchCards("Char Select Panel");
+	                launcher.initCharSelectPanel();
+	            }
+	            else if (message[0].equals("accountCreated")) { 
+	                System.out.println("Account succesfully created.");
 	            }
 	        }
     	}
