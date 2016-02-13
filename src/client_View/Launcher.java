@@ -7,12 +7,6 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -77,7 +71,7 @@ public class Launcher{
 		initConnectPanel();
 		initLoginPanel();
 		initCreateAccountPanel();
-		initCharSelectPanel();
+		//initCharSelectPanel();
 		
 		cards.add(connectPanel, "Connect Panel");
 		cards.add(loginPanel, "Login Panel");
@@ -296,66 +290,68 @@ public class Launcher{
 	
 	public void initCharSelectPanel()
 	{
+		charSelectPanel.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.NONE;
+        
 		JButton[] buttons = new JButton[5];
         JLabel[] labels = new JLabel[5];
+        int lastY = 1;
 		for(int x = 0; x < characters.size(); x++)
 		{
 			String[] charInfo = characters.get(x).split(" ");
 			buttons[x] = new JButton();
-			//Adds the characters name to display on the button
-	        buttons[x].setText(charInfo[0]);
-	        buttons[x].setPreferredSize(new Dimension(100, 100));
+	        buttons[x].setPreferredSize(new Dimension(200, 200));
 	        buttons[x].addActionListener(new java.awt.event.ActionListener() {
 	            public void actionPerformed(java.awt.event.ActionEvent evt) {
 	                selectChar(evt);
 	            }
 	        });
-	        //Sets the label with the characters name and the next piece of info. Maybe level?
-	        labels[x].setText(charInfo[0] + ", level " + charInfo[1]);
+	        labels[x] = new JLabel();
+	        labels[x].setText(charInfo[0] + ", a level " + charInfo[2] + "\n" + charInfo[1]);
+	        
+	        c.gridx = 0;
+	        c.gridy = x + 1;
+	        charSelectPanel.add(buttons[x], c);
+	        
+	        c.gridx = 1;
+	        c.gridy = x + 1;
+	        charSelectPanel.add(labels[x], c);
+	        
+	        lastY++;
 		}
+		
 		JButton logoutButton = new JButton();
 		logoutButton.setText("Logout");
         logoutButton.setPreferredSize(new Dimension(100, 50));
+        logoutButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logout(evt);
+            }
+        });
 		
-        charSelectPanel.setLayout(new GridBagLayout());
-        GridBagConstraints c = new GridBagConstraints();
-        c.fill = GridBagConstraints.NONE;
-        
-        c.gridx = 4;
+        c.gridx = 2;
         c.gridy = 0;
         charSelectPanel.add(logoutButton, c);
         
-        int lastY = 0;
-        for(int y = 0; y < characters.size(); y++)
-        {
-        	c.gridx = 0;
-            c.gridy = y;
-            charSelectPanel.add(buttons[y], c);
-            lastY++;
-        }
-        
+		JButton[] createNewCharButtons = new JButton[5 - characters.size()];
         if(characters.size() < 5)
-		{
-        	JButton addNewCharacterButton;
-			addNewCharacterButton = new JButton();
-			addNewCharacterButton.setText("Create New Character");
-			addNewCharacterButton.setPreferredSize(new Dimension(100, 100));
-			addNewCharacterButton.addActionListener(new java.awt.event.ActionListener() {
-	            public void actionPerformed(java.awt.event.ActionEvent evt) {
-	                createNewCharacter(evt);
-	            }
-	        });
-			
-			c.gridx = 0;
-            c.gridy = lastY;
-            charSelectPanel.add(addNewCharacterButton, c);
-		}
-        
-        for(int y = 0; y < characters.size(); y++)
         {
-        	c.gridx = 1;
-            c.gridy = y;
-            charSelectPanel.add(labels[y], c);
+        	for(int x = 0; x < (5 - characters.size()); x++)
+        	{
+        		createNewCharButtons[x] = new JButton();
+        		createNewCharButtons[x].setText("Create New Character");
+        		createNewCharButtons[x].setPreferredSize(new Dimension(100, 100));
+        		createNewCharButtons[x].addActionListener(new java.awt.event.ActionListener() {
+    	            public void actionPerformed(java.awt.event.ActionEvent evt) {
+    	                createNewCharacter(evt);
+    	            }
+    	        });
+    	        
+    	        c.gridx = 0;
+    	        c.gridy = lastY + x;
+    	        charSelectPanel.add(createNewCharButtons[x], c);
+    		}
         }
 	}
 	
@@ -486,7 +482,7 @@ public class Launcher{
 		else 
 		{
 			client.sendMessage("CREATEACCOUNT:" + username + ":" 
-					+ email + ":" + password + ":" 
+					+ password + ":" + email + ":" 
 					+ securityQuestion1 + ":" 
 					+ securityAnswer1 + ":"
 					+ securityQuestion2 + ":"
@@ -522,19 +518,72 @@ public class Launcher{
 		//Create new character...
 	}
 	
-	public void connectToServer()
+	public void logout(ActionEvent evt)
 	{
-		client = new ChatClient(this);
-        try {
-			client.start();
-		} 
-        catch (Exception e) {
-			e.printStackTrace();
-		}
+		charSelectPanel.removeAll();
+		switchCards("Login Panel");
+		loginNameText.setText("");
+		loginPasswordText.setText("");
+	}
+	
+	public void usernameNotFound()
+	{
+		loginNameText.setText("");
+		loginPasswordText.setText("");
+		JOptionPane.showMessageDialog(null, "Username not found.", "ERROR", 
+				JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	public void incorrectPassword()
+	{
+		loginPasswordText.setText("");
+		JOptionPane.showMessageDialog(null, "Incorrect password.", "ERROR", 
+				JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	public void accountLocked()
+	{
+		loginNameText.setText("");
+		loginPasswordText.setText("");
+		JOptionPane.showMessageDialog(null, "Account has been locked. Please call (719)352-7025, and tell him he is a fuck boi to unlock your account.", "ERROR", 
+				JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	public void accountBanned()
+	{
+		loginNameText.setText("");
+		loginPasswordText.setText("");
+		JOptionPane.showMessageDialog(null, "Account has been banned, probably because you're an asshole.", "ERROR", 
+				JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	public void moreThanOneAccountFound()
+	{
+		loginNameText.setText("");
+		loginPasswordText.setText("");
+		JOptionPane.showMessageDialog(null, "More than one account with that username, contact admins.", "ERROR", 
+				JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	public void accountAlreadyExists()
+	{
+		JOptionPane.showMessageDialog(null, "Account already exists.", "ERROR", 
+				JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	public void accountCreated()
+	{
+		switchCards("Login Panel");
+		loginNameText.setText("");
+		loginPasswordText.setText("");
 	}
 	
 	public void loadCharacterInfo(String[] characterList)
 	{
+		if(characters.size() > 0)
+		{
+			characters.clear();
+		}
 		//Each element in the characters array holds a line of information
 		//about a specific character, each of the fields separated
 		//by a space (or some other delimiter)
@@ -546,99 +595,20 @@ public class Launcher{
 		}
 	}
 	
-	/*
-	public int connectToDatabase()
+	public void clearCharSelectPanel()
 	{
-		try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-	      }
-	      catch(ClassNotFoundException ex) {
-	            System.out.println("Error: unable to load driver class!");
-	            System.exit(1);
-	      }
-	      catch(IllegalAccessException ex) {
-	            System.out.println("Error: access problem while loading!");
-	            System.exit(2);
-	      }
-	      catch(InstantiationException ex) {
-	            System.out.println("Error: unable to instantiate driver!");
-	            System.exit(3);
-	      }
-	      
-	      String URL = "jdbc:mysql://sql5.freesqldatabase.com:3306/sql5104581";
-	      String USER = "sql5104581";
-	      String PASS = "8CHGkEPagu";
-	      Connection con = null;
-	      Statement stmt = null;
-	      try
-	      {
-	         con = DriverManager.getConnection(URL, USER, PASS);
-	         stmt = con.createStatement();String sql;
-	         sql = "SELECT * from AccountsTable where Username = \'" + loginNameText.getText() + "\';";
-	         ResultSet rs = stmt.executeQuery(sql);
-	          
-	         //If there is no results for the entered username
-	         if (!rs.next()) {
-	           System.out.println("No account found with username: " + loginNameText.getText());
-	           return 1;
-	           //Call a method that suggests the player to make a new account.
-	         }
+		charSelectPanel = new JPanel();
+	}
 	
-	         //Set the ResultSet counter back to the beginning of the ResultSet
-	         //This is necessary since the previous method moves the counter forward to
-	         //check if the ResultSet is empty.
-	         rs.beforeFirst();
-	         while(rs.next())
-	         {
-	             int accountNumber = rs.getInt("AccountNumber");
-	             String accountUsername = rs.getString("Username");
-	             String accountPassword = rs.getString("Password");
+	public void connectToServer()
+	{
+		client = new ChatClient(this);
+        try {
+			client.start();
+		} 
+        catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
-	             if(loginNameText.getText().equals(accountUsername))
-	             {
-	             	if(String.valueOf(loginPasswordText.getPassword()).equals(accountPassword))
-	             	{
-	             		System.out.println("Yay! Password correct!");
-	             	}
-	             	else
-	             	{
-	             		System.out.println("Oh no :( Password incorrect");
-	             		return 2;
-	             		//numFailedLoginAttempts++;
-	             	}
-	             }
-	         }
-	         // cleaning up
-	         rs.close();
-	         stmt.close();
-	         con.close();
-	      } 
-	      catch (SQLException e) {
-	         e.printStackTrace();
-	      }
-	      catch (Exception e) {
-	          e.printStackTrace();
-	      }
-	      finally
-	      {  
-	          //closing the resources in case they weren't closed earlier
-	          try {
-	          if (stmt != null)
-	                  stmt.close();
-	          }
-	          catch (SQLException e2) {
-	             e2.printStackTrace();
-	          }
-	          try {
-	              if (con != null) {
-	                  con.close();
-	               }
-	          } 
-	          catch (SQLException e2) {
-	                 e2.printStackTrace();
-	          }
-	      }
-	      return 3;
-      }
-      */
 }
