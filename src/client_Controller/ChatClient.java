@@ -90,26 +90,29 @@ public class ChatClient extends Thread{
 	                //with spaces (or some other delimiter) and each of the individual
 	                //characters will be separated by a colon (or some other delimiter)
 	            	launcher.loadCharacterInfo(message);
-	                launcher.switchCards("Char Select Panel");
 	                launcher.initCharSelectPanel();
+	                launcher.switchCards("Char Select Panel");
 	            }
 	            else if (message[0].equals("usernameNotFound")) { 
-	                
+	                launcher.usernameNotFound();
 	            }
 	            else if (message[0].equals("accountLocked")) { 
-	                
+	                launcher.accountLocked();
 	            }
 	            else if (message[0].equals("accountBanned")) { 
-	                
+	                launcher.accountBanned();
 	            }
 	            else if (message[0].equals("incorrectPassword")) { 
-	                
+	                launcher.incorrectPassword();
 	            }
 	            else if (message[0].equals("moreThanOneAccountFound")) { 
-	                
+	                launcher.moreThanOneAccountFound();
+	            }
+	            else if (message[0].equals("accountAlreadyExists")) { 
+	                launcher.accountAlreadyExists();
 	            }
 	            else if (message[0].equals("accountCreated")) { 
-	                System.out.println("Account succesfully created.");
+	                launcher.accountCreated();
 	            }
 	        }
     	}
