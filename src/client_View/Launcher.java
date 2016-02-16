@@ -64,12 +64,12 @@ public class Launcher{
     JRadioButton warrior;
     JRadioButton rogue;
     JRadioButton mage;
-    statField strengthField;
-    statField dexterityField;
-    statField constitutionField;
-    statField intelligenceField;
-    statField willpowerField;
-    statField luckField;
+    StatField strengthField;
+    StatField dexterityField;
+    StatField constitutionField;
+    StatField intelligenceField;
+    StatField willpowerField;
+    StatField luckField;
     
 	ChatClient client;
 	
@@ -486,12 +486,12 @@ public class Launcher{
         
 /////////Stat Panel
 
-        strengthField = new statField("Strength");
-        dexterityField = new statField("Dexterity");
-        constitutionField = new statField("Constitution");
-        intelligenceField = new statField("Intelligence");
-        willpowerField = new statField("Willpower");
-        luckField = new statField("Luck");
+        strengthField = new StatField("Strength");
+        dexterityField = new StatField("Dexterity");
+        constitutionField = new StatField("Constitution");
+        intelligenceField = new StatField("Intelligence");
+        willpowerField = new StatField("Willpower");
+        luckField = new StatField("Luck");
     	
     	statPanel.setBorder(BorderFactory.createTitledBorder(""));
     	statPanel.setLayout(new GridBagLayout());
