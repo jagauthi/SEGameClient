@@ -114,6 +114,11 @@ public class ChatClient extends Thread{
 	            else if (message[0].equals("accountCreated")) { 
 	                launcher.accountCreated();
 	            }
+	            else if (message[0].equals("charCreatedInventorySuccess")) { 
+	            	launcher.loadCharacterInfo(message);
+	                launcher.initCharSelectPanel();
+	                launcher.switchCards("Char Select Panel");
+	            }
 	        }
     	}
     	catch(Exception e){
