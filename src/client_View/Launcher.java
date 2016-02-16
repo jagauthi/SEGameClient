@@ -751,10 +751,9 @@ public class Launcher{
 		}
 		else
 		{
-			System.out.println("CREATENEWCHARACTER:" + charName + ":" + accountID + 
+			client.sendMessage("CREATECHAR:" + charName + ":" + accountID + 
 								":" + chosenClass + ":" + chosenSex + ":" + str +
 								":" + dex + ":" + con + ":" + intel + ":" + wil + ":" + lck);
-			System.out.println("This is only printing it out, not sending it to the server yet.");
 		}
 	}
 	
