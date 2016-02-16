@@ -43,10 +43,11 @@ public class Launcher{
     private JPanel charSelectPanel;
     private JPanel createNewCharacterPanel;
 
-    //Text fields
+    //Info that is collected in the Login Panel
     private JTextField loginNameText;
     private JPasswordField loginPasswordText;
     
+    //Info that is collected in the Create Account Panel
     private JTextField createNameText;
     private JTextField createEmailText;
     private JPasswordField createPasswordText;
@@ -56,6 +57,7 @@ public class Launcher{
     JComboBox secQuestions1;
     JComboBox secQuestions2;
     
+    //Info that is collected in the Create New Character Panel
     JTextField newCharacterNameText;
     static JLabel pointsLeft;
     static int pointsRemaining;
