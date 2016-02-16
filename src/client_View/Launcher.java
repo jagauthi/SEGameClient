@@ -116,8 +116,6 @@ public class Launcher{
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
-        
-        switchCards("Create New Character Panel");
 	}
 	
 	public void initConnectPanel()
