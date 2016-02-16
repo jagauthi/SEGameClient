@@ -9,13 +9,16 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import client_Controller.ChatClient;
@@ -36,6 +39,7 @@ public class Launcher{
     private JPanel loginPanel;
     private JPanel createAccountPanel;
     private JPanel charSelectPanel;
+    private JPanel createNewCharacterPanel;
 
     //Text fields
     private JTextField loginNameText;
@@ -49,6 +53,8 @@ public class Launcher{
     private JTextField createSecAnswer2Text;
     JComboBox secQuestions1;
     JComboBox secQuestions2;
+    
+    private JTextField newCharacterNameText;
 	
 	ChatClient client;
 	
@@ -59,6 +65,8 @@ public class Launcher{
 	//by a space (or some other delimiter)
 	ArrayList<String> characters = new ArrayList<String>();
 	
+	String accountID;
+	
 	public Launcher(){
 		connectToServer();
         frame = new JFrame();
@@ -67,16 +75,18 @@ public class Launcher{
 		loginPanel = new JPanel();
 		createAccountPanel = new JPanel();
 		charSelectPanel = new JPanel();
+		createNewCharacterPanel = new JPanel();
 
 		initConnectPanel();
 		initLoginPanel();
 		initCreateAccountPanel();
-		//initCharSelectPanel();
+		initCreateNewCharacterPanel();
 		
 		cards.add(connectPanel, "Connect Panel");
 		cards.add(loginPanel, "Login Panel");
 		cards.add(createAccountPanel, "Create Account Panel");
 		cards.add(charSelectPanel, "Char Select Panel");
+		cards.add(createNewCharacterPanel, "Create New Character Panel");
         
         frame.add(cards, BorderLayout.CENTER);
         
@@ -355,6 +365,220 @@ public class Launcher{
         }
 	}
 	
+	public void initCreateNewCharacterPanel()
+	{
+		JPanel namePanel = new JPanel();
+		JPanel sexPanel = new JPanel();
+		JPanel classPanel = new JPanel();
+		JPanel statPanel = new JPanel();
+		
+////////Name Panel
+		JLabel newCharacterNameLabel = new JLabel();
+        newCharacterNameText = new JTextField();
+        JButton createNewCharacterButton = new JButton();
+        
+        newCharacterNameLabel.setText("Name: ");
+        newCharacterNameText.setPreferredSize(new Dimension(300, 40));
+        
+        createNewCharacterButton.setText("Create!");
+        createNewCharacterButton.setPreferredSize(new Dimension(100, 50));
+        createNewCharacterButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createCharacter(evt);
+            }
+        });
+        
+    	namePanel.setBorder(BorderFactory.createTitledBorder("Don't use your account name (for security reasons)"));
+        namePanel.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.NONE;
+        
+        c.gridx = 0;
+        c.gridy = 0;
+        namePanel.add(newCharacterNameLabel, c);
+        
+        c.gridx = 1;
+        c.gridy = 0;
+        namePanel.add(newCharacterNameText, c);
+        
+////////Sex Panel
+        JRadioButton male = new JRadioButton("Male", true);
+    	JRadioButton female = new JRadioButton("Female");
+    	
+    	sexPanel.setBorder(BorderFactory.createTitledBorder("Gender"));
+    	sexPanel.setLayout(new GridBagLayout());
+        c = new GridBagConstraints();
+        c.fill = GridBagConstraints.NONE;
+        
+        c.gridx = 0;
+        c.gridy = 0;
+        sexPanel.add(male, c);
+        
+        c.gridx = 0;
+        c.gridy = 1;
+        sexPanel.add(female, c);
+        
+/////////Class Panel
+        JRadioButton warrior = new JRadioButton("Warrior", true);
+    	JRadioButton rogue = new JRadioButton("Rogue");
+    	JRadioButton mage = new JRadioButton("Mage");
+    	
+    	classPanel.setBorder(BorderFactory.createTitledBorder("Class"));
+    	classPanel.setLayout(new GridBagLayout());
+        c = new GridBagConstraints();
+        c.fill = GridBagConstraints.NONE;
+        
+        c.gridx = 0;
+        c.gridy = 0;
+        classPanel.add(warrior, c);
+        
+        c.gridx = 0;
+        c.gridy = 1;
+        classPanel.add(rogue, c);
+        
+        c.gridx = 0;
+        c.gridy = 2;
+        classPanel.add(mage, c);
+        
+/////////Stat Panel
+
+        class buttonThing extends JComponent
+        {
+        	JPanel panel;
+        	JButton minus;
+        	JButton plus;
+        	JLabel points;
+        	JLabel label;
+        	
+        	public buttonThing(String l)
+        	{
+        		panel = new JPanel();
+        		panel.setLayout(new GridBagLayout());
+        		GridBagConstraints c = new GridBagConstraints();
+                c.fill = GridBagConstraints.NONE;
+                
+                label = new JLabel();
+        		label.setText(l);
+        		minus = new JButton();
+        		plus = new JButton();
+        		points = new JLabel();
+        		points.setText("10");        		
+        		
+        		minus.setText("-");
+                minus.setPreferredSize(new Dimension(50, 50));
+                minus.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        minusStat(evt);
+                    }
+                });
+                
+                plus.setText("+");
+                plus.setPreferredSize(new Dimension(50, 50));
+                plus.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        plusStat(evt);
+                    }
+                });
+                
+                c.gridx = 0;
+                c.gridy = 0;
+                panel.add(minus, c);
+                
+                c.gridx = 1;
+                c.gridy = 0;
+                panel.add(points, c);
+                
+                c.gridx = 2;
+                c.gridy = 0;
+                panel.add(plus, c);
+                
+                c.gridx = 3;
+                c.gridy = 0;
+                panel.add(label, c);
+        	}
+        	
+        	public void minusStat(ActionEvent evt)
+        	{
+        		
+        	}
+        	
+        	public void plusStat(ActionEvent evt)
+        	{
+        		
+        	}
+        }
+
+        JLabel pointsLeft = new JLabel();
+        buttonThing strengthField = new buttonThing("Strength");
+        buttonThing dexterityField = new buttonThing("Dexterity");
+        buttonThing constitutionField = new buttonThing("Constitution");
+        buttonThing intelligenceField = new buttonThing("Intelligence");
+        buttonThing willpowerField = new buttonThing("Willpower");
+        buttonThing luckField = new buttonThing("Luck");
+    	
+    	statPanel.setBorder(BorderFactory.createTitledBorder(""));
+    	statPanel.setLayout(new GridBagLayout());
+        c = new GridBagConstraints();
+        c.fill = GridBagConstraints.NONE;
+        
+        c.gridx = 0;
+        c.gridy = 0;
+        statPanel.add(pointsLeft, c);
+        
+        c.gridx = 0;
+        c.gridy = 1;
+        statPanel.add(strengthField.panel, c);
+        
+        c.gridx = 0;
+        c.gridy = 2;
+        statPanel.add(dexterityField.panel, c);
+        
+        c.gridx = 0;
+        c.gridy = 3;
+        statPanel.add(constitutionField.panel, c);
+        
+        c.gridx = 0;
+        c.gridy = 4;
+        statPanel.add(intelligenceField.panel, c);
+        
+        c.gridx = 0;
+        c.gridy = 5;
+        statPanel.add(willpowerField.panel, c);
+        
+        c.gridx = 0;
+        c.gridy = 6;
+        statPanel.add(luckField.panel, c);
+        
+        
+/////////Create New Character Panel
+        createNewCharacterPanel.setLayout(new GridBagLayout());
+        c = new GridBagConstraints();
+        c.fill = GridBagConstraints.NONE;
+
+        c.anchor = GridBagConstraints.NORTH;
+        c.gridx = 1;
+        c.gridy = 0;
+        createNewCharacterPanel.add(namePanel, c);
+        
+        c.anchor = GridBagConstraints.CENTER;
+        c.gridx = 0;
+        c.gridy = 1;
+        createNewCharacterPanel.add(sexPanel, c);
+        
+        c.gridx = 0;
+        c.gridy = 2;
+        createNewCharacterPanel.add(classPanel, c);
+
+        //c.anchor = GridBagConstraints.CENTER;
+        c.gridx = 1;
+        c.gridy = 2;
+        createNewCharacterPanel.add(statPanel, c);
+        
+        c.gridx = 1;
+        c.gridy = 3;
+        createNewCharacterPanel.add(createNewCharacterButton, c);
+	}
+	
 	public void switchCards(String cardName)
 	{
 		CardLayout cl = (CardLayout)(cards.getLayout());
@@ -515,7 +739,12 @@ public class Launcher{
 	
 	public void createNewCharacter(ActionEvent evt)
 	{
-		//Create new character...
+		switchCards("Create New Character Panel");
+	}
+	
+	public void createCharacter(ActionEvent evt)
+	{
+		//name, accountID, class, gender, str, dex, con, int, wis, lck
 	}
 	
 	public void logout(ActionEvent evt)
@@ -588,8 +817,10 @@ public class Launcher{
 		//about a specific character, each of the fields separated
 		//by a space (or some other delimiter)
 		
-		//Starts at 1, because the first element in this list contains the string "loginSuccess"
-		for(int x = 1; x < characterList.length; x++)
+		//Starts at 2, because the first element in this list contains the string "loginSuccess"
+		//and the second element is the account ID
+		accountID = characterList[1];
+		for(int x = 2; x < characterList.length; x++)
 		{
 			characters.add(characterList[x]);
 		}
