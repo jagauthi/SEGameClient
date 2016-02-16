@@ -6,10 +6,12 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -54,8 +56,21 @@ public class Launcher{
     JComboBox secQuestions1;
     JComboBox secQuestions2;
     
-    private JTextField newCharacterNameText;
-	
+    JTextField newCharacterNameText;
+    static JLabel pointsLeft;
+    static int pointsRemaining;
+    JRadioButton male;
+    JRadioButton female;
+    JRadioButton warrior;
+    JRadioButton rogue;
+    JRadioButton mage;
+    statField strengthField;
+    statField dexterityField;
+    statField constitutionField;
+    statField intelligenceField;
+    statField willpowerField;
+    statField luckField;
+    
 	ChatClient client;
 	
 	//Each of the elements holds a string with
@@ -76,6 +91,9 @@ public class Launcher{
 		createAccountPanel = new JPanel();
 		charSelectPanel = new JPanel();
 		createNewCharacterPanel = new JPanel();
+		
+		pointsRemaining = 20;
+	    pointsLeft = new JLabel("20");
 
 		initConnectPanel();
 		initLoginPanel();
@@ -96,6 +114,8 @@ public class Launcher{
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+        
+        switchCards("Create New Character Panel");
 	}
 	
 	public void initConnectPanel()
@@ -381,29 +401,33 @@ public class Launcher{
         newCharacterNameText.setPreferredSize(new Dimension(300, 40));
         
         createNewCharacterButton.setText("Create!");
-        createNewCharacterButton.setPreferredSize(new Dimension(100, 50));
+        createNewCharacterButton.setPreferredSize(new Dimension(100, 100));
         createNewCharacterButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 createCharacter(evt);
             }
         });
         
-    	namePanel.setBorder(BorderFactory.createTitledBorder("Don't use your account name (for security reasons)"));
+    	namePanel.setBorder(BorderFactory.createTitledBorder("(Don't use your account name)"));
         namePanel.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
-        c.fill = GridBagConstraints.NONE;
-        
+        c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
         c.gridy = 0;
         namePanel.add(newCharacterNameLabel, c);
-        
+
+        c.weightx = 1.0;
         c.gridx = 1;
         c.gridy = 0;
         namePanel.add(newCharacterNameText, c);
         
 ////////Sex Panel
-        JRadioButton male = new JRadioButton("Male", true);
-    	JRadioButton female = new JRadioButton("Female");
+        male = new JRadioButton("Male", true);
+    	female = new JRadioButton("Female");
+    	
+    	ButtonGroup sexGroup = new ButtonGroup();
+    	sexGroup.add(male);
+    	sexGroup.add(female);
     	
     	sexPanel.setBorder(BorderFactory.createTitledBorder("Gender"));
     	sexPanel.setLayout(new GridBagLayout());
@@ -419,9 +443,14 @@ public class Launcher{
         sexPanel.add(female, c);
         
 /////////Class Panel
-        JRadioButton warrior = new JRadioButton("Warrior", true);
-    	JRadioButton rogue = new JRadioButton("Rogue");
-    	JRadioButton mage = new JRadioButton("Mage");
+        warrior = new JRadioButton("Warrior", true);
+    	rogue = new JRadioButton("Rogue");
+    	mage = new JRadioButton("Mage");
+    	
+    	ButtonGroup classGroup = new ButtonGroup();
+    	classGroup.add(warrior);
+    	classGroup.add(rogue);
+    	classGroup.add(mage);
     	
     	classPanel.setBorder(BorderFactory.createTitledBorder("Class"));
     	classPanel.setLayout(new GridBagLayout());
@@ -440,86 +469,35 @@ public class Launcher{
         c.gridy = 2;
         classPanel.add(mage, c);
         
+        //LeftPanel
+        JPanel leftPanel = new JPanel();
+        leftPanel.setBorder(BorderFactory.createTitledBorder(""));
+        leftPanel.setLayout(new GridBagLayout());
+        c = new GridBagConstraints();
+        c.fill = GridBagConstraints.NONE;
+        c.gridx = 0;
+        c.gridy = 0;
+        leftPanel.add(sexPanel, c);
+        
+        c.gridx = 0;
+        c.gridy = 1;
+        leftPanel.add(classPanel, c);
+        
+        
 /////////Stat Panel
 
-        class buttonThing extends JComponent
-        {
-        	JPanel panel;
-        	JButton minus;
-        	JButton plus;
-        	JLabel points;
-        	JLabel label;
-        	
-        	public buttonThing(String l)
-        	{
-        		panel = new JPanel();
-        		panel.setLayout(new GridBagLayout());
-        		GridBagConstraints c = new GridBagConstraints();
-                c.fill = GridBagConstraints.NONE;
-                
-                label = new JLabel();
-        		label.setText(l);
-        		minus = new JButton();
-        		plus = new JButton();
-        		points = new JLabel();
-        		points.setText("10");        		
-        		
-        		minus.setText("-");
-                minus.setPreferredSize(new Dimension(50, 50));
-                minus.addActionListener(new java.awt.event.ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent evt) {
-                        minusStat(evt);
-                    }
-                });
-                
-                plus.setText("+");
-                plus.setPreferredSize(new Dimension(50, 50));
-                plus.addActionListener(new java.awt.event.ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent evt) {
-                        plusStat(evt);
-                    }
-                });
-                
-                c.gridx = 0;
-                c.gridy = 0;
-                panel.add(minus, c);
-                
-                c.gridx = 1;
-                c.gridy = 0;
-                panel.add(points, c);
-                
-                c.gridx = 2;
-                c.gridy = 0;
-                panel.add(plus, c);
-                
-                c.gridx = 3;
-                c.gridy = 0;
-                panel.add(label, c);
-        	}
-        	
-        	public void minusStat(ActionEvent evt)
-        	{
-        		
-        	}
-        	
-        	public void plusStat(ActionEvent evt)
-        	{
-        		
-        	}
-        }
-
-        JLabel pointsLeft = new JLabel();
-        buttonThing strengthField = new buttonThing("Strength");
-        buttonThing dexterityField = new buttonThing("Dexterity");
-        buttonThing constitutionField = new buttonThing("Constitution");
-        buttonThing intelligenceField = new buttonThing("Intelligence");
-        buttonThing willpowerField = new buttonThing("Willpower");
-        buttonThing luckField = new buttonThing("Luck");
+        strengthField = new statField("Strength");
+        dexterityField = new statField("Dexterity");
+        constitutionField = new statField("Constitution");
+        intelligenceField = new statField("Intelligence");
+        willpowerField = new statField("Willpower");
+        luckField = new statField("Luck");
     	
     	statPanel.setBorder(BorderFactory.createTitledBorder(""));
     	statPanel.setLayout(new GridBagLayout());
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.NONE;
+        c.anchor = GridBagConstraints.WEST;
         
         c.gridx = 0;
         c.gridy = 0;
@@ -556,26 +534,23 @@ public class Launcher{
         c.fill = GridBagConstraints.NONE;
 
         c.anchor = GridBagConstraints.NORTH;
+        c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 1;
         c.gridy = 0;
         createNewCharacterPanel.add(namePanel, c);
         
-        c.anchor = GridBagConstraints.CENTER;
+        c.anchor = GridBagConstraints.WEST;
         c.gridx = 0;
         c.gridy = 1;
-        createNewCharacterPanel.add(sexPanel, c);
-        
-        c.gridx = 0;
-        c.gridy = 2;
-        createNewCharacterPanel.add(classPanel, c);
+        createNewCharacterPanel.add(leftPanel, c);
 
-        //c.anchor = GridBagConstraints.CENTER;
+        c.anchor = GridBagConstraints.CENTER;
+        c.gridx = 1;
+        c.gridy = 1;
+        createNewCharacterPanel.add(statPanel, c);
+
         c.gridx = 1;
         c.gridy = 2;
-        createNewCharacterPanel.add(statPanel, c);
-        
-        c.gridx = 1;
-        c.gridy = 3;
         createNewCharacterPanel.add(createNewCharacterButton, c);
 	}
 	
@@ -744,7 +719,43 @@ public class Launcher{
 	
 	public void createCharacter(ActionEvent evt)
 	{
-		//name, accountID, class, gender, str, dex, con, int, wis, lck
+		String charName = newCharacterNameText.getText();
+		String chosenSex = "";
+		String chosenClass = "";
+		
+		if(male.isSelected())
+			chosenSex = "Male";
+		else
+			chosenSex = "Female";
+		
+		if(rogue.isSelected())
+			chosenClass = "Rogue";
+		else if(mage.isSelected())
+			chosenClass = "Mage";
+		else
+			chosenClass = "Warrior";
+		
+		String str = strengthField.points.getText();
+		String dex = dexterityField.points.getText();
+		String con = constitutionField.points.getText();
+		String intel = intelligenceField.points.getText();
+		String wil = willpowerField.points.getText();
+		String lck = luckField.points.getText();
+		
+		//name, accountID, class, gender, str, dex, con, int, wil, lck
+		if(charName.equals(""))
+		{
+			newCharacterNameText.setText("");
+			JOptionPane.showMessageDialog(null, "Please enter a character name.", "ERROR", 
+					JOptionPane.INFORMATION_MESSAGE);
+		}
+		else
+		{
+			System.out.println("CREATENEWCHARACTER:" + charName + ":" + accountID + 
+								":" + chosenClass + ":" + chosenSex + ":" + str +
+								":" + dex + ":" + con + ":" + intel + ":" + wil + ":" + lck);
+			System.out.println("This is only printing it out, not sending it to the server yet.");
+		}
 	}
 	
 	public void logout(ActionEvent evt)
