@@ -94,13 +94,12 @@ public class Launcher{
 		charSelectPanel = new JPanel();
 		createNewCharacterPanel = new JPanel();
 		
-		pointsRemaining = 20;
-	    pointsLeft = new JLabel("20");
+	    pointsLeft = new JLabel();
 
 		initConnectPanel();
 		initLoginPanel();
 		initCreateAccountPanel();
-		initCreateNewCharacterPanel();
+		//initCreateNewCharacterPanel();
 		
 		cards.add(connectPanel, "Connect Panel");
 		cards.add(loginPanel, "Login Panel");
@@ -116,6 +115,8 @@ public class Launcher{
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+        
+        //switchCards("Create New Character Panel");
 	}
 	
 	public void initConnectPanel()
@@ -391,14 +392,20 @@ public class Launcher{
 		JPanel sexPanel = new JPanel();
 		JPanel classPanel = new JPanel();
 		JPanel statPanel = new JPanel();
+
+		pointsRemaining = 10;
+	    pointsLeft = new JLabel("Points remaining: " + pointsRemaining);
 		
 ////////Name Panel
 		JLabel newCharacterNameLabel = new JLabel();
         newCharacterNameText = new JTextField();
+        JLabel dontUseYourAccountNameLabel = new JLabel();
         JButton createNewCharacterButton = new JButton();
         
         newCharacterNameLabel.setText("Name: ");
-        newCharacterNameText.setPreferredSize(new Dimension(300, 40));
+        newCharacterNameText.setPreferredSize(new Dimension(300, 30));
+        
+        dontUseYourAccountNameLabel.setText("Do not use your account name");
         
         createNewCharacterButton.setText("Create!");
         createNewCharacterButton.setPreferredSize(new Dimension(100, 100));
@@ -408,7 +415,7 @@ public class Launcher{
             }
         });
         
-    	namePanel.setBorder(BorderFactory.createTitledBorder("(Don't use your account name)"));
+    	namePanel.setBorder(BorderFactory.createTitledBorder(""));//(Don't use your account name)"));
         namePanel.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -421,7 +428,13 @@ public class Launcher{
         c.gridy = 0;
         namePanel.add(newCharacterNameText, c);
         
-////////Sex Panel
+        c.anchor = GridBagConstraints.CENTER;
+        c.fill = GridBagConstraints.NONE;
+        c.gridx = 1;
+        c.gridy = 1;
+        namePanel.add(dontUseYourAccountNameLabel, c);
+        
+////////Sexy Panel
         male = new JRadioButton("Male", true);
     	female = new JRadioButton("Female");
     	
@@ -432,12 +445,14 @@ public class Launcher{
     	sexPanel.setBorder(BorderFactory.createTitledBorder("Gender"));
     	sexPanel.setLayout(new GridBagLayout());
         c = new GridBagConstraints();
-        c.fill = GridBagConstraints.NONE;
+        c.fill = GridBagConstraints.BOTH;
+        c.anchor = GridBagConstraints.WEST;
         
         c.gridx = 0;
         c.gridy = 0;
         sexPanel.add(male, c);
         
+        c.anchor = GridBagConstraints.CENTER;
         c.gridx = 0;
         c.gridy = 1;
         sexPanel.add(female, c);
@@ -455,7 +470,8 @@ public class Launcher{
     	classPanel.setBorder(BorderFactory.createTitledBorder("Class"));
     	classPanel.setLayout(new GridBagLayout());
         c = new GridBagConstraints();
-        c.fill = GridBagConstraints.NONE;
+        c.fill = GridBagConstraints.BOTH;
+        c.anchor = GridBagConstraints.WEST;
         
         c.gridx = 0;
         c.gridy = 0;
@@ -474,7 +490,7 @@ public class Launcher{
         leftPanel.setBorder(BorderFactory.createTitledBorder(""));
         leftPanel.setLayout(new GridBagLayout());
         c = new GridBagConstraints();
-        c.fill = GridBagConstraints.NONE;
+        c.fill = GridBagConstraints.BOTH;
         c.gridx = 0;
         c.gridy = 0;
         leftPanel.add(sexPanel, c);
@@ -529,28 +545,47 @@ public class Launcher{
         
         
 /////////Create New Character Panel
+        JButton backButton = new JButton("Back");
+        backButton.setMinimumSize(new Dimension(WIDTH/5-10, HEIGHT/5-20));
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backToCharSelect(evt);
+            }
+        });
+        
         createNewCharacterPanel.setLayout(new GridBagLayout());
         c = new GridBagConstraints();
-        c.fill = GridBagConstraints.NONE;
 
-        c.anchor = GridBagConstraints.NORTH;
-        c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.NORTHWEST;
+        c.fill = GridBagConstraints.NONE;
+        
+        c.gridx=0;
+        c.gridy=0;
+        createNewCharacterPanel.add(backButton, c);
+        
         c.gridx = 1;
         c.gridy = 0;
+        namePanel.setMinimumSize(new Dimension((4*WIDTH)/5-10, HEIGHT/5));
         createNewCharacterPanel.add(namePanel, c);
         
         c.anchor = GridBagConstraints.WEST;
         c.gridx = 0;
         c.gridy = 1;
+        leftPanel.setMinimumSize(new Dimension((WIDTH)/5-15, (3*HEIGHT)/5));
         createNewCharacterPanel.add(leftPanel, c);
 
         c.anchor = GridBagConstraints.CENTER;
+        c.fill = GridBagConstraints.NONE;
         c.gridx = 1;
         c.gridy = 1;
+        statPanel.setMinimumSize(new Dimension((4*WIDTH)/5-10, (3*HEIGHT)/5));
         createNewCharacterPanel.add(statPanel, c);
-
+        
+        c.fill = GridBagConstraints.NONE;
+        c.anchor = GridBagConstraints.EAST;
         c.gridx = 1;
         c.gridy = 2;
+        createNewCharacterButton.setMinimumSize(new Dimension((WIDTH)/5, HEIGHT/5));
         createNewCharacterPanel.add(createNewCharacterButton, c);
 	}
 	
@@ -714,6 +749,8 @@ public class Launcher{
 	
 	public void createNewCharacter(ActionEvent evt)
 	{
+		createNewCharacterPanel.removeAll();
+		initCreateNewCharacterPanel();
 		switchCards("Create New Character Panel");
 	}
 	
@@ -819,6 +856,7 @@ public class Launcher{
 	
 	public void loadCharacterInfo(String[] characterList)
 	{
+		charSelectPanel.removeAll();
 		if(characters.size() > 0)
 		{
 			characters.clear();
@@ -836,9 +874,9 @@ public class Launcher{
 		}
 	}
 	
-	public void clearCharSelectPanel()
+	public void backToCharSelect(ActionEvent evt)
 	{
-		charSelectPanel = new JPanel();
+		switchCards("Char Select Panel");
 	}
 	
 	public void connectToServer()
