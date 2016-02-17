@@ -1,7 +1,19 @@
 package client_Controller;
 
-public class EmptyState implements IState
+import java.awt.Graphics;
+import java.awt.Image;
+
+import javax.swing.JFrame;
+
+import client_Model.Player;
+
+public class EmptyState extends IState
 {
+	
+	public EmptyState(Player p, Image i, Graphics g, JFrame f)
+	{
+		super(p, i, g, f);
+	}
     public void update()
     {
         // Nothing to update in the empty state.
