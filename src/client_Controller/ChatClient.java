@@ -119,6 +119,9 @@ public class ChatClient extends Thread{
 	                launcher.initCharSelectPanel();
 	                launcher.switchCards("Char Select Panel");
 	            }
+	            else if (message[0].equals("securityInfo")) { 
+	            	launcher.manageAccount(message);
+	            }
 	        }
     	}
     	catch(Exception e){
