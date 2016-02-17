@@ -15,9 +15,9 @@ public class Player {
 	Rectangle playerRect;
 	Main game;
 
-	public Player(Main g) 
+	public Player(String playerInfo) 
 	{
-		game = g;
+		//game = g;
 		isAlive = true;
 		maxHealth = 100;
 		health = 100;
