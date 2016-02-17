@@ -352,6 +352,14 @@ public class Launcher{
 	        lastY++;
 		}
 		
+		JButton accountManagementButton = new JButton("Account Management");
+		accountManagementButton.setPreferredSize(new Dimension(100, 50));
+		accountManagementButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                getSecurityInfo(evt);
+            }
+        });
+		
 		JButton logoutButton = new JButton();
 		logoutButton.setText("Logout");
         logoutButton.setPreferredSize(new Dimension(100, 50));
@@ -742,6 +750,49 @@ public class Launcher{
 		switchCards("Create Account Panel");
 	}
 	
+	public void getSecurityInfo(ActionEvent evt)
+	{
+		client.sendMessage("GETSECURITYINFO:" + accountID);
+	}
+	
+	public void manageAccount(String[] securityInfo)
+	{
+		//"securityInfo", username, password, email, secQuestion1, secAnswer1, secQuestion2, secAnswer2
+		String[] acctInfo = new String[7];
+		acctInfo[0] = securityInfo[1];
+		acctInfo[1] = securityInfo[2];
+		acctInfo[2] = securityInfo[3];
+		acctInfo[3] = securityInfo[4];
+		acctInfo[4] = securityInfo[5];
+		acctInfo[5] = securityInfo[6];
+		acctInfo[6] = securityInfo[7];
+		
+		Boolean correctSecAnswer = false;
+		int count = 0;
+		while(!correctSecAnswer && count < 4)
+		{
+			String secAnswer = JOptionPane.showInputDialog(null, acctInfo[3], "Security Question", JOptionPane.INFORMATION_MESSAGE);
+			if(secAnswer.equals(acctInfo[4]))
+			{
+				correctSecAnswer = true;
+			}
+			else
+			{
+				secAnswer = JOptionPane.showInputDialog(null, acctInfo[5], "Security Question", JOptionPane.INFORMATION_MESSAGE);
+				if(secAnswer.equals(acctInfo[6]))
+				{
+					correctSecAnswer = true;
+				}
+				count++;
+			}
+		}
+		if(count == 4)
+			client.sendMessage("LOCKACCOUNT:" + accountID);
+		
+		//Open account management menu, with username grayed out. Use that acctInfo array we made earlier in this method.		
+		
+	}
+	
 	private void selectChar(ActionEvent evt)
 	{
 		System.out.println("Doesn't do anything yet...");
@@ -821,7 +872,7 @@ public class Launcher{
 	{
 		loginNameText.setText("");
 		loginPasswordText.setText("");
-		JOptionPane.showMessageDialog(null, "Account has been locked. Please call (719)352-7025, and tell him he is a fuck boi to unlock your account.", "ERROR", 
+		JOptionPane.showMessageDialog(null, "Account has been locked. Please call (719)352-7025, and tell him he to unlock your account.", "ERROR", 
 				JOptionPane.INFORMATION_MESSAGE);
 	}
 	
@@ -829,7 +880,7 @@ public class Launcher{
 	{
 		loginNameText.setText("");
 		loginPasswordText.setText("");
-		JOptionPane.showMessageDialog(null, "Account has been banned, probably because you're an asshole.", "ERROR", 
+		JOptionPane.showMessageDialog(null, "Account has been banned, probably because you're lame.", "ERROR", 
 				JOptionPane.INFORMATION_MESSAGE);
 	}
 	
