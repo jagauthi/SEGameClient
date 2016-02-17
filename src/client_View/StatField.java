@@ -30,7 +30,7 @@ public class StatField {
 		minus = new JButton();
 		plus = new JButton();
 		points = new JLabel();
-		points.setText("10");        		
+		points.setText("5");        		
 		
 		minus.setText("-");
         minus.setPreferredSize(new Dimension(50, 50));
@@ -73,7 +73,7 @@ public class StatField {
     		curPoints--;
     		points.setText(String.valueOf(curPoints));
     		Launcher.pointsRemaining++;
-    		Launcher.pointsLeft.setText(String.valueOf(Launcher.pointsRemaining));
+    		Launcher.pointsLeft.setText("Points remaining: " + Launcher.pointsRemaining);
 		}
 	}
 	
@@ -85,7 +85,7 @@ public class StatField {
     		curPoints++;
     		points.setText(String.valueOf(curPoints));
     		Launcher.pointsRemaining--;
-    		Launcher.pointsLeft.setText(String.valueOf(Launcher.pointsRemaining));
+    		Launcher.pointsLeft.setText("Points remaining: " + Launcher.pointsRemaining);
 		}
 	}
 }
