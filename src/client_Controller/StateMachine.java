@@ -1,27 +1,53 @@
 package client_Controller;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.swing.JFrame;
+
+import client_Model.Player;
  
 public class StateMachine extends Thread
 {
+	//States
     Map<String, IState> mStates = new HashMap<String, IState>();
     IState mCurrentState;
-    EmptyState emptyState = new EmptyState();
+    EmptyState emptyState;
+	CountryViewState countryViewState;
+	
+	final int WIDTH = 1280;
+	final int HEIGHT = 720;
     
-    /*
-     * Not sure if we'll even use these
-     */
 	private Image dbImage;
 	private Graphics dbGraphics;
+	
+	JFrame frame;
 
 	int fps, ups;
 	Boolean started = false;
-     
-    public StateMachine()
+	
+	Player player;
+	
+    public StateMachine(String playerInfo)
     {
-        mCurrentState = emptyState;
+        player = new Player(playerInfo);
+    	frame = new JFrame();
+    	frame.addKeyListener(new KeyListener(this, player));
+    	frame.setTitle("SE Game");
+    	frame.setSize(WIDTH, HEIGHT);
+    	frame.setResizable(false);
+    	frame.setVisible(true);
+    	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    	frame.setBackground(Color.GREEN);
+
+    	emptyState = new EmptyState(player, dbImage, dbGraphics, frame);
+    	countryViewState = new CountryViewState(player, dbImage, dbGraphics, frame);
+    	add("Empty State", emptyState);
+    	add("Country View State", countryViewState);
+    	
+        mCurrentState = countryViewState;
     }
   
     public void update()
@@ -76,7 +102,7 @@ public class StateMachine extends Thread
 */	
     
     public void run(){
-    	long lastTime = System.nanoTime();
+    	 long lastTime = System.nanoTime();
 	     long timer = System.currentTimeMillis();
 	     final double ns = 1000000000.0 / 60.0;
 	     double delta = 0;
