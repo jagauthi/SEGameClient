@@ -321,6 +321,8 @@ public class Launcher{
 	
 	public void initCharSelectPanel()
 	{
+		loginNameText.setText("");
+		loginPasswordText.setText("");
 		charSelectPanel.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.NONE;
@@ -787,7 +789,10 @@ public class Launcher{
 			}
 		}
 		if(count == 4)
+		{
 			client.sendMessage("LOCKACCOUNT:" + accountID);
+			switchCards("Login Panel");
+		}
 		
 		//Open account management menu, with username grayed out. Use that acctInfo array we made earlier in this method.		
 		
