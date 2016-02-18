@@ -24,7 +24,7 @@ public class ChatClient extends Thread{
     JTextField textField = new JTextField(40);
     JTextArea messageArea = new JTextArea(8, 40);
     Launcher launcher;
-
+    
     public ChatClient(Launcher launch) {
     	launcher = launch;
         // Layout GUI
@@ -121,6 +121,14 @@ public class ChatClient extends Thread{
 	            }
 	            else if (message[0].equals("securityInfo")) { 
 	            	launcher.manageAccount(message);
+	            }
+	            else if (message[0].equals("accountUpdated")) { 
+	            	launcher.backToCharSelect();
+	            }
+	            else
+	            {
+	            	System.out.println("Not sure how to handle this error... the error is: ");
+	            	System.out.println(message[0]);
 	            }
 	        }
     	}
