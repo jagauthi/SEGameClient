@@ -2,7 +2,13 @@ package client_Model;
  
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import client_Controller.Main;
 import client_View.GamePanel;
@@ -13,12 +19,14 @@ public class Player {
 	int health, exp, level, expToNextLevel, maxHealth;
 	int speed;
 	Boolean moveingUp, moveingDown, moveingLeft, moveingRight;
-	final int WIDTH = 30;
-	final int HEIGHT = 50;
+	final int WIDTH = 40;
+	final int HEIGHT = 60;
 	Boolean isAlive = false;
 	long tookDamageTime;
-	Rectangle playerRect;
-	Main game;
+	
+	String spriteLocation;
+	BufferedImage spriteSheet;
+	Image sprite;
 
 	public Player(String playerInfo) 
 	{
@@ -38,16 +46,20 @@ public class Player {
 		moveingLeft = false;
 		moveingRight = false;
 		
-		playerRect = new Rectangle(x, y, WIDTH, HEIGHT);
+		spriteLocation = "resources/Sprites/bobB.gif";
+
+		try {
+            spriteSheet = ImageIO.read(new File(spriteLocation));
+        } catch (IOException ioe) {
+            System.out.println("Unable to load image file.");
+        }
+		if(spriteSheet != null){
+			sprite = spriteSheet.getSubimage(0,120,WIDTH,HEIGHT);
+		}
 	}
 	
 	public void update()
 	{
-//		checkIfDead();
-//		detectEdges();
-//		move(xDir, yDir);
-//		checkForLevel();
-		playerRect.setBounds(x, y, WIDTH, HEIGHT);
 		if(moveingUp){
 			y-=speed;
 		}
@@ -67,8 +79,29 @@ public class Player {
 	}
 	
 	public void draw(Graphics g){
-		g.setColor(Color.black);
-    	g.fillRect(x, y, WIDTH, HEIGHT);
+		if(sprite != null){
+			setSprite();
+			g.drawImage(sprite, x, y, WIDTH, HEIGHT, null);
+		} else {
+			g.setColor(Color.black);
+			g.fillRect(x, y, WIDTH, HEIGHT);
+		}
+	}
+	
+	public void setSprite(){
+		if(spriteSheet != null){
+			if(moveingUp){
+				sprite = spriteSheet.getSubimage(0,0,WIDTH,HEIGHT);
+			} else if(moveingDown){
+				sprite = spriteSheet.getSubimage(0,120,WIDTH,HEIGHT);
+			} else if(moveingLeft){
+				sprite = spriteSheet.getSubimage(0,180,WIDTH,HEIGHT);
+			} else if(moveingRight){
+				sprite = spriteSheet.getSubimage(0,60,WIDTH,HEIGHT);
+			} else {
+				//sprite = spriteSheet.getSubimage(0,120,WIDTH,HEIGHT);
+			}
+		}
 	}
 	
 	public int getX()
