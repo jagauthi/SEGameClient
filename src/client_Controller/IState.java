@@ -8,13 +8,14 @@ import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
 
 import client_Model.Player;
+import client_View.GameFrame;
 
 public class IState
 {
 	Player player;
-	JFrame screen;
+	GameFrame screen;
 	
-	public IState(Player p, JFrame f)
+	public IState(Player p, GameFrame f)
 	{
 		player = p;
 		screen = f;
