@@ -56,6 +56,9 @@ public class Launcher{
     private JTextField createSecAnswer2Text;
     JComboBox secQuestions1;
     JComboBox secQuestions2;
+    JButton createButton;
+    
+    String[] acctInfo;
     
     //Info that is collected in the Create New Character Panel
     JTextField newCharacterNameText;
@@ -213,7 +216,7 @@ public class Launcher{
         createVerifyPasswordText = new JPasswordField();
         createSecAnswer1Text = new JTextField();
         createSecAnswer2Text = new JTextField();
-        JButton createButton = new JButton();
+        createButton = new JButton();
         JButton createAccountBackButton = new JButton();
         
         String[] questions1 = { "What is your mothers maiden name", "Sec Question 2", "Sec Question 3" };
@@ -241,6 +244,7 @@ public class Launcher{
         createAccountBackButton.setText("<< Back");
         
         createButton.setPreferredSize(new Dimension(100, 50));
+        createButton.setActionCommand("create");
         createButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 createAccount(evt);
@@ -327,15 +331,15 @@ public class Launcher{
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.NONE;
         
-		JButton[] buttons = new JButton[5];
+		JButton[] charSelectButtons = new JButton[5];
         JLabel[] labels = new JLabel[5];
         int lastY = 1;
 		for(int x = 0; x < characters.size(); x++)
 		{
 			String[] charInfo = characters.get(x).split(" ");
-			buttons[x] = new JButton();
-	        buttons[x].setPreferredSize(new Dimension(200, 200));
-	        buttons[x].addActionListener(new java.awt.event.ActionListener() {
+			charSelectButtons[x] = new JButton();
+			charSelectButtons[x].setPreferredSize(new Dimension(200, 200));
+			charSelectButtons[x].addActionListener(new java.awt.event.ActionListener() {
 	            public void actionPerformed(java.awt.event.ActionEvent evt) {
 	                selectChar(evt);
 	            }
@@ -345,7 +349,7 @@ public class Launcher{
 	        
 	        c.gridx = 0;
 	        c.gridy = x + 1;
-	        charSelectPanel.add(buttons[x], c);
+	        charSelectPanel.add(charSelectButtons[x], c);
 	        
 	        c.gridx = 1;
 	        c.gridy = x + 1;
@@ -370,6 +374,10 @@ public class Launcher{
                 logout(evt);
             }
         });
+        
+        c.gridx = 1;
+        c.gridy = 0;
+        charSelectPanel.add(accountManagementButton, c);
 		
         c.gridx = 2;
         c.gridy = 0;
@@ -559,7 +567,7 @@ public class Launcher{
         backButton.setMinimumSize(new Dimension(WIDTH/5-10, HEIGHT/5-20));
         backButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                backToCharSelect(evt);
+                backToCharSelect();
             }
         });
         
@@ -635,102 +643,119 @@ public class Launcher{
 	
 	private void createAccount(ActionEvent evt)
 	{
-		String username = createNameText.getText();
-		String email = createEmailText.getText();
-		String password = String.valueOf(createPasswordText.getPassword());
-		String passwordVerify = String.valueOf(createVerifyPasswordText.getPassword());
-		String securityQuestion1 = (String) secQuestions1.getSelectedItem();
-		String securityQuestion2 = (String) secQuestions2.getSelectedItem();
-		String securityAnswer1 = createSecAnswer1Text.getText();
-		String securityAnswer2 = createSecAnswer2Text.getText();
-		/*
-		System.out.println("Creating account...");
-		System.out.println("Username: " + username);
-		System.out.println("Email: " + email);
-		System.out.println("Password: " + password);
-		System.out.println("Verified Password: " + passwordVerify);
-		System.out.println("Security question: " + securityQuestion1);
-		System.out.println("Security answer: " + securityAnswer1);
-		*/
-		
-		if(!password.equals(passwordVerify))
+		if(createButton.getActionCommand().equals("create"))
 		{
-			System.out.println("Passwords do not match");
-		}
-		if(username.equals(""))
-		{
-			createNameText.setText("");
-			createEmailText.setText("");
-			createPasswordText.setText("");
-			createVerifyPasswordText.setText("");
-			createSecAnswer1Text.setText("");
-			createSecAnswer2Text.setText("");
+			String username = createNameText.getText();
+			String email = createEmailText.getText();
+			String password = String.valueOf(createPasswordText.getPassword());
+			String passwordVerify = String.valueOf(createVerifyPasswordText.getPassword());
+			String securityQuestion1 = (String) secQuestions1.getSelectedItem();
+			String securityQuestion2 = (String) secQuestions2.getSelectedItem();
+			String securityAnswer1 = createSecAnswer1Text.getText();
+			String securityAnswer2 = createSecAnswer2Text.getText();
+			/*
+			System.out.println("Creating account...");
+			System.out.println("Username: " + username);
+			System.out.println("Email: " + email);
+			System.out.println("Password: " + password);
+			System.out.println("Verified Password: " + passwordVerify);
+			System.out.println("Security question: " + securityQuestion1);
+			System.out.println("Security answer: " + securityAnswer1);
+			*/
 			
-			JOptionPane.showMessageDialog(null, "Please enter a username.", "ERROR", 
-					JOptionPane.INFORMATION_MESSAGE);
+			if(!password.equals(passwordVerify))
+			{
+				System.out.println("Passwords do not match");
+			}
+			if(username.equals(""))
+			{
+				createNameText.setText("");
+				createEmailText.setText("");
+				createPasswordText.setText("");
+				createVerifyPasswordText.setText("");
+				createSecAnswer1Text.setText("");
+				createSecAnswer2Text.setText("");
+				
+				JOptionPane.showMessageDialog(null, "Please enter a username.", "ERROR", 
+						JOptionPane.INFORMATION_MESSAGE);
+			}
+			else if(email.equals(""))
+			{
+				createNameText.setText("");
+				createEmailText.setText("");
+				createPasswordText.setText("");
+				createVerifyPasswordText.setText("");
+				createSecAnswer1Text.setText("");
+				createSecAnswer2Text.setText("");
+				
+				JOptionPane.showMessageDialog(null, "Please enter an email.", "ERROR", 
+						JOptionPane.INFORMATION_MESSAGE);
+			}
+			else if(password.equals(""))
+			{
+				createNameText.setText("");
+				createEmailText.setText("");
+				createPasswordText.setText("");
+				createVerifyPasswordText.setText("");
+				createSecAnswer1Text.setText("");
+				createSecAnswer2Text.setText("");
+				
+				JOptionPane.showMessageDialog(null, "Please enter a password.", "ERROR", 
+						JOptionPane.INFORMATION_MESSAGE);
+			}
+			else if(passwordVerify.equals(""))
+			{
+				createNameText.setText("");
+				createEmailText.setText("");
+				createPasswordText.setText("");
+				createVerifyPasswordText.setText("");
+				createSecAnswer1Text.setText("");
+				createSecAnswer2Text.setText("");
+				
+				JOptionPane.showMessageDialog(null, "Please verify password.", "ERROR", 
+						JOptionPane.INFORMATION_MESSAGE);
+			}
+			else if(!password.equals(passwordVerify))
+			{
+				createPasswordText.setText("");
+				createVerifyPasswordText.setText("");
+				
+				JOptionPane.showMessageDialog(null, "Passwords do not match.", "ERROR", 
+						JOptionPane.INFORMATION_MESSAGE);
+			}
+			else if(securityAnswer1.equals(""))
+			{
+				JOptionPane.showMessageDialog(null, "Please enter a security answer.", "ERROR", 
+						JOptionPane.INFORMATION_MESSAGE);
+			}
+			else if(securityAnswer2.equals(""))
+			{
+				JOptionPane.showMessageDialog(null, "Please enter a security answer.", "ERROR", 
+						JOptionPane.INFORMATION_MESSAGE);
+			}
+			else 
+			{
+				client.sendMessage("CREATEACCOUNT:" + username + ":" 
+						+ password + ":" + email + ":" 
+						+ securityQuestion1 + ":" 
+						+ securityAnswer1 + ":"
+						+ securityQuestion2 + ":"
+						+ securityAnswer2);
+			}
 		}
-		else if(email.equals(""))
+		else
 		{
-			createNameText.setText("");
-			createEmailText.setText("");
-			createPasswordText.setText("");
-			createVerifyPasswordText.setText("");
-			createSecAnswer1Text.setText("");
-			createSecAnswer2Text.setText("");
-			
-			JOptionPane.showMessageDialog(null, "Please enter an email.", "ERROR", 
-					JOptionPane.INFORMATION_MESSAGE);
-		}
-		else if(password.equals(""))
-		{
-			createNameText.setText("");
-			createEmailText.setText("");
-			createPasswordText.setText("");
-			createVerifyPasswordText.setText("");
-			createSecAnswer1Text.setText("");
-			createSecAnswer2Text.setText("");
-			
-			JOptionPane.showMessageDialog(null, "Please enter a password.", "ERROR", 
-					JOptionPane.INFORMATION_MESSAGE);
-		}
-		else if(passwordVerify.equals(""))
-		{
-			createNameText.setText("");
-			createEmailText.setText("");
-			createPasswordText.setText("");
-			createVerifyPasswordText.setText("");
-			createSecAnswer1Text.setText("");
-			createSecAnswer2Text.setText("");
-			
-			JOptionPane.showMessageDialog(null, "Please verify password.", "ERROR", 
-					JOptionPane.INFORMATION_MESSAGE);
-		}
-		else if(!password.equals(passwordVerify))
-		{
-			createPasswordText.setText("");
-			createVerifyPasswordText.setText("");
-			
-			JOptionPane.showMessageDialog(null, "Passwords do not match.", "ERROR", 
-					JOptionPane.INFORMATION_MESSAGE);
-		}
-		else if(securityAnswer1.equals(""))
-		{
-			JOptionPane.showMessageDialog(null, "Please enter a security answer.", "ERROR", 
-					JOptionPane.INFORMATION_MESSAGE);
-		}
-		else if(securityAnswer2.equals(""))
-		{
-			JOptionPane.showMessageDialog(null, "Please enter a security answer.", "ERROR", 
-					JOptionPane.INFORMATION_MESSAGE);
-		}
-		else 
-		{
-			client.sendMessage("CREATEACCOUNT:" + username + ":" 
-					+ password + ":" + email + ":" 
-					+ securityQuestion1 + ":" 
-					+ securityAnswer1 + ":"
-					+ securityQuestion2 + ":"
-					+ securityAnswer2);
+			if(!(createPasswordText.getPassword()).equals(acctInfo[1]) || createEmailText.getText().equals(acctInfo[2]) || 
+					createSecAnswer1Text.getText().equals(acctInfo[4]) || createSecAnswer2Text.getText().equals(acctInfo[6]))
+			{
+				client.sendMessage("UPDATEACCOUNT:" + acctInfo[0] + ":" + 
+									String.valueOf(createPasswordText.getPassword()) + ":" +
+									createEmailText.getText() + ":" + 
+									acctInfo[3] + ":" + 
+									createSecAnswer1Text.getText() + ":" + 
+									acctInfo[5] + ":" + 
+									createSecAnswer2Text.getText());
+			}
 		}
 	}
 	
@@ -760,7 +785,7 @@ public class Launcher{
 	public void manageAccount(String[] securityInfo)
 	{
 		//"securityInfo", username, password, email, secQuestion1, secAnswer1, secQuestion2, secAnswer2
-		String[] acctInfo = new String[7];
+		acctInfo = new String[7];
 		acctInfo[0] = securityInfo[1];
 		acctInfo[1] = securityInfo[2];
 		acctInfo[2] = securityInfo[3];
@@ -777,6 +802,7 @@ public class Launcher{
 			if(secAnswer.equals(acctInfo[4]))
 			{
 				correctSecAnswer = true;
+				updateCreateAccountPanel(acctInfo);
 			}
 			else
 			{
@@ -784,18 +810,34 @@ public class Launcher{
 				if(secAnswer.equals(acctInfo[6]))
 				{
 					correctSecAnswer = true;
+					updateCreateAccountPanel(acctInfo);
 				}
 				count++;
 			}
 		}
+		
 		if(count == 4)
 		{
 			client.sendMessage("LOCKACCOUNT:" + accountID);
 			switchCards("Login Panel");
-		}
+		}	
+	}
+	
+	public void updateCreateAccountPanel(String[] accountInfo)
+	{
+		switchCards("Create Account Panel");
+		createNameText.setEditable(false);
+		createNameText.setText(accountInfo[0]);
+		createPasswordText.setText(accountInfo[1]);
+		createVerifyPasswordText.setText(accountInfo[1]);
+		createEmailText.setText(accountInfo[2]);
+		secQuestions1.setSelectedIndex(0);
+		createSecAnswer1Text.setText(accountInfo[4]);
+		secQuestions2.setSelectedIndex(1);
+		createSecAnswer2Text.setText(accountInfo[6]);
 		
-		//Open account management menu, with username grayed out. Use that acctInfo array we made earlier in this method.		
-		
+		createButton.setText("Update Info");
+		createButton.setActionCommand("update");
 	}
 	
 	private void selectChar(ActionEvent evt)
@@ -930,7 +972,13 @@ public class Launcher{
 		}
 	}
 	
-	public void backToCharSelect(ActionEvent evt)
+	public void updateAcctInfo(ActionEvent evt)
+	{
+		
+		
+	}
+	
+	public void backToCharSelect()
 	{
 		switchCards("Char Select Panel");
 	}
