@@ -6,13 +6,14 @@ import java.awt.Image;
 import javax.swing.JFrame;
 
 import client_Model.Player;
+import client_View.GameFrame;
 
 public class EmptyState extends IState
 {
 	
-	public EmptyState(Player p, Image i, Graphics g, JFrame f)
+	public EmptyState(Player p, GameFrame f)
 	{
-		super(p, i, g, f);
+		super(p, f);
 	}
     public void update()
     {
