@@ -11,17 +11,18 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
-
 import client_Model.Player;
+import client_View.GameFrame;
 
 public class CountryViewState extends IState
 {
+	int x = 1;
 	private BufferedImage backGround;
-	public CountryViewState(Player p, JFrame f)
+	public CountryViewState(Player p, GameFrame f)
 	{
 		super(p, f);
 		try {
-			backGround = ImageIO.read(new File("resources/map.png"));
+			backGround = ImageIO.read(new File("resources/map.jpg"));
 		} 
 		catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -41,7 +42,9 @@ public class CountryViewState extends IState
 		g.setColor(colorBrown);
 		g.fillRect(0, 0, 300, 100);
 		
-//    	g.drawImage(backGround, 100, 100, null);
+    	g.drawImage(backGround, -x, -x, null);
+    	x++;
+		//screen.paintComponent(g);
     }
   
     public void onEnter()
