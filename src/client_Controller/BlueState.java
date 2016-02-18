@@ -1,0 +1,72 @@
+package client_Controller;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+
+import client_Model.Player;
+import client_View.GamePanel;
+
+public class BlueState extends IState{
+	
+	public BlueState(Player p) {
+		super(p);
+		// TODO Auto-generated constructor stub
+	}
+    public void update()
+    {
+        player.update();
+    }
+  
+    public void render(Graphics g)
+    {
+    	g.setColor(Color.blue);
+    	g.fillRect(0, 0, GamePanel.WIDTH, GamePanel.HEIGHT);
+    	player.draw(g);
+    }
+  
+    public void onEnter()
+    {
+        // No action to take when the state is entered
+    }
+  
+    public void onExit()
+    {
+        // No action to take when the state is exited
+    }
+    
+    public void keyPressed(int keyCode){
+    	if(keyCode == KeyEvent.VK_W){
+			player.moveUp();
+			player.stopDown();
+		}
+    	if(keyCode == KeyEvent.VK_A){
+    		player.moveLeft();
+    		player.stopRight();
+		}
+    	if(keyCode == KeyEvent.VK_S){
+    		player.moveDown();
+    		player.stopUp();
+		}
+    	if(keyCode == KeyEvent.VK_D){
+    		player.moveRight();
+    		player.stopLeft();
+		}
+    	
+    }
+    
+    public void keyReleased(int keyCode){
+    	if(keyCode == KeyEvent.VK_W){
+			player.stopUp();
+		}
+    	if(keyCode == KeyEvent.VK_A){
+    		player.stopLeft();
+		}
+    	if(keyCode == KeyEvent.VK_S){
+    		player.stopDown();
+		}
+    	if(keyCode == KeyEvent.VK_D){
+    		player.stopRight();
+		}
+    }
+}
