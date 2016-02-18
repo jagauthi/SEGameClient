@@ -17,12 +17,12 @@ public class KeyListener extends KeyAdapter{
 	public void keyPressed(KeyEvent e)
 	{
 		int keyCode = e.getKeyCode();		
-		sm.mCurrentState.keyPressed(keyCode);
+		sm.currentState.keyPressed(keyCode);
 	}
 	
 	public void keyReleased(KeyEvent e)
 	{
 		int keyCode = e.getKeyCode();
-		sm.mCurrentState.keyReleased(keyCode);
+		sm.currentState.keyReleased(keyCode);
 	}
 }
