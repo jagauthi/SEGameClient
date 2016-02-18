@@ -1,7 +1,9 @@
 package client_Controller;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JFrame;
 
@@ -9,17 +11,13 @@ import client_Model.Player;
 
 public class IState
 {
-	Player player; 
-	Image image; 
-	Graphics graphics; 
-	JFrame frame;
+	Player player;
+	JFrame screen;
 	
-	public IState(Player p, Image i, Graphics g, JFrame f)
+	public IState(Player p, JFrame f)
 	{
 		player = p;
-		image = i;
-		graphics = g;
-		frame = f;
+		screen = f;
 	}
 	
     public void update()
@@ -27,7 +25,7 @@ public class IState
     	
     }
     
-    public void render()
+    public void render(Graphics g)
     {
     	
     }
@@ -39,6 +37,16 @@ public class IState
     
     public void onExit()
     {
+    	
+    }
+    
+    public void keyPressed(int keyCode){
+//    	if(keyCode == KeyEvent.VK_W){
+//			player.setYDirection(0);
+//		}
+    }
+    
+    public void keyReleased(int keyCode){
     	
     }
 }
