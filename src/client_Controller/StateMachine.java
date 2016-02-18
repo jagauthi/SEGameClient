@@ -1,13 +1,15 @@
 package client_Controller;
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JFrame;
 
 import client_Model.Player;
+import client_View.GameFrame;
  
 public class StateMachine extends Thread
 {
@@ -20,10 +22,10 @@ public class StateMachine extends Thread
 	final int WIDTH = 1280;
 	final int HEIGHT = 720;
     
-	private Image dbImage;
-	private Graphics dbGraphics;
+	private Graphics2D dbGraphics;
+	Image image;
 	
-	JFrame frame;
+	GameFrame screen;
 
 	int fps, ups;
 	Boolean started = false;
@@ -33,19 +35,19 @@ public class StateMachine extends Thread
     public StateMachine(String playerInfo)
     {
         player = new Player(playerInfo);
-    	frame = new JFrame();
-    	frame.addKeyListener(new KeyListener(this, player));
-    	frame.setTitle("SE Game");
-    	frame.setSize(WIDTH, HEIGHT);
-    	frame.setResizable(false);
-    	frame.setVisible(true);
-    	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    	frame.setBackground(Color.GREEN);
+        screen = new GameFrame();
+        screen.addKeyListener(new KeyListener(this));
+        screen.setTitle("SE Game");
+        screen.setSize(WIDTH, HEIGHT);
+        screen.setResizable(false);
+        screen.setVisible(true);
+        screen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        screen.setBackground(Color.GREEN);
 
-    	emptyState = new EmptyState(player, dbImage, dbGraphics, frame);
-    	countryViewState = new CountryViewState(player, dbImage, dbGraphics, frame);
-    	add("Empty State", emptyState);
-    	add("Country View State", countryViewState);
+    	//emptyState = new EmptyState(player, dbImage, dbGraphics, frame);
+    	countryViewState = new CountryViewState(player, screen);
+    	//add("Empty State", emptyState);
+    	this.add("Country View State", countryViewState);
     	
         mCurrentState = countryViewState;
     }
@@ -57,7 +59,10 @@ public class StateMachine extends Thread
   
     public void render()
     {
-        mCurrentState.render();
+        mCurrentState.render(screen.getGraphics());
+        //screen.paintComponent(dbGraphics);
+        //screen.paint(dbGraphics);
+        screen.repaint();
     }
   
     public void change(String stateName){
@@ -102,35 +107,36 @@ public class StateMachine extends Thread
 */	
     
     public void run(){
-    	 long lastTime = System.nanoTime();
-	     long timer = System.currentTimeMillis();
-	     final double ns = 1000000000.0 / 60.0;
-	     double delta = 0;
-	     int frames = 0;
-	     int updates = 0;
+//    	 long lastTime = System.nanoTime();
+//	     long timer = System.currentTimeMillis();
+//	     final double ns = 1000000000.0 / 60.0;
+//	     double delta = 0;
+//	     int frames = 0;
+//	     int updates = 0;
 	    
 	     while(true)
 	     {
-	         long now = System.nanoTime();
-	         delta += (now - lastTime) / ns;
-	         lastTime = now;
-	         while(delta >= 1)
+//	         long now = System.nanoTime();
+//	         delta += (now - lastTime) / ns;
+//	         lastTime = now;
+	         //while(delta >= 1)
 	         {
 	             update();
-	             updates++;
-	             delta --;
+	             render();
+//	             updates++;
+//	             delta --;
 	         }
-	         frames++;
+//	         frames++;
 	            
-	         if(System.currentTimeMillis() - timer > 1000)
-	         {
-	             timer += 1000;
-	         //  System.out.println(updates + " updates, " + frames + "fps");
-	             fps = frames;
-	             ups = updates;
-	             updates = 0;
-	             frames = 0;
-	         }
+//	         if(System.currentTimeMillis() - timer > 1000)
+//	         {
+//	             timer += 1000;
+//	         //  System.out.println(updates + " updates, " + frames + "fps");
+//	             fps = frames;
+//	             ups = updates;
+//	             updates = 0;
+//	             frames = 0;
+//	         }
 	     }
     }
 }
