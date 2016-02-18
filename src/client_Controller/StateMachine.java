@@ -32,7 +32,7 @@ public class StateMachine extends Thread
     public StateMachine(String playerInfo)
     {
         player = new Player(playerInfo);
-        screen = new GameFrame();
+        screen = new GameFrame(this);
         screen.addKeyListener(new KeyListener(this));
         screen.setTitle("SE Game");
         screen.setSize(WIDTH, HEIGHT);
@@ -57,7 +57,7 @@ public class StateMachine extends Thread
   
     public void render()
     {
-        currentState.render(screen.getGraphics());
+        //currentState.render(screen.getGraphics());
         //screen.paintComponent(dbGraphics);
         //screen.paint(dbGraphics);
         screen.repaint();
@@ -70,6 +70,11 @@ public class StateMachine extends Thread
   
     public void add(String name, IState state){
         states.put(name, state);
+    }
+    
+    public IState getCurrentState()
+    {
+    	return currentState;
     }
     
     public void run(){
@@ -85,7 +90,7 @@ public class StateMachine extends Thread
 	         long now = System.nanoTime();
 	         delta += (now - lastTime) / ns;
 	         lastTime = now;
-	         //while(delta >= 1)
+	         while(delta >= 1)
 	         {
 	             update();
 	             render();
@@ -97,7 +102,7 @@ public class StateMachine extends Thread
 	         if(System.currentTimeMillis() - timer > 1000)
 	         {
 	             timer += 1000;
-	         //  System.out.println(updates + " updates, " + frames + "fps");
+	             //System.out.println(updates + " updates per second");
 	             fps = frames;
 	             ups = updates;
 	             updates = 0;
