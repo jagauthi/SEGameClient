@@ -59,6 +59,10 @@ public class Launcher{
     JButton createButton;
     
     String[] acctInfo;
+    int charSelected = 0;
+    JButton[] charSelectButtons;
+    JLabel[] charLabels;
+    String[] characterNames = new String[5];
     
     //Info that is collected in the Create New Character Panel
     JTextField newCharacterNameText;
@@ -331,21 +335,23 @@ public class Launcher{
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.NONE;
         
-		JButton[] charSelectButtons = new JButton[5];
-        JLabel[] labels = new JLabel[5];
+		charSelectButtons = new JButton[5];
+        charLabels = new JLabel[5];
         int lastY = 1;
 		for(int x = 0; x < characters.size(); x++)
 		{
+			final int selectVariable = x;
 			String[] charInfo = characters.get(x).split(" ");
+	        characterNames[x] = charInfo[0];
 			charSelectButtons[x] = new JButton();
 			charSelectButtons[x].setPreferredSize(new Dimension(200, 200));
 			charSelectButtons[x].addActionListener(new java.awt.event.ActionListener() {
 	            public void actionPerformed(java.awt.event.ActionEvent evt) {
-	                selectChar(evt);
+	                selectChar(selectVariable);
 	            }
 	        });
-	        labels[x] = new JLabel();
-	        labels[x].setText(charInfo[0] + ", a level " + charInfo[2] + "\n" + charInfo[1]);
+			charLabels[x] = new JLabel();
+			charLabels[x].setText(charInfo[0] + ", a level " + charInfo[2] + "\n" + charInfo[1]);
 	        
 	        c.gridx = 0;
 	        c.gridy = x + 1;
@@ -353,7 +359,7 @@ public class Launcher{
 	        
 	        c.gridx = 1;
 	        c.gridy = x + 1;
-	        charSelectPanel.add(labels[x], c);
+	        charSelectPanel.add(charLabels[x], c);
 	        
 	        lastY++;
 		}
@@ -375,12 +381,25 @@ public class Launcher{
             }
         });
         
+        JButton playButton = new JButton();
+        playButton.setText("Play!");
+        playButton.setPreferredSize(new Dimension(100, 50));
+        playButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	playGame();
+            }
+        });
+        
         c.gridx = 1;
         c.gridy = 0;
         charSelectPanel.add(accountManagementButton, c);
 		
         c.gridx = 2;
         c.gridy = 0;
+        charSelectPanel.add(logoutButton, c);
+        
+        c.gridx = 3;
+        c.gridy = 7;
         charSelectPanel.add(logoutButton, c);
         
 		JButton[] createNewCharButtons = new JButton[5 - characters.size()];
@@ -840,9 +859,10 @@ public class Launcher{
 		createButton.setActionCommand("update");
 	}
 	
-	private void selectChar(ActionEvent evt)
+	private void selectChar(int selecter)
 	{
-		System.out.println("Doesn't do anything yet...");
+		System.out.println("Selecting " + selecter);
+		charSelected = selecter;
 	}
 	
 	public void createNewCharacter(ActionEvent evt)
@@ -981,6 +1001,11 @@ public class Launcher{
 	public void backToCharSelect()
 	{
 		switchCards("Char Select Panel");
+	}
+	
+	public void playGame()
+	{
+		client.sendMessage("PLAYGAME:" + characterNames[charSelected]);
 	}
 	
 	public void connectToServer()
