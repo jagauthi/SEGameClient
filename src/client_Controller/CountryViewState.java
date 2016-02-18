@@ -21,8 +21,9 @@ public class CountryViewState extends IState
 	{
 		super(p, f);
 		try {
-			backGround = ImageIO.read(new File("resources/world.png"));
-		} catch (IOException e) {
+			backGround = ImageIO.read(new File("resources/map.png"));
+		} 
+		catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
@@ -31,24 +32,25 @@ public class CountryViewState extends IState
 	
     public void update()
     {
-        // Nothing to update in the empty state.
+    	
     }
   
     public void render(Graphics g)
     {
     	Color colorBrown = new Color(0.7f, 0.45f, 0.1f);
 		g.setColor(colorBrown);
-		g.fillRect(0, 0, 100, 100);
+		g.fillRect(0, 0, 300, 100);
+		
 //    	g.drawImage(backGround, 100, 100, null);
     }
   
     public void onEnter()
     {
-        // No action to take when the state is entered
+    	
     }
   
     public void onExit()
     {
-        // No action to take when the state is exited
+    	
     }
 }
