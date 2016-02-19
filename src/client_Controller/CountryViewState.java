@@ -33,10 +33,22 @@ public class CountryViewState extends IState
     		g.setColor(Color.red);
     		for(int i = 0; i < StateMachine.otherPlayers.size(); i++)
     		{
-    			g.fillRect(StateMachine.otherPlayers.get(i).getX(), 
-    					StateMachine.otherPlayers.get(i).getY(), 
-    					StateMachine.otherPlayers.get(i).getWidth(), 
-    					StateMachine.otherPlayers.get(i).getHeight());
+    			if(StateMachine.otherPlayers.get(i).getPlayerClass().equals("Rogue"))
+    			{
+    				g.setColor(Color.green);
+    			}
+    			else if(StateMachine.otherPlayers.get(i).getPlayerClass().equals("Mage"))
+    				g.setColor(Color.blue);
+    			else
+    				g.setColor(Color.red);
+    			
+    			if(!StateMachine.otherPlayers.get(i).getName().equals(player.getName()))
+    			{
+	    			g.fillRect(StateMachine.otherPlayers.get(i).getX(), 
+	    					StateMachine.otherPlayers.get(i).getY(), 
+	    					StateMachine.otherPlayers.get(i).getWidth(), 
+	    					StateMachine.otherPlayers.get(i).getHeight());
+    			}
     		}
     	}
     }
