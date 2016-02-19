@@ -1029,7 +1029,7 @@ public class Launcher{
 	public void intoGame(String[] playerInfo)
 	{
 		JFrame window = new JFrame("SWE Game");
- 		window.setContentPane(new GamePanel(playerInfo));
+ 		window.setContentPane(new GamePanel(playerInfo, client));
  		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
  		window.setResizable(false);
  		window.pack();
