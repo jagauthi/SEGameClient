@@ -1,7 +1,11 @@
 package client_Controller;
 import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import client_Model.OtherPlayer;
 import client_Model.Player;
  
 public class StateMachine //extends Thread
@@ -12,6 +16,7 @@ public class StateMachine //extends Thread
     EmptyState emptyState;
 	CountryViewState countryViewState;
 	BlueState blueState;
+	HashMap<String, OtherPlayer> otherPlayers = new HashMap<String, OtherPlayer>();
 
 	Boolean started = false;
 	
@@ -37,9 +42,20 @@ public class StateMachine //extends Thread
         System.out.println("UPDATECHARINFO:" + player.getAllCharInfo());
     }
     
+    /*
+     * NOT SURE IF THIS IS THE BEST WAY TO DO THIS, SOMONE ELSE LOOK AT THIS.
+     */
     public void updateCharsAroundMe(String[] charsAroundMe)
     {
-    	
+    	if(charsAroundMe.length > 1)
+    	{
+	    	for(int i = 1; i < charsAroundMe.length; i++)
+	    	{
+	    		String[] otherGuy = charsAroundMe[i].split(" ");
+	    		otherPlayers.put(otherGuy[0], new OtherPlayer(charsAroundMe[i], 
+	    				Integer.parseInt(otherGuy[1]), Integer.parseInt(otherGuy[2])));
+	    	}
+    	}
     }
   
     public void render(Graphics g)
