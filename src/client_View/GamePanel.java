@@ -24,12 +24,12 @@ public class GamePanel extends JPanel
 	
 	private StateMachine sm;
 	
-	public GamePanel(){
+	public GamePanel(String[] playerInfo){
 		super();
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		setFocusable(true);
 		requestFocus();
-    	sm = new StateMachine("DUMMY INFO");
+    	sm = new StateMachine(playerInfo);
 		addKeyListener(this);
 		running = true;
 		thread = new Thread(this);
