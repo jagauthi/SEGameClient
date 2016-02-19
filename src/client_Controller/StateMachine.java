@@ -17,9 +17,13 @@ public class StateMachine //extends Thread
 	
 	Player player;
 	
-    public StateMachine(String[] playerInfo)
+	ChatClient client;
+	
+    public StateMachine(String[] playerInfo, ChatClient c)
     {	
         player = new Player(playerInfo);
+        client = c;
+        client.setStateMachine(this);
     	countryViewState = new CountryViewState(player);
     	blueState = new BlueState(player);
     	this.add("Country View State", countryViewState);
@@ -29,6 +33,13 @@ public class StateMachine //extends Thread
     public void update()
     {
         currentState.update();
+        //client.sendMessage("UPDATECHARINFO:" + player.getAllCharInfo());
+        System.out.println("UPDATECHARINFO:" + player.getAllCharInfo());
+    }
+    
+    public void updateCharsAroundMe(String[] charsAroundMe)
+    {
+    	
     }
   
     public void render(Graphics g)
