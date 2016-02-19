@@ -122,8 +122,18 @@ public class ChatClient extends Thread{
 	            else if (message[0].equals("securityInfo")) { 
 	            	launcher.manageAccount(message);
 	            }
+	            else if (message[0].equals("charInfoDeleted")) { 
+	            	launcher.loadCharacterInfo(message);
+	                launcher.initCharSelectPanel();
+	                launcher.switchCards("Login Panel");
+	                launcher.switchCards("Char Select Panel");
+	            }
 	            else if (message[0].equals("accountUpdated")) { 
 	            	launcher.backToCharSelect();
+	            }
+	            else if (message[0].equals("characterInfo")) { 
+	            	//name, class, level, gender, health, mana, experience, xCoord, yCoord, gold, strength, dexterituy, constitution, intelgence, willpower, luck, abilities, cooldown
+	            	launcher.intoGame(message);
 	            }
 	            else
 	            {
