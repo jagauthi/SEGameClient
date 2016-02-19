@@ -11,9 +11,9 @@ import client_View.GameFrame;
 public class EmptyState extends IState
 {
 	
-	public EmptyState(Player p, GameFrame f)
+	public EmptyState(Player p)
 	{
-		super(p, f);
+		super(p);
 	}
     public void update()
     {
