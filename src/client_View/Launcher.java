@@ -337,6 +337,7 @@ public class Launcher{
         
 		charSelectButtons = new JButton[5];
         charLabels = new JLabel[5];
+        JButton[] deleteButtons = new JButton[5];
         int lastY = 1;
 		for(int x = 0; x < characters.size(); x++)
 		{
@@ -352,6 +353,14 @@ public class Launcher{
 	        });
 			charLabels[x] = new JLabel();
 			charLabels[x].setText(charInfo[0] + ", a level " + charInfo[2] + "\n" + charInfo[1]);
+			
+			deleteButtons[x] = new JButton("Delete");
+			deleteButtons[x].setPreferredSize(new Dimension(200, 200));
+			deleteButtons[x].addActionListener(new java.awt.event.ActionListener() {
+	            public void actionPerformed(java.awt.event.ActionEvent evt) {
+	                deleteChar();
+	            }
+	        });
 	        
 	        c.gridx = 0;
 	        c.gridy = x + 1;
@@ -360,6 +369,10 @@ public class Launcher{
 	        c.gridx = 1;
 	        c.gridy = x + 1;
 	        charSelectPanel.add(charLabels[x], c);
+	        
+	        c.gridx = 2;
+	        c.gridy = x + 1;
+	        charSelectPanel.add(deleteButtons[x], c);
 	        
 	        lastY++;
 		}
@@ -399,8 +412,8 @@ public class Launcher{
         charSelectPanel.add(logoutButton, c);
         
         c.gridx = 3;
-        c.gridy = 7;
-        charSelectPanel.add(logoutButton, c);
+        c.gridy = 6;
+        charSelectPanel.add(playButton, c);
         
 		JButton[] createNewCharButtons = new JButton[5 - characters.size()];
         if(characters.size() < 5)
@@ -1003,9 +1016,24 @@ public class Launcher{
 		switchCards("Char Select Panel");
 	}
 	
+	public void deleteChar()
+	{
+		client.sendMessage("DELETECHAR:" + characterNames[charSelected] + ":" + accountID);
+	}
+	
 	public void playGame()
 	{
 		client.sendMessage("PLAYGAME:" + characterNames[charSelected]);
+	}
+	
+	public void intoGame(String[] playerInfo)
+	{
+		JFrame window = new JFrame("SWE Game");
+ 		window.setContentPane(new GamePanel(playerInfo));
+ 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+ 		window.setResizable(false);
+ 		window.pack();
+ 		window.setVisible(true);
 	}
 	
 	public void connectToServer()
