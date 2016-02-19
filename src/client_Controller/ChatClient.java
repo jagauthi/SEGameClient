@@ -24,6 +24,7 @@ public class ChatClient extends Thread{
     JTextField textField = new JTextField(40);
     JTextArea messageArea = new JTextArea(8, 40);
     Launcher launcher;
+    StateMachine sm;
     
     public ChatClient(Launcher launch) {
     	launcher = launch;
@@ -44,6 +45,11 @@ public class ChatClient extends Thread{
                 textField.setText("");
             }
         });
+    }
+    
+    public void setStateMachine(StateMachine sm)
+    {
+    	this.sm = sm;
     }
 
     private String getServerAddress() {
@@ -134,6 +140,10 @@ public class ChatClient extends Thread{
 	            else if (message[0].equals("characterInfo")) { 
 	            	//name, class, level, gender, health, mana, experience, xCoord, yCoord, gold, strength, dexterituy, constitution, intelgence, willpower, luck, abilities, cooldown
 	            	launcher.intoGame(message);
+	            }
+	            else if (message[0].equals("charUpdated")) { 
+	            	//charUpdated:char1Name char1x char1y:char2Name char2x char2y:...
+	            	sm.updateCharsAroundMe(message);
 	            }
 	            else
 	            {
