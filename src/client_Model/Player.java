@@ -15,23 +15,31 @@ import client_View.GamePanel;
 
 public class Player {
 	
-	int x, y, xDir, yDir;
+	int x, y;
 	int health, exp, level, expToNextLevel, maxHealth;
 	int speed;
+	public String name;
+	public String playerClass;
 	Boolean moveingUp, moveingDown, moveingLeft, moveingRight;
 	final int WIDTH = 40;
 	final int HEIGHT = 60;
-	Boolean isAlive = false;
 	long tookDamageTime;
 	
 	String spriteLocation;
 	BufferedImage spriteSheet;
 	Image sprite;
 
-	public Player(String playerInfo) 
+	public Player(String[] playerInfo) 
 	{
 		//game = g;
-		isAlive = true;
+		//The first element of this array is the thing that just says "LoginSuccess", so don't look at the first element in the array when loading player info.
+		//"characterInfo", name, class, level, gender, health, mana, experience, xCoord, yCoord, gold, strength, dexterituy, constitution, intelgence, willpower, luck, abilities, cooldown
+		name = playerInfo[1];
+		playerClass = playerInfo[2];
+		level = Integer.parseInt(playerInfo[3]);
+		
+		System.out.println("Name: " + name + "\nClass: " + playerClass);
+		
 		maxHealth = 100;
 		health = 100;
 		x = 0;
