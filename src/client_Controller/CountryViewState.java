@@ -23,10 +23,11 @@ public class CountryViewState extends IState
     	g.setColor(new Color(0.5f, 0.3f, 0.2f));
     	g.fillRect(0, 0, GamePanel.WIDTH, GamePanel.HEIGHT);
     	player.draw(g);
-    	g.setColor(Color.white);
-    	g.fillRect(0, 600, 300, 110);
-    	g.drawString("Name: " + player.getName(), 10, 10);
-    	g.drawString("HP: " + player.getHealth(), 10, 30);
+    	g.setColor(Color.lightGray);
+    	g.fillRect(0, 600, 300, 120);
+    	g.drawString("Name: " + player.getName(), 10, 610);
+    	g.drawString("HP: " + player.getHealth(), 10, 630);
+    	g.drawString("Mana: " + player.getMana(), 10, 650);
     }
   
     public void onEnter()
