@@ -48,9 +48,6 @@ public class StateMachine //extends Thread
     	client.sendMessage("UPDATECHARINFO:" + player.getAllCharInfo());
     }
     
-    /*
-     * NOT SURE IF THIS IS THE BEST WAY TO DO THIS, SOMONE ELSE LOOK AT THIS.
-     */
     public void updateCharsAroundMe(String[] charsAroundMe)
     {
     	otherPlayers.clear();
@@ -59,8 +56,8 @@ public class StateMachine //extends Thread
 	    	for(int i = 1; i < charsAroundMe.length; i++)
 	    	{
 	    		String[] otherGuy = charsAroundMe[i].split(" ");
-	    		otherPlayers.add(new OtherPlayer(charsAroundMe[i], 
-	    				Integer.parseInt(otherGuy[1]), Integer.parseInt(otherGuy[2])));
+	    		otherPlayers.add(new OtherPlayer(otherGuy[0], otherGuy[1],
+	    				Integer.parseInt(otherGuy[2]), Integer.parseInt(otherGuy[3])));
 	    	}
     	}
     }
@@ -92,68 +89,3 @@ public class StateMachine //extends Thread
     }
     
 }
-/*
- * ALL THIS STUFF WILL GO IN THE INDIVIDUAL STATE CLASSES
-	 
-	public void paint(Graphics g){
-		dbImage = createImage(getWidth(), getHeight());
-		dbGraphics = dbImage.getGraphics();
-		paintComponent(dbGraphics);
-		g.drawImage(dbImage, 0, 0, this);
-	}
-	
-	public void paintComponent(Graphics g)
-	{
-		drawGame(g);
-	}
-	
-	public void drawGame(Graphics g)
-	{
-		g.setFont(normalfont);
-		g.setColor(Color.BLACK);
-		g.drawString("HP: " + me.getHealth(), 30, 60);
-		g.drawString("Level: " + me.getLevel(), 30, 90);
-		g.drawString("Exp: " + me.getExp(), 140, 60);
-		
-		g.setColor(Color.BLUE);
-		if(me.isAlive())
-			g.fillRect(me.getX(), me.getY(), me.getWidth(), me.getHeight());
-			
-		repaint(); //Calls the paintComponent method again to keep updating
-	}
-*/	
-    
-//    public void run(){
-////    	 long lastTime = System.nanoTime();
-////	     long timer = System.currentTimeMillis();
-////	     final double ns = 1000000000.0 / 60.0;
-////	     double delta = 0;
-////	     int frames = 0;
-////	     int updates = 0;
-//	    
-//	     while(true)
-//	     {
-////	         long now = System.nanoTime();
-////	         delta += (now - lastTime) / ns;
-////	         lastTime = now;
-//	         //while(delta >= 1)
-//	         {
-//	             update();
-//	             render();
-////	             updates++;
-////	             delta --;
-//	         }
-////	         frames++;
-//	            
-////	         if(System.currentTimeMillis() - timer > 1000)
-////	         {
-////	             timer += 1000;
-////	         //  System.out.println(updates + " updates, " + frames + "fps");
-////	             fps = frames;
-////	             ups = updates;
-////	             updates = 0;
-////	             frames = 0;
-////	         }
-//	     }
-//    }
-//}
