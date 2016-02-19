@@ -1,53 +1,29 @@
 package client_Controller;
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
+import java.awt.Graphics;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.swing.JFrame;
-
 import client_Model.Player;
-import client_View.GameFrame;
  
-public class StateMachine extends Thread
+public class StateMachine //extends Thread
 {
 	//States
     Map<String, IState> states = new HashMap<String, IState>();
     IState currentState;
     EmptyState emptyState;
 	CountryViewState countryViewState;
-	
-	final int WIDTH = 1280;
-	final int HEIGHT = 720;
-	
-	GameFrame screen;
+	BlueState blueState;
 
-	int fps, ups;
 	Boolean started = false;
 	
 	Player player;
 	
-    public StateMachine(String playerInfo)
-    {
+    public StateMachine(String[] playerInfo)
+    {	
         player = new Player(playerInfo);
-        screen = new GameFrame(this);
-        screen.addKeyListener(new KeyListener(this));
-        screen.setTitle("SE Game");
-        screen.setSize(WIDTH, HEIGHT);
-        screen.setResizable(false);
-        screen.setVisible(true);
-        screen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        screen.setBackground(Color.GREEN);
-
-    	emptyState = new EmptyState(player, screen);
-    	countryViewState = new CountryViewState(player, screen);
-    	add("Empty State", emptyState);
-    	add("Country View State", countryViewState);
-    	
+    	countryViewState = new CountryViewState(player);
+    	blueState = new BlueState(player);
+    	this.add("Country View State", countryViewState);
         currentState = countryViewState;
-        start();
     }
   
     public void update()
@@ -55,12 +31,9 @@ public class StateMachine extends Thread
         currentState.update();
     }
   
-    public void render()
+    public void render(Graphics g)
     {
-        //currentState.render(screen.getGraphics());
-        //screen.paintComponent(dbGraphics);
-        //screen.paint(dbGraphics);
-        screen.repaint();
+        currentState.render(g);
     }
   
     public void change(String stateName){
@@ -72,42 +45,81 @@ public class StateMachine extends Thread
         states.put(name, state);
     }
     
-    public IState getCurrentState()
-    {
+    public IState getCurrentState(){
     	return currentState;
     }
     
-    public void run(){
-    	 long lastTime = System.nanoTime();
-	     long timer = System.currentTimeMillis();
-	     final double ns = 1000000000.0 / 60.0;
-	     double delta = 0;
-	     int frames = 0;
-	     int updates = 0;
-	    
-	     while(true)
-	     {
-	         long now = System.nanoTime();
-	         delta += (now - lastTime) / ns;
-	         lastTime = now;
-	         while(delta >= 1)
-	         {
-	             update();
-	             render();
-	             updates++;
-	             delta --;
-	         }
-	         frames++;
-	            
-	         if(System.currentTimeMillis() - timer > 1000)
-	         {
-	             timer += 1000;
-	             //System.out.println(updates + " updates per second");
-	             fps = frames;
-	             ups = updates;
-	             updates = 0;
-	             frames = 0;
-	         }
-	     }
+    public void changeState(){
+    	if(currentState == countryViewState){
+    		currentState = blueState;
+    	}
+    	else
+    		currentState =countryViewState;
     }
+    
 }
+/*
+ * ALL THIS STUFF WILL GO IN THE INDIVIDUAL STATE CLASSES
+	 
+	public void paint(Graphics g){
+		dbImage = createImage(getWidth(), getHeight());
+		dbGraphics = dbImage.getGraphics();
+		paintComponent(dbGraphics);
+		g.drawImage(dbImage, 0, 0, this);
+	}
+	
+	public void paintComponent(Graphics g)
+	{
+		drawGame(g);
+	}
+	
+	public void drawGame(Graphics g)
+	{
+		g.setFont(normalfont);
+		g.setColor(Color.BLACK);
+		g.drawString("HP: " + me.getHealth(), 30, 60);
+		g.drawString("Level: " + me.getLevel(), 30, 90);
+		g.drawString("Exp: " + me.getExp(), 140, 60);
+		
+		g.setColor(Color.BLUE);
+		if(me.isAlive())
+			g.fillRect(me.getX(), me.getY(), me.getWidth(), me.getHeight());
+			
+		repaint(); //Calls the paintComponent method again to keep updating
+	}
+*/	
+    
+//    public void run(){
+////    	 long lastTime = System.nanoTime();
+////	     long timer = System.currentTimeMillis();
+////	     final double ns = 1000000000.0 / 60.0;
+////	     double delta = 0;
+////	     int frames = 0;
+////	     int updates = 0;
+//	    
+//	     while(true)
+//	     {
+////	         long now = System.nanoTime();
+////	         delta += (now - lastTime) / ns;
+////	         lastTime = now;
+//	         //while(delta >= 1)
+//	         {
+//	             update();
+//	             render();
+////	             updates++;
+////	             delta --;
+//	         }
+////	         frames++;
+//	            
+////	         if(System.currentTimeMillis() - timer > 1000)
+////	         {
+////	             timer += 1000;
+////	         //  System.out.println(updates + " updates, " + frames + "fps");
+////	             fps = frames;
+////	             ups = updates;
+////	             updates = 0;
+////	             frames = 0;
+////	         }
+//	     }
+//    }
+//}
