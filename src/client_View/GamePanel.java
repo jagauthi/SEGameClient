@@ -7,6 +7,7 @@ import java.awt.event.KeyListener;
 
 import javax.swing.JPanel;
 
+import client_Controller.ChatClient;
 import client_Controller.StateMachine;
 
 @SuppressWarnings("serial")
@@ -24,12 +25,12 @@ public class GamePanel extends JPanel
 	
 	private StateMachine sm;
 	
-	public GamePanel(String[] playerInfo){
+	public GamePanel(String[] playerInfo, ChatClient client){
 		super();
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		setFocusable(true);
 		requestFocus();
-    	sm = new StateMachine(playerInfo);
+    	sm = new StateMachine(playerInfo, client);
 		addKeyListener(this);
 		running = true;
 		thread = new Thread(this);
