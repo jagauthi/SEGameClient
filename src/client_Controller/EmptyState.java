@@ -6,7 +6,6 @@ import java.awt.Image;
 import javax.swing.JFrame;
 
 import client_Model.Player;
-import client_View.GameFrame;
 
 public class EmptyState extends IState
 {
