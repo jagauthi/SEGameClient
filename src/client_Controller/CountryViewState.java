@@ -20,12 +20,13 @@ public class CountryViewState extends IState
   
     public void render(Graphics g)
     {
-    	g.setColor(Color.green);
+    	g.setColor(new Color(0.5f, 0.3f, 0.2f));
     	g.fillRect(0, 0, GamePanel.WIDTH, GamePanel.HEIGHT);
     	player.draw(g);
-    	g.setColor(Color.black);
-    	g.drawString("Name: " + player.name, 10, 10);
-    	g.drawString("Class: " + player.playerClass, 60, 60);
+    	g.setColor(Color.white);
+    	g.fillRect(0, 600, 300, 110);
+    	g.drawString("Name: " + player.getName(), 10, 10);
+    	g.drawString("HP: " + player.getHealth(), 10, 30);
     }
   
     public void onEnter()
