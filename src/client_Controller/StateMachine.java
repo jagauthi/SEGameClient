@@ -16,7 +16,8 @@ public class StateMachine //extends Thread
     EmptyState emptyState;
 	CountryViewState countryViewState;
 	BlueState blueState;
-	HashMap<String, OtherPlayer> otherPlayers = new HashMap<String, OtherPlayer>();
+	//HashMap<String, OtherPlayer> otherPlayers = new HashMap<String, OtherPlayer>();
+	public static ArrayList<OtherPlayer> otherPlayers = new ArrayList<OtherPlayer>();
 
 	Boolean started = false;
 	
@@ -39,7 +40,12 @@ public class StateMachine //extends Thread
     {
         currentState.update();
         //client.sendMessage("UPDATECHARINFO:" + player.getAllCharInfo());
-        System.out.println("UPDATECHARINFO:" + player.getAllCharInfo());
+        //System.out.println("UPDATECHARINFO:" + player.getAllCharInfo());
+    }
+    
+    public void oncePerSecondUpdate()
+    {
+    	client.sendMessage("UPDATECHARINFO:" + player.getAllCharInfo());
     }
     
     /*
@@ -47,12 +53,13 @@ public class StateMachine //extends Thread
      */
     public void updateCharsAroundMe(String[] charsAroundMe)
     {
+    	otherPlayers.clear();
     	if(charsAroundMe.length > 1)
     	{
 	    	for(int i = 1; i < charsAroundMe.length; i++)
 	    	{
 	    		String[] otherGuy = charsAroundMe[i].split(" ");
-	    		otherPlayers.put(otherGuy[0], new OtherPlayer(charsAroundMe[i], 
+	    		otherPlayers.add(new OtherPlayer(charsAroundMe[i], 
 	    				Integer.parseInt(otherGuy[1]), Integer.parseInt(otherGuy[2])));
 	    	}
     	}
