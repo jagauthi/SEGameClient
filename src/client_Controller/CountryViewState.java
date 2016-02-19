@@ -28,6 +28,17 @@ public class CountryViewState extends IState
     	g.drawString("Name: " + player.getName(), 10, 610);
     	g.drawString("HP: " + player.getHealth(), 10, 630);
     	g.drawString("Mana: " + player.getMana(), 10, 650);
+    	if(StateMachine.otherPlayers.size() > 0)
+    	{
+    		g.setColor(Color.red);
+    		for(int i = 0; i < StateMachine.otherPlayers.size(); i++)
+    		{
+    			g.fillRect(StateMachine.otherPlayers.get(i).getX(), 
+    					StateMachine.otherPlayers.get(i).getY(), 
+    					StateMachine.otherPlayers.get(i).getWidth(), 
+    					StateMachine.otherPlayers.get(i).getHeight());
+    		}
+    	}
     }
   
     public void onEnter()
