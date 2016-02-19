@@ -40,10 +40,20 @@ public class GamePanel extends JPanel
 	@Override
 	public void run() {
 		long start;
+
+        long timer = System.currentTimeMillis();
+        
 		long elapsed;
 		long wait;
 		
 		while(running){
+			
+			if(System.currentTimeMillis() - timer > 1000)
+            {
+                timer += 1000;
+                sm.oncePerSecondUpdate();
+            }
+			
 			start = System.nanoTime();
 			
 			update();
