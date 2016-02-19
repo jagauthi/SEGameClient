@@ -28,8 +28,6 @@ public class Player {
 	String spriteLocation;
 	BufferedImage spriteSheet;
 	Image sprite;
-	
-	
 
 	public Player(String[] playerInfo) 
 	{
