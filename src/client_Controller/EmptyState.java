@@ -5,9 +5,9 @@ import client_Model.Player;
 public class EmptyState extends IState
 {
 	
-	public EmptyState(Player p)
+	public EmptyState(Player p, StateMachine s)
 	{
-		super(p);
+		super(p, s);
 	}
     public void update()
     {
