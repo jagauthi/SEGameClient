@@ -15,6 +15,7 @@ public class StateMachine //extends Thread
     IState currentState;
     EmptyState emptyState;
 	CountryViewState countryViewState;
+	LocalViewState localViewState;
 	BlueState blueState;
 	//HashMap<String, OtherPlayer> otherPlayers = new HashMap<String, OtherPlayer>();
 	public static ArrayList<OtherPlayer> otherPlayers = new ArrayList<OtherPlayer>();
@@ -30,9 +31,12 @@ public class StateMachine //extends Thread
         player = new Player(playerInfo);
         client = c;
         client.setStateMachine(this);
-    	countryViewState = new CountryViewState(player);
-    	blueState = new BlueState(player);
+    	countryViewState = new CountryViewState(player, this);
+    	localViewState = new LocalViewState(player, this);
+    	blueState = new BlueState(player, this);
     	this.add("Country View State", countryViewState);
+    	this.add("Local View State", localViewState);
+    	this.add("Blue State", blueState);
         currentState = countryViewState;
     }
   
@@ -80,12 +84,21 @@ public class StateMachine //extends Thread
     	return currentState;
     }
     
-    public void changeState(){
-    	if(currentState == countryViewState){
-    		currentState = blueState;
+    public void changeState(String[] args){
+    	/*
+    	 * args can be different depending on which state it changes to.
+    	 * 
+    	 * For example, when we switch to a local state...
+    	 * args[0] = "Local View State"
+    	 * args[1] = "StartingTown"
+    	 */
+    	currentState.onExit();
+    	if(args[0].equals("Local View State"))
+    	{
+    		currentState = states.get(args[0]);
+    		currentState.loadInfo(args);
     	}
-    	else
-    		currentState =countryViewState;
+    	currentState.onEnter();
     }
    
 }
