@@ -2,15 +2,23 @@ package client_Controller;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+
+import client_Model.Location;
 import client_Model.Player;
 import client_View.GamePanel;
 
 public class CountryViewState extends IState
 {
+	ArrayList<Location> locations;
+	
 	public CountryViewState(Player p)
 	{
 		super(p);
+		locations = new ArrayList<Location>();
+		getLocations();
 	}
 	
     public void update()
@@ -61,6 +69,22 @@ public class CountryViewState extends IState
     public void onExit()
     {
         // No action to take when the state is exited
+    }
+    
+    public void getLocations()
+    {
+    	StateMachine.client.sendMessage("GETLOCATIONS:");
+    }
+    
+    public void loadLocations(String[] locs)
+    {
+    	for(int i = 1; i < locs.length; i++)
+    	{
+    		String[] thisLoc = locs[i].split(" ");
+    		locations.add(new Location(thisLoc[0], Integer.parseInt(thisLoc[1]), 
+    						Integer.parseInt(thisLoc[2]), Integer.parseInt(thisLoc[3]), 
+    						Integer.parseInt(thisLoc[4])));
+    	}
     }
     
     public void keyPressed(int keyCode){

@@ -39,4 +39,11 @@ package client_Controller;
     public void keyReleased(int keyCode){
      	
     }
+    
+    //Only used in CountryViewState, but I need it in here 
+    //So that we can call it from the chatClient
+    public void loadLocations(String[] locs)
+    {
+    	
+    }
 }

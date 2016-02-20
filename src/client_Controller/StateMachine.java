@@ -23,7 +23,7 @@ public class StateMachine //extends Thread
 	
 	Player player;
 	
-	ChatClient client;
+	static ChatClient client;
 	
     public StateMachine(String[] playerInfo, ChatClient c)
     {	
@@ -87,5 +87,5 @@ public class StateMachine //extends Thread
     	else
     		currentState =countryViewState;
     }
-    
+   
 }
