@@ -50,7 +50,9 @@ public class GamePanel extends JPanel
 			
 			if(System.currentTimeMillis() - timer > 1000)
             {
-                timer += 1000;
+				//if we make timer+=1000, it will go off once per second.
+				//if we make timer+=500, it will go off twice per second.
+                timer += 500;
                 sm.oncePerSecondUpdate();
             }
 			
@@ -87,7 +89,7 @@ public class GamePanel extends JPanel
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_SPACE){
-			sm.changeState();
+			//sm.changeState();
 		}
 		sm.getCurrentState().keyPressed(e.getKeyCode());
 	}
