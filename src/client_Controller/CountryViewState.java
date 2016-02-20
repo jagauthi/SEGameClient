@@ -14,9 +14,9 @@ public class CountryViewState extends IState
 {
 	ArrayList<Location> locations;
 	
-	public CountryViewState(Player p)
+	public CountryViewState(Player p, StateMachine s)
 	{
-		super(p);
+		super(p, s);
 		locations = new ArrayList<Location>();
 		getLocations();
 	}
@@ -24,6 +24,7 @@ public class CountryViewState extends IState
     public void update()
     {
         player.update();
+        checkPlayerIntersectLocation();
     }
   
     public void render(Graphics g)
@@ -36,6 +37,13 @@ public class CountryViewState extends IState
     	g.drawString("Name: " + player.getName(), 10, 610);
     	g.drawString("HP: " + player.getHealth(), 10, 630);
     	g.drawString("Mana: " + player.getMana(), 10, 650);
+    	
+    	drawOtherPlayers(g);
+    	drawLocations(g);
+    }
+    
+    public void drawOtherPlayers(Graphics g)
+    {
     	if(StateMachine.otherPlayers.size() > 0)
     	{
     		g.setColor(Color.red);
@@ -60,6 +68,19 @@ public class CountryViewState extends IState
     		}
     	}
     }
+    
+    public void drawLocations(Graphics g)
+    {
+    	if(locations.size() > 0)
+    	{
+    		g.setColor(Color.magenta);
+    		for(int i = 0; i < locations.size(); i++)
+    		{
+    			g.fillRect(locations.get(i).getX(), locations.get(i).getY(), 
+    					Location.WIDTH, Location.HEIGHT);
+    		}
+    	}
+    }
   
     public void onEnter()
     {
@@ -73,17 +94,16 @@ public class CountryViewState extends IState
     
     public void getLocations()
     {
-    	StateMachine.client.sendMessage("GETLOCATIONS:");
+    	StateMachine.client.sendMessage("GETLOCATIONS");
     }
     
-    public void loadLocations(String[] locs)
+    public void loadInfo(String[] locs)
     {
     	for(int i = 1; i < locs.length; i++)
     	{
     		String[] thisLoc = locs[i].split(" ");
     		locations.add(new Location(thisLoc[0], Integer.parseInt(thisLoc[1]), 
-    						Integer.parseInt(thisLoc[2]), Integer.parseInt(thisLoc[3]), 
-    						Integer.parseInt(thisLoc[4])));
+    						Integer.parseInt(thisLoc[2])));
     	}
     }
     
@@ -120,5 +140,18 @@ public class CountryViewState extends IState
     	if(keyCode == KeyEvent.VK_D){
     		player.stopRight();
 		}
+    }
+    
+    public void checkPlayerIntersectLocation()
+    {
+    	for(int i = 0; i < locations.size(); i++)
+    	{
+    		if(player.getPlayerRect().intersects(locations.get(i).getLocRect()))
+    		{
+    			//Switch to local view state, pass name of the location we're entering
+    			String[] args = { "Local View State", locations.get(i).getName() };
+    			sm.changeState(args);
+    		}
+    	}
     }
 }
