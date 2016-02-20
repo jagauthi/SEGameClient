@@ -147,7 +147,7 @@ public class ChatClient extends Thread{
 	            }
 	            else if (message[0].equals("loadLocations")) { 
 	            	//charUpdated:char1Name char1x char1y:char2Name char2x char2y:...
-	            	sm.currentState.loadLocations(message);
+	            	sm.currentState.loadInfo(message);
 	            }
 	            else
 	            {
