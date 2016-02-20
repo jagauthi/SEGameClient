@@ -8,6 +8,8 @@ import client_View.GamePanel;
 
 public class LocalViewState extends IState{
 	
+	int xOffset, yOffset = 0;
+	
 	public LocalViewState(Player p, StateMachine s)
 	{
 		super(p, s);
@@ -20,6 +22,9 @@ public class LocalViewState extends IState{
   
     public void render(Graphics g)
     {
+    	xOffset = player.getX()-GamePanel.WIDTH/2;
+    	yOffset = player.getY()-GamePanel.HEIGHT/2;
+    	
     	g.setColor(new Color(0.8f, 0.5f, 0.8f));
     	g.fillRect(0, 0, GamePanel.WIDTH, GamePanel.HEIGHT);
     	player.draw(g);
@@ -50,8 +55,8 @@ public class LocalViewState extends IState{
     			
     			if(!StateMachine.otherPlayers.get(i).getName().equals(player.getName()))
     			{
-	    			g.fillRect(StateMachine.otherPlayers.get(i).getX(), 
-	    					StateMachine.otherPlayers.get(i).getY(), 
+	    			g.fillRect(StateMachine.otherPlayers.get(i).getX() - xOffset, 
+	    					StateMachine.otherPlayers.get(i).getY()- yOffset, 
 	    					StateMachine.otherPlayers.get(i).getWidth(), 
 	    					StateMachine.otherPlayers.get(i).getHeight());
     			}
