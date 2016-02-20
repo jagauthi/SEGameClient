@@ -6,10 +6,12 @@ package client_Controller;
  public class IState
  {
  	Player player;
+ 	StateMachine sm;
  	
- 	public IState(Player p)
+ 	public IState(Player p, StateMachine s)
  	{
  		player = p;
+ 		sm = s;
  	}
  	
     public void update()
@@ -42,7 +44,7 @@ package client_Controller;
     
     //Only used in CountryViewState, but I need it in here 
     //So that we can call it from the chatClient
-    public void loadLocations(String[] locs)
+    public void loadInfo(String[] args)
     {
     	
     }
