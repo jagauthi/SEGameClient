@@ -9,10 +9,10 @@ import client_View.GamePanel;
 
 public class BlueState extends IState{
 	
-	public BlueState(Player p) {
-		super(p);
-		// TODO Auto-generated constructor stub
+	public BlueState(Player p, StateMachine s) {
+		super(p, s);
 	}
+	
     public void update()
     {
         player.update();
