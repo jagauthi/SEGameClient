@@ -271,7 +271,7 @@ public class Player {
 			x+=speed;
 		}
 		
-		if(x < 0)
+	/*	if(x < 0)
 			x=0;
 			
 		if(y < 0)
@@ -282,6 +282,7 @@ public class Player {
 		
 		if(y > GamePanel.HEIGHT - this.HEIGHT)
 			y = GamePanel.HEIGHT - this.HEIGHT;
+	*/
 		
 		playerRect.setBounds(x, y, WIDTH, HEIGHT);
 	}
@@ -289,8 +290,12 @@ public class Player {
 	public void draw(Graphics g){
 		if(sprite != null){
 			setSprite();
-			g.drawImage(sprite, x, y, WIDTH, HEIGHT, null);
-		} else {
+			g.drawImage(sprite, GamePanel.WIDTH/2, GamePanel.HEIGHT/2, WIDTH, HEIGHT, null);
+//			g.drawImage(sprite, x, y, WIDTH, HEIGHT, null);
+//			g.setColor(Color.black);
+//			g.fillRect(GamePanel.WIDTH/2, GamePanel.HEIGHT/2, WIDTH, HEIGHT);
+		} 
+		else {
 			g.setColor(Color.black);
 			g.fillRect(x, y, WIDTH, HEIGHT);
 		}
