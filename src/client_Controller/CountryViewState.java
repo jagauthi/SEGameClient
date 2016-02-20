@@ -19,7 +19,7 @@ public class CountryViewState extends IState
 {
 	ArrayList<Location> locations;
 	Image map;
-	int xOffset, yOffset;
+	int xOffset, yOffset = 0;
 	
 	public CountryViewState(Player p, StateMachine s)
 	{
@@ -49,6 +49,13 @@ public class CountryViewState extends IState
     	xOffset = player.getX()-GamePanel.WIDTH/2;
     	yOffset = player.getY()-GamePanel.HEIGHT/2;
 		g.drawImage(map, 0-xOffset, 0-yOffset, map.getWidth(null), map.getHeight(null), null);
+		/*
+		 * The next three are just so that there is a fuller map to play on, instead
+		 * of starting in the top left corner of the map.
+		 */
+		g.drawImage(map, 0-xOffset-map.getWidth(null), 0-yOffset, map.getWidth(null), map.getHeight(null), null);
+		g.drawImage(map, 0-xOffset, 0-yOffset-map.getHeight(null), map.getWidth(null), map.getHeight(null), null);
+		g.drawImage(map, 0-xOffset-map.getWidth(null), 0-yOffset-map.getHeight(null), map.getWidth(null), map.getHeight(null), null);
 //		g.drawImage(map, 0, 0, map.getWidth(null), map.getHeight(null), null);
 
     	g.setColor(new Color(0.5f, 0.3f, 0.2f));
