@@ -2,9 +2,14 @@ package client_Controller;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 
 import client_Model.Location;
 import client_Model.Player;
@@ -13,12 +18,24 @@ import client_View.GamePanel;
 public class CountryViewState extends IState
 {
 	ArrayList<Location> locations;
+	Image map;
+	int xOffset, yOffset;
 	
 	public CountryViewState(Player p, StateMachine s)
 	{
 		super(p, s);
 		locations = new ArrayList<Location>();
 		getLocations();
+		
+		String mapLocation = "resources/FFMap.png";
+    	map = null;
+
+		try {
+            map = ImageIO.read(new File(mapLocation));
+        } 
+		catch (IOException ioe) {
+            System.out.println("Unable to load image file.");
+        }
 	}
 	
     public void update()
@@ -29,11 +46,17 @@ public class CountryViewState extends IState
   
     public void render(Graphics g)
     {
+    	xOffset = player.getX()-GamePanel.WIDTH/2;
+    	yOffset = player.getY()-GamePanel.HEIGHT/2;
+		g.drawImage(map, 0-xOffset, 0-yOffset, map.getWidth(null), map.getHeight(null), null);
+//		g.drawImage(map, 0, 0, map.getWidth(null), map.getHeight(null), null);
+
     	g.setColor(new Color(0.5f, 0.3f, 0.2f));
-    	g.fillRect(0, 0, GamePanel.WIDTH, GamePanel.HEIGHT);
+    	//g.fillRect(0, 0, GamePanel.WIDTH, GamePanel.HEIGHT);
     	player.draw(g);
     	g.setColor(Color.lightGray);
     	g.fillRect(0, 600, 300, 120);
+    	g.setColor(Color.black);
     	g.drawString("Name: " + player.getName(), 10, 610);
     	g.drawString("HP: " + player.getHealth(), 10, 630);
     	g.drawString("Mana: " + player.getMana(), 10, 650);
@@ -60,10 +83,14 @@ public class CountryViewState extends IState
     			
     			if(!StateMachine.otherPlayers.get(i).getName().equals(player.getName()))
     			{
-	    			g.fillRect(StateMachine.otherPlayers.get(i).getX(), 
-	    					StateMachine.otherPlayers.get(i).getY(), 
+	    			g.fillRect(StateMachine.otherPlayers.get(i).getX()-xOffset, 
+	    					StateMachine.otherPlayers.get(i).getY()-yOffset, 
 	    					StateMachine.otherPlayers.get(i).getWidth(), 
 	    					StateMachine.otherPlayers.get(i).getHeight());
+//    				g.fillRect(StateMachine.otherPlayers.get(i).getX(), 
+//	    					StateMachine.otherPlayers.get(i).getY(), 
+//	    					StateMachine.otherPlayers.get(i).getWidth(), 
+//	    					StateMachine.otherPlayers.get(i).getHeight());
     			}
     		}
     	}
@@ -76,8 +103,10 @@ public class CountryViewState extends IState
     		g.setColor(Color.magenta);
     		for(int i = 0; i < locations.size(); i++)
     		{
-    			g.fillRect(locations.get(i).getX(), locations.get(i).getY(), 
+    			g.fillRect(locations.get(i).getX()-xOffset, locations.get(i).getY()-yOffset, 
     					Location.WIDTH, Location.HEIGHT);
+//    			g.fillRect(locations.get(i).getX(), locations.get(i).getY(), 
+//    					Location.WIDTH, Location.HEIGHT);
     		}
     	}
     }
@@ -124,7 +153,9 @@ public class CountryViewState extends IState
     		player.moveRight();
     		player.stopLeft();
 		}
-    	
+    	if(keyCode == KeyEvent.VK_SPACE){
+
+		}
     }
     
     public void keyReleased(int keyCode){
