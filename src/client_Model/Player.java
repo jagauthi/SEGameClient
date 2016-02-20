@@ -28,6 +28,7 @@ public class Player {
 	String spriteLocation;
 	BufferedImage spriteSheet;
 	Image sprite;
+	Rectangle playerRect;
 
 	public Player(String[] playerInfo) 
 	{
@@ -69,6 +70,7 @@ public class Player {
 		movingDown = false;
 		movingLeft = false;
 		movingRight = false;
+		playerRect = new Rectangle(x, y, WIDTH, HEIGHT);
 		
 		spriteLocation = "resources/Sprites/bobB.gif";
 
@@ -245,25 +247,43 @@ public class Player {
 	{
 		return HEIGHT;
 	}
+	
+	public Rectangle getPlayerRect()
+	{
+		return playerRect;
+	}
 
 	public void update()
 	{
 		if(movingUp){
 			y-=speed;
 		}
+		
 		if(movingDown){
 			y+=speed;
 		}
+		
 		if(movingLeft){
 			x-=speed;
 		}
+		
 		if(movingRight){
 			x+=speed;
 		}
-		if(x < 0){x=0;}
-		if(y < 0){y=0;}
-		if(x > GamePanel.WIDTH - this.WIDTH){x = GamePanel.WIDTH - this.WIDTH;}
-		if(y > GamePanel.HEIGHT - this.HEIGHT){y = GamePanel.HEIGHT - this.HEIGHT;}
+		
+		if(x < 0)
+			x=0;
+			
+		if(y < 0)
+			y=0;
+		
+		if(x > GamePanel.WIDTH - this.WIDTH)
+			x = GamePanel.WIDTH - this.WIDTH;
+		
+		if(y > GamePanel.HEIGHT - this.HEIGHT)
+			y = GamePanel.HEIGHT - this.HEIGHT;
+		
+		playerRect.setBounds(x, y, WIDTH, HEIGHT);
 	}
 	
 	public void draw(Graphics g){
