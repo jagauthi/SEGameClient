@@ -7,9 +7,11 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
+import client_Controller.Animation;
 import client_Controller.Main;
 import client_View.GamePanel;
 
@@ -21,13 +23,26 @@ public class Player {
 	
 	int speed;
 	Boolean movingUp, movingDown, movingLeft, movingRight;
-	final int WIDTH = 40;
-	final int HEIGHT = 60;
+	final int WIDTH = 16;
+	final int HEIGHT = 26;
+	final int SCALE = 2;
 	long tookDamageTime;
 	
-	String spriteLocation;
-	BufferedImage spriteSheet;
-	Image sprite;
+	private Animation animation;
+	private BufferedImage spriteSheet;
+	private ArrayList<BufferedImage[]> sprites;
+	private boolean spritesLoaded;
+	private final int numFrames[] = {1, 4, 4, 4, 4};
+	private Color eyeColor, eyeColor2;
+	
+	private int currentAnimation;
+	private static final int IDLE = 0;
+	private static final int MOVINGUP = 1;
+	private static final int MOVINGLEFT = 2;
+	private static final int MOVINGDOWN = 3;
+	private static final int MOVINGRIGHT = 4;
+	private static final int DELAY = 150;
+	
 	Rectangle playerRect;
 
 	public Player(String[] playerInfo) 
@@ -65,23 +80,68 @@ public class Player {
 					+ 	"00000000000000000000000000000000000000000000000000"
 					+ 	"0000000000000000000000000000000000000000000000000000000";
 		
-		speed = 10;
+		speed = 5;
 		movingUp = false;
 		movingDown = false;
 		movingLeft = false;
 		movingRight = false;
 		playerRect = new Rectangle(x, y, WIDTH, HEIGHT);
 		
-		spriteLocation = "resources/Sprites/bobB.gif";
-
-		try {
-            spriteSheet = ImageIO.read(new File(spriteLocation));
-        } catch (IOException ioe) {
-            System.out.println("Unable to load image file.");
-        }
-		if(spriteSheet != null){
-			sprite = spriteSheet.getSubimage(0,120,WIDTH,HEIGHT);
+		animation = new Animation();
+		spritesLoaded = false;
+		
+		eyeColor = null;
+		loadSprites("resources/Sprites/SpriteTemplet.gif");
+	}
+	
+	public boolean loadSprites(String filePath){
+		sprites = new ArrayList<BufferedImage[]>();
+		try{
+			if(filePath == null){
+				//Load each of the armor pieces if not specified a sprite page
+				//For now this is hard coded but file path will depend on how we do inventory
+				BufferedImage head = ImageIO.read(new File("resources/Head/head.gif"));
+				BufferedImage arms = ImageIO.read(new File("resources/Arms/arms.gif"));
+				BufferedImage chest = ImageIO.read(new File("resources/Chest/chest.gif"));
+				BufferedImage legs = ImageIO.read(new File("resources/Legs/legs.gif"));
+				BufferedImage feet = ImageIO.read(new File("resources/Feet/feet.gif"));
+				
+				//Combine each of of the armor pieces into one image
+				spriteSheet = new BufferedImage(head.getWidth(), head.getHeight(), BufferedImage.TYPE_INT_ARGB);
+				Graphics g = spriteSheet.getGraphics();
+				g.drawImage(head, 0, 0, null);
+				g.drawImage(arms, 0, 0, null);
+				g.drawImage(chest, 0, 0, null);
+				g.drawImage(legs, 0, 0, null);
+				g.drawImage(feet, 0, 0, null);
+			} else {
+				//Load spriteSheet if given one
+				spriteSheet = ImageIO.read(new File(filePath));
+			}
+			
+			//Slice the spriteSheet into arrays of frames for animations
+			for( int n = 0; n < numFrames.length; n++){
+				BufferedImage[] temp = new BufferedImage[numFrames[n]];
+				for(int m = 0; m < numFrames[n]; m++){
+					temp[m] = spriteSheet.getSubimage(WIDTH * m * SCALE, HEIGHT * n * SCALE, WIDTH * SCALE, HEIGHT * SCALE);
+				}
+				sprites.add(temp);
+			}
+			
+			//default to IDEL animation
+			currentAnimation = IDLE;
+			animation.setFrames(sprites.get(IDLE));
+			animation.setCurrentFrame(0);
+			animation.setDelay(-1);
+			
+			spritesLoaded = true;
+		
+		} catch(Exception e){
+			e.printStackTrace();
+			spritesLoaded =  false;
 		}
+		return spritesLoaded;
+		
 	}
 	
 	public String getAllCharInfo()
@@ -211,14 +271,6 @@ public class Player {
 	public void setSpeed(int speed) {
 		this.speed = speed;
 	}
-
-	public Image getSprite() {
-		return sprite;
-	}
-
-	public void setSprite(Image sprite) {
-		this.sprite = sprite;
-	}
 	
 	public int getX()
 	{
@@ -270,25 +322,62 @@ public class Player {
 		if(movingRight){
 			x+=speed;
 		}
-		
-	/*	if(x < 0)
-			x=0;
+	
+		//animation Update
+		if(spritesLoaded){
+			if( !movingDown & movingUp & currentAnimation != MOVINGUP)
+			{
+				currentAnimation = MOVINGUP;
+				animation.setFrames(sprites.get(MOVINGUP));
+				animation.setDelay(DELAY);
+			} 
+			else if(!movingUp & movingDown & currentAnimation != MOVINGDOWN)
+			{
+				currentAnimation = MOVINGDOWN;
+				animation.setFrames(sprites.get(MOVINGDOWN));
+				animation.setDelay(DELAY);
+			} 
+			else if((!movingDown & !movingUp) &&  !movingLeft & movingRight && currentAnimation != MOVINGRIGHT)
+			{
+				currentAnimation = MOVINGRIGHT;
+				animation.setFrames(sprites.get(MOVINGRIGHT));
+				animation.setDelay(DELAY);
+			} 
+			else if((!movingDown & !movingUp) && !movingRight & movingLeft && currentAnimation != MOVINGLEFT)
+			{
+				currentAnimation = MOVINGLEFT;
+				animation.setFrames(sprites.get(MOVINGLEFT));
+				animation.setDelay(DELAY);
+			} 
 			
-		if(y < 0)
-			y=0;
-		
-		if(x > GamePanel.WIDTH - this.WIDTH)
-			x = GamePanel.WIDTH - this.WIDTH;
-		
-		if(y > GamePanel.HEIGHT - this.HEIGHT)
-			y = GamePanel.HEIGHT - this.HEIGHT;
-	*/
+			else  if((movingDown & movingUp) | (movingRight & movingLeft) | 
+					(!movingLeft & !movingRight & !movingUp & !movingDown & currentAnimation != IDLE))
+			{
+				currentAnimation = IDLE;
+				animation.setCurrentFrame(0);
+				animation.setDelay(-1);
+			}
+			animation.update();
+		}
 		
 		playerRect.setBounds(x, y, WIDTH, HEIGHT);
 	}
 	
 	public void draw(Graphics g){
-		if(sprite != null){
+		if(spritesLoaded){
+			g.drawImage(animation.getImage() , GamePanel.WIDTH/2, GamePanel.HEIGHT/2, null);
+			drawEyes(g);
+		}
+		else {
+			g.setColor(Color.black);
+			g.fillRect(GamePanel.WIDTH/2, GamePanel.HEIGHT/2, WIDTH*SCALE, HEIGHT*SCALE);
+		}
+	}
+	
+	/*
+	 
+	 
+	 if(sprite != null){
 			setSprite();
 			g.drawImage(sprite, GamePanel.WIDTH/2, GamePanel.HEIGHT/2, WIDTH, HEIGHT, null);
 //			g.drawImage(sprite, x, y, WIDTH, HEIGHT, null);
@@ -299,24 +388,38 @@ public class Player {
 			g.setColor(Color.black);
 			g.fillRect(x, y, WIDTH, HEIGHT);
 		}
-	}
+	 
+	 
+	 */
 	
-	public void setSprite(){
-		if(spriteSheet != null){
-			if(movingUp){
-				sprite = spriteSheet.getSubimage(0,0,WIDTH,HEIGHT);
-			} else if(movingDown){
-				sprite = spriteSheet.getSubimage(0,120,WIDTH,HEIGHT);
-			} else if(movingLeft){
-				sprite = spriteSheet.getSubimage(0,180,WIDTH,HEIGHT);
-			} else if(movingRight){
-				sprite = spriteSheet.getSubimage(0,60,WIDTH,HEIGHT);
-			} else {
-				//sprite = spriteSheet.getSubimage(0,120,WIDTH,HEIGHT);
-			}
+	public void drawEyes(Graphics g){
+		if(eyeColor == null){
+			return;
+		}
+		else if(currentAnimation == IDLE | currentAnimation == MOVINGDOWN)
+		{
+			g.setColor(eyeColor);
+			g.fillRect(x+(6*SCALE), y+(8*SCALE), 2, 2);
+			g.fillRect(x+(9*SCALE), y+(8*SCALE), 2, 2);
+			g.setColor(eyeColor2);
+			g.fillRect(x+(6*SCALE), y+(7*SCALE), 2, 2);
+			g.fillRect(x+(9*SCALE), y+(7*SCALE), 2, 2);
+		} 
+		else if (currentAnimation == MOVINGLEFT)
+		{
+			g.setColor(eyeColor);
+			g.fillRect(x+(4*SCALE), y+(8*SCALE), 2, 2);
+			g.setColor(eyeColor2);
+			g.fillRect(x+(4*SCALE), y+(7*SCALE), 2, 2);
+		} 
+		else if (currentAnimation == MOVINGRIGHT)
+		{
+			g.setColor(eyeColor);
+			g.fillRect(x+(11*SCALE), y+(8*SCALE), 2, 2);
+			g.setColor(eyeColor2);
+			g.fillRect(x+(11*SCALE), y+(7*SCALE), 2, 2);
 		}
 	}
-	
 	
 	public void changeX(int xin){
 		x+=xin;
@@ -327,19 +430,31 @@ public class Player {
 	}
 	
 	public void moveUp(){
-		movingUp = true;
+		if(movingUp == false){
+			movingUp = true;
+			animation.setCurrentFrame(1);
+		}
 	}
 	
 	public void moveDown(){
-		movingDown = true;
+		if(movingDown == false){
+			movingDown = true;
+			animation.setCurrentFrame(1);
+		}
 	}
 	
 	public void moveLeft(){
-		movingLeft = true;
+		if(movingLeft == false){
+			movingLeft = true;
+			animation.setCurrentFrame(1);
+		}
 	}
 	
 	public void moveRight(){
-		movingRight = true;
+		if(movingRight == false){
+			movingRight = true;
+			animation.setCurrentFrame(1);
+		}
 	}
 	
 	public void stopUp(){
@@ -358,5 +473,9 @@ public class Player {
 		movingRight = false;
 	}
 	
+	public void setEyeColor(Color c, Color c2){
+		eyeColor = c;
+		eyeColor2 = c2;
+	}
 
 }
