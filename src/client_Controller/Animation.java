@@ -1,4 +1,4 @@
-package client_Model;
+package client_Controller;
 
 import java.awt.image.BufferedImage;
 
