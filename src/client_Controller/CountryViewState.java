@@ -3,7 +3,6 @@ package client_Controller;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
@@ -18,8 +17,9 @@ import client_View.GamePanel;
 public class CountryViewState extends IState
 {
 	ArrayList<Location> locations;
-	Image map;
+	Image mapImage;
 	int xOffset, yOffset = 0;
+	double randomEncounterChance = 0.0;
 	
 	public CountryViewState(Player p, StateMachine s)
 	{
@@ -27,15 +27,16 @@ public class CountryViewState extends IState
 		locations = new ArrayList<Location>();
 		getLocations();
 		
-		String mapLocation = "resources/FFMap.png";
-    	map = null;
+		String mapLocation = "resources/ZeldaMap.jpg";
+    	mapImage = null;
 
 		try {
-            map = ImageIO.read(new File(mapLocation));
+			mapImage = ImageIO.read(new File(mapLocation));
         } 
 		catch (IOException ioe) {
             System.out.println("Unable to load image file.");
         }
+		//loadMap();
 	}
 	
     public void update()
@@ -48,14 +49,14 @@ public class CountryViewState extends IState
     {
     	xOffset = player.getX()-GamePanel.WIDTH/2;
     	yOffset = player.getY()-GamePanel.HEIGHT/2;
-		g.drawImage(map, 0-xOffset, 0-yOffset, map.getWidth(null), map.getHeight(null), null);
+		g.drawImage(mapImage, 0-xOffset, 0-yOffset, mapImage.getWidth(null), mapImage.getHeight(null), null);
 		/*
 		 * The next three are just so that there is a fuller map to play on, instead
 		 * of starting in the top left corner of the map.
 		 */
-		g.drawImage(map, 0-xOffset-map.getWidth(null), 0-yOffset, map.getWidth(null), map.getHeight(null), null);
-		g.drawImage(map, 0-xOffset, 0-yOffset-map.getHeight(null), map.getWidth(null), map.getHeight(null), null);
-		g.drawImage(map, 0-xOffset-map.getWidth(null), 0-yOffset-map.getHeight(null), map.getWidth(null), map.getHeight(null), null);
+		g.drawImage(mapImage, 0-xOffset-mapImage.getWidth(null), 0-yOffset, mapImage.getWidth(null), mapImage.getHeight(null), null);
+		g.drawImage(mapImage, 0-xOffset, 0-yOffset-mapImage.getHeight(null), mapImage.getWidth(null), mapImage.getHeight(null), null);
+		g.drawImage(mapImage, 0-xOffset-mapImage.getWidth(null), 0-yOffset-mapImage.getHeight(null), mapImage.getWidth(null), mapImage.getHeight(null), null);
 //		g.drawImage(map, 0, 0, map.getWidth(null), map.getHeight(null), null);
 
     	g.setColor(new Color(0.5f, 0.3f, 0.2f));

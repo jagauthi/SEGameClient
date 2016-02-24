@@ -2,17 +2,14 @@ package client_Model;
  
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
 import client_Controller.Animation;
-import client_Controller.Main;
 import client_View.GamePanel;
 
 public class Player {

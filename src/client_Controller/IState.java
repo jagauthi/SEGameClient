@@ -1,17 +1,26 @@
 package client_Controller;
  
  import java.awt.Graphics;
- import client_Model.Player;
+import java.util.HashMap;
+
+import client_Model.Player;
  
  public class IState
  {
  	Player player;
  	StateMachine sm;
+ 	HashMap<Integer, HashMap<Integer, Tile>> map;
  	
  	public IState(Player p, StateMachine s)
  	{
  		player = p;
  		sm = s;
+ 		map = new HashMap<Integer, HashMap<Integer, Tile>>();
+ 	}
+ 	
+ 	public void loadMap()
+ 	{
+ 		
  	}
  	
     public void update()
