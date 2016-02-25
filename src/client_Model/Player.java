@@ -14,10 +14,10 @@ import client_View.GamePanel;
 
 public class Player {
 	
-	String name, playerClass, gender, abilities, cooldowns;
-	int level, health, mana, experience, x, y, gold;
+	String name, playerClass, loggedIn, gender, abilities, cooldowns;
+	String location, clanName;
+	int level, health, mana, experience, pointsToSpend, x, y, gold;
 	int strength, dexterity, constitution, intelligence, willpower, luck;
-	
 	int speed;
 	Boolean movingUp, movingDown, movingLeft, movingRight;
 	final int WIDTH = 16;
@@ -45,37 +45,31 @@ public class Player {
 	public Player(String[] playerInfo) 
 	{
 		//The first element of this array is the thing that just says "LoginSuccess", so don't look at the first element in the array when loading player info.
-		//"characterInfo", name, class, level, gender, health, mana, experience, xCoord, yCoord, gold, 
-				// strength, dexterity, constitution, intelligence, willpower, luck, abilities, cooldown
+		//"characterInfo", name, class, logggedIn, level, gender, health, mana, exp, pointsToSpend, xCoord, yCoord, 
+			//location, clanName, str, dex, con, int, wil, luck, abilities, cooldown
 		name = playerInfo[1];
 		playerClass = playerInfo[2];
-		level = Integer.parseInt(playerInfo[3]);
-		gender = playerInfo[4];
-		health = Integer.parseInt(playerInfo[5]);
-		mana = Integer.parseInt(playerInfo[6]);
-		experience = Integer.parseInt(playerInfo[7]);
-		x = Integer.parseInt(playerInfo[8]);
-		y = Integer.parseInt(playerInfo[9]);
-		gold = Integer.parseInt(playerInfo[10]);
+		loggedIn = "1";
+		level = Integer.parseInt(playerInfo[4]);
+		gender = playerInfo[5];
+		health = Integer.parseInt(playerInfo[6]);
+		mana = Integer.parseInt(playerInfo[7]);
+		experience = Integer.parseInt(playerInfo[8]);
+		pointsToSpend = Integer.parseInt(playerInfo[9]);
+		x = Integer.parseInt(playerInfo[10]);
+		y = Integer.parseInt(playerInfo[11]);
+		location = playerInfo[12];
+		clanName = playerInfo[13];
 		
-		strength = Integer.parseInt(playerInfo[11]);
-		dexterity = Integer.parseInt(playerInfo[12]);
-		constitution = Integer.parseInt(playerInfo[13]);
-		intelligence = Integer.parseInt(playerInfo[14]);
-		willpower = Integer.parseInt(playerInfo[15]);
-		luck = Integer.parseInt(playerInfo[16]);
+		strength = Integer.parseInt(playerInfo[14]);
+		dexterity = Integer.parseInt(playerInfo[15]);
+		constitution = Integer.parseInt(playerInfo[16]);
+		intelligence = Integer.parseInt(playerInfo[17]);
+		willpower = Integer.parseInt(playerInfo[18]);
+		luck = Integer.parseInt(playerInfo[19]);
 		
-		//255 zeros
-		abilities = 	"00000000000000000000000000000000000000000000000000"
-					+ 	"00000000000000000000000000000000000000000000000000"
-					+	"00000000000000000000000000000000000000000000000000"
-					+	"00000000000000000000000000000000000000000000000000"
-					+	"0000000000000000000000000000000000000000000000000000000";
-		cooldowns = 	"00000000000000000000000000000000000000000000000000"
-					+	"00000000000000000000000000000000000000000000000000"
-					+ 	"00000000000000000000000000000000000000000000000000"
-					+ 	"00000000000000000000000000000000000000000000000000"
-					+ 	"0000000000000000000000000000000000000000000000000000000";
+		abilities = playerInfo[20];
+		cooldowns = playerInfo[21];
 		
 		speed = 5;
 		movingUp = false;
@@ -143,10 +137,10 @@ public class Player {
 	
 	public String getAllCharInfo()
 	{
-		//charName, class, level, gender, str, dex, con, int, wil, luck, exp, xCoord, yCoord, gold, abilities, cooldowns
-		return name + ":" + playerClass + ":" + level + ":" + gender + ":" + strength + ":" + dexterity + ":" + 
-				constitution + ":" + intelligence + ":" + willpower + ":" + luck + ":" + experience + ":" + 
-				x + ":" + y + ":" + gold + ":" + abilities + ":" + cooldowns;
+		//charName, loggedIn, class, level, gender, str, dex, con, int, wil, luck, exp, pointsToSpend, xCoord, yCoord, location, clanName, abilities, cooldowns
+		return name + ":" + loggedIn + ":" + playerClass + ":" + level + ":" + gender + ":" + strength + ":" + dexterity + ":" + 
+				constitution + ":" + intelligence + ":" + willpower + ":" + luck + ":" + experience + ":" + pointsToSpend + ":" +
+				x + ":" + y + ":" + location + ":" + clanName + ":" + abilities + ":" + cooldowns;
 	}
 	
 	public String getName() {
@@ -300,6 +294,11 @@ public class Player {
 	public Rectangle getPlayerRect()
 	{
 		return playerRect;
+	}
+	
+	public void setLoggedIn(String newLoggedIn)
+	{
+		loggedIn = newLoggedIn;
 	}
 
 	public void update()
