@@ -38,6 +38,12 @@ public class StateMachine //extends Thread
     	this.add("Blue State", blueState);
         currentState = countryViewState;
     }
+    
+    public void finalize()
+    {
+    	player.setLoggedIn("0");
+    	client.sendMessage("UPDATECHARINFO:" + player.getAllCharInfo());
+    }
   
     public void update()
     {
