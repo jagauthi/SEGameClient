@@ -138,7 +138,7 @@ public class ChatClient extends Thread{
 	            	launcher.backToCharSelect();
 	            }
 	            else if (message[0].equals("characterInfo")) { 
-	            	//name, class, level, gender, health, mana, experience, xCoord, yCoord, gold, strength, dexterituy, constitution, intelgence, willpower, luck, abilities, cooldown
+	            	//name, class, logggedIn, level, gender, health, mana, exp, pointsToSpend, xCoord, yCoord, location, clanName, str, dex, con, int, wil, luck, abilities, cooldown
 	            	launcher.intoGame(message);
 	            }
 	            else if (message[0].equals("charUpdated")) { 
