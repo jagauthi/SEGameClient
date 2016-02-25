@@ -816,8 +816,10 @@ public class Launcher{
 	
 	public void manageAccount(String[] securityInfo)
 	{
-		//"securityInfo", username, password, email, secQuestion1, secAnswer1, secQuestion2, secAnswer2
-		acctInfo = new String[7];
+		for(int i = 1; i < securityInfo.length; i++)
+			System.out.println(securityInfo[i]);
+		//"securityInfo", username, password, email, secQuestion1, secAnswer1, secQuestion2, secAnswer2, macAddress, lastLoginTime
+		acctInfo = new String[9];
 		acctInfo[0] = securityInfo[1];
 		acctInfo[1] = securityInfo[2];
 		acctInfo[2] = securityInfo[3];
@@ -825,6 +827,8 @@ public class Launcher{
 		acctInfo[4] = securityInfo[5];
 		acctInfo[5] = securityInfo[6];
 		acctInfo[6] = securityInfo[7];
+		acctInfo[7] = securityInfo[8];
+		acctInfo[8] = securityInfo[9];
 		
 		Boolean correctSecAnswer = false;
 		int count = 0;
