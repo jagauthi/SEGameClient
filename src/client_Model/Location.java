@@ -6,8 +6,8 @@ public class Location {
 	
 	String name;
 	int x, y;
-	public final static int WIDTH = 80;
-	public final static int HEIGHT = 80;
+	public final static int WIDTH = 2;
+	public final static int HEIGHT = 2;
 	Rectangle locRect;
 	
 	public Location(String n, int x, int y)
