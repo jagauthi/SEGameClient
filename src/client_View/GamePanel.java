@@ -52,7 +52,7 @@ public class GamePanel extends JPanel
             {
 				//if we make timer+=1000, it will go off once per second.
 				//if we make timer+=500, it will go off twice per second.
-                timer += 1000;
+                timer += 500;
                 sm.oncePerSecondUpdate();
             }
 			
