@@ -149,6 +149,9 @@ public class ChatClient extends Thread{
 	            	//charUpdated:char1Name char1x char1y:char2Name char2x char2y:...
 	            	sm.currentState.loadInfo(message);
 	            }
+	            else if(message[0].equals("localInfo")) {
+	            	sm.currentState.loadInfo(message);
+	            }
 	            else
 	            {
 	            	System.out.println("Not sure how to handle this error... the error is: ");
