@@ -41,26 +41,30 @@ public class CountryViewState extends IState
 	
     public void update()
     {
-        player.update();
+        //player.update();
+        //checkPlayerIntersectLocation();
+    }
+    
+    public void oncePerSecondUpdate()
+    {
+    	player.update();
         checkPlayerIntersectLocation();
     }
   
     public void render(Graphics g)
     {
-    	xOffset = player.getX()-GamePanel.WIDTH/2;
-    	yOffset = player.getY()-GamePanel.HEIGHT/2;
+    	xOffset = (player.getX() * Tile.WIDTH) - GamePanel.WIDTH/2;
+    	yOffset = (player.getY() * Tile.HEIGHT) - GamePanel.HEIGHT/2;
 		g.drawImage(mapImage, 0-xOffset, 0-yOffset, mapImage.getWidth(null), mapImage.getHeight(null), null);
 		/*
 		 * The next three are just so that there is a fuller map to play on, instead
 		 * of starting in the top left corner of the map.
-		 */
+		 
 		g.drawImage(mapImage, 0-xOffset-mapImage.getWidth(null), 0-yOffset, mapImage.getWidth(null), mapImage.getHeight(null), null);
 		g.drawImage(mapImage, 0-xOffset, 0-yOffset-mapImage.getHeight(null), mapImage.getWidth(null), mapImage.getHeight(null), null);
 		g.drawImage(mapImage, 0-xOffset-mapImage.getWidth(null), 0-yOffset-mapImage.getHeight(null), mapImage.getWidth(null), mapImage.getHeight(null), null);
-//		g.drawImage(map, 0, 0, map.getWidth(null), map.getHeight(null), null);
+		*/
 
-    	g.setColor(new Color(0.5f, 0.3f, 0.2f));
-    	//g.fillRect(0, 0, GamePanel.WIDTH, GamePanel.HEIGHT);
     	player.draw(g);
     	g.setColor(Color.lightGray);
     	g.fillRect(0, 600, 300, 120);
@@ -68,6 +72,7 @@ public class CountryViewState extends IState
     	g.drawString("Name: " + player.getName(), 10, 610);
     	g.drawString("HP: " + player.getHealth(), 10, 630);
     	g.drawString("Mana: " + player.getMana(), 10, 650);
+    	g.drawString("Coords: " + player.getX() + ", " + player.getY(), 10, 670);
     	
     	drawOtherPlayers(g);
     	drawLocations(g);
@@ -77,7 +82,6 @@ public class CountryViewState extends IState
     {
     	if(StateMachine.otherPlayers.size() > 0)
     	{
-    		g.setColor(Color.red);
     		for(int i = 0; i < StateMachine.otherPlayers.size(); i++)
     		{
     			if(StateMachine.otherPlayers.get(i).getPlayerClass().equals("Rogue"))
@@ -91,8 +95,8 @@ public class CountryViewState extends IState
     			
     			if(!StateMachine.otherPlayers.get(i).getName().equals(player.getName()))
     			{
-	    			g.fillRect(StateMachine.otherPlayers.get(i).getX()-xOffset, 
-	    					StateMachine.otherPlayers.get(i).getY()-yOffset, 
+	    			g.fillRect(StateMachine.otherPlayers.get(i).getX()*40-xOffset, 
+	    					StateMachine.otherPlayers.get(i).getY()*40-yOffset, 
 	    					StateMachine.otherPlayers.get(i).getWidth(), 
 	    					StateMachine.otherPlayers.get(i).getHeight());
 //    				g.fillRect(StateMachine.otherPlayers.get(i).getX(), 
@@ -111,7 +115,7 @@ public class CountryViewState extends IState
     		g.setColor(Color.magenta);
     		for(int i = 0; i < locations.size(); i++)
     		{
-    			g.fillRect(locations.get(i).getX()-xOffset, locations.get(i).getY()-yOffset, 
+    			g.fillRect(locations.get(i).getX()*40-xOffset, locations.get(i).getY()*40-yOffset, 
     					Location.WIDTH, Location.HEIGHT);
 //    			g.fillRect(locations.get(i).getX(), locations.get(i).getY(), 
 //    					Location.WIDTH, Location.HEIGHT);
