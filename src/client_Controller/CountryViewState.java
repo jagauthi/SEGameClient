@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 import client_Model.Location;
+import client_Model.OtherPlayer;
 import client_Model.Player;
 import client_View.GamePanel;
 
@@ -84,25 +85,25 @@ public class CountryViewState extends IState
     	{
     		for(int i = 0; i < StateMachine.otherPlayers.size(); i++)
     		{
-    			if(StateMachine.otherPlayers.get(i).getPlayerClass().equals("Rogue"))
+    			OtherPlayer other = StateMachine.otherPlayers.get(i);
+    			if(other.getPlayerClass().equals("Rogue"))
     			{
     				g.setColor(Color.green);
     			}
-    			else if(StateMachine.otherPlayers.get(i).getPlayerClass().equals("Mage"))
+    			else if(other.getPlayerClass().equals("Mage"))
     				g.setColor(Color.blue);
     			else
     				g.setColor(Color.red);
     			
-    			if(!StateMachine.otherPlayers.get(i).getName().equals(player.getName()))
+    			if(!other.getName().equals(player.getName()))
     			{
-	    			g.fillRect(StateMachine.otherPlayers.get(i).getX()*40-xOffset, 
-	    					StateMachine.otherPlayers.get(i).getY()*40-yOffset, 
-	    					StateMachine.otherPlayers.get(i).getWidth(), 
-	    					StateMachine.otherPlayers.get(i).getHeight());
-//    				g.fillRect(StateMachine.otherPlayers.get(i).getX(), 
-//	    					StateMachine.otherPlayers.get(i).getY(), 
-//	    					StateMachine.otherPlayers.get(i).getWidth(), 
-//	    					StateMachine.otherPlayers.get(i).getHeight());
+	    			g.fillRect(other.getX()*40-xOffset, 
+	    					other.getY()*40-yOffset, 
+	    					other.getWidth(), 
+	    					other.getHeight());
+//    				
+	    			g.setColor(Color.WHITE);
+	    			g.drawString(other.getName(), other.getX()*40-xOffset, other.getY()*40-yOffset+10);
     			}
     		}
     	}
@@ -116,7 +117,7 @@ public class CountryViewState extends IState
     		for(int i = 0; i < locations.size(); i++)
     		{
     			g.fillRect(locations.get(i).getX()*40-xOffset, locations.get(i).getY()*40-yOffset, 
-    					Location.WIDTH, Location.HEIGHT);
+    					Location.WIDTH*40, Location.HEIGHT*40);
 //    			g.fillRect(locations.get(i).getX(), locations.get(i).getY(), 
 //    					Location.WIDTH, Location.HEIGHT);
     		}
@@ -192,7 +193,7 @@ public class CountryViewState extends IState
     		if(player.getPlayerRect().intersects(locations.get(i).getLocRect()))
     		{
     			//Switch to local view state, pass name of the location we're entering
-    			String[] args = { "Local View State", locations.get(i).getName() };
+    			String[] args = { "LocalViewState", locations.get(i).getName() };
     			sm.changeState(args);
     		}
     	}
