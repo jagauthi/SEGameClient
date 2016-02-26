@@ -301,6 +301,16 @@ public class Player {
 	{
 		loggedIn = newLoggedIn;
 	}
+	
+	public String getLocation()
+	{
+		return location;
+	}
+	
+	public void setLocation(String newLocation)
+	{
+		location = newLocation;
+	}
 
 	public void update()
 	{
