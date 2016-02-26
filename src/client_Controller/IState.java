@@ -27,6 +27,11 @@ import client_Model.Player;
     {
     	
     }
+    
+    public void oncePerSecondUpdate()
+    {
+    	
+    }
      
     public void render(Graphics g)
     {
