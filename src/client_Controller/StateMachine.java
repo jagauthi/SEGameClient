@@ -33,9 +33,9 @@ public class StateMachine //extends Thread
     	countryViewState = new CountryViewState(player, this);
     	localViewState = new LocalViewState(player, this);
     	blueState = new BlueState(player, this);
-    	this.add("Country View State", countryViewState);
-    	this.add("Local View State", localViewState);
-    	this.add("Blue State", blueState);
+    	this.add("CountryViewState", countryViewState);
+    	this.add("LocalViewState", localViewState);
+    	this.add("BlueState", blueState);
         currentState = countryViewState;
     }
     
@@ -99,10 +99,18 @@ public class StateMachine //extends Thread
     	 * args[1] = "StartingTown"
     	 */
     	currentState.onExit();
-    	if(args[0].equals("Local View State"))
+    	if(args[0].equals("LocalViewState"))
     	{
     		currentState = states.get(args[0]);
-    		currentState.loadInfo(args);
+    		client.sendMessage("GETLOCALINFO:" + args[1]);
+    		player.setLocation(args[1]);
+    		//currentState.loadInfo(args[1]);
+    	}
+    	else if(args[0].equals("CountryViewState"))
+    	{
+    		//Do we need to give coordinates to where the player will be returned in the country view?
+    		currentState = states.get(args[0]);
+    		player.setLocation("CountryView");
     	}
     	currentState.onEnter();
     }
