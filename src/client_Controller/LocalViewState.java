@@ -17,13 +17,18 @@ public class LocalViewState extends IState{
 	
     public void update()
     {
-        player.update();
+       // player.update();
+    }
+    
+    public void oncePerSecondUpdate()
+    {
+    	player.update();
     }
   
     public void render(Graphics g)
     {
-    	xOffset = player.getX()-GamePanel.WIDTH/2;
-    	yOffset = player.getY()-GamePanel.HEIGHT/2;
+    	xOffset = (player.getX() * Tile.WIDTH) - GamePanel.WIDTH/2;
+    	yOffset = (player.getY() * Tile.HEIGHT) - GamePanel.HEIGHT/2;
     	
     	g.setColor(new Color(0.8f, 0.5f, 0.8f));
     	g.fillRect(0, 0, GamePanel.WIDTH, GamePanel.HEIGHT);
@@ -55,8 +60,8 @@ public class LocalViewState extends IState{
     			
     			if(!StateMachine.otherPlayers.get(i).getName().equals(player.getName()))
     			{
-	    			g.fillRect(StateMachine.otherPlayers.get(i).getX() - xOffset, 
-	    					StateMachine.otherPlayers.get(i).getY()- yOffset, 
+	    			g.fillRect(StateMachine.otherPlayers.get(i).getX()*40 - xOffset, 
+	    					StateMachine.otherPlayers.get(i).getY()*40- yOffset, 
 	    					StateMachine.otherPlayers.get(i).getWidth(), 
 	    					StateMachine.otherPlayers.get(i).getHeight());
     			}
