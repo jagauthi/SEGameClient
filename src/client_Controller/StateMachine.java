@@ -55,6 +55,7 @@ public class StateMachine //extends Thread
     public void oncePerSecondUpdate()
     {
     	client.sendMessage("UPDATECHARINFO:" + player.getAllCharInfo());
+    	currentState.oncePerSecondUpdate();
     }
     
     public void updateCharsAroundMe(String[] charsAroundMe)
