@@ -21,14 +21,14 @@ public class Player {
 	int speed;
 	Boolean movingUp, movingDown, movingLeft, movingRight;
 	final int WIDTH = 16;
-	final int HEIGHT = 26;
+	final int HEIGHT = 16;
 	final int SCALE = 2;
 	long tookDamageTime;
 	
 	private Animation animation;
 	private BufferedImage spriteSheet;
 	private ArrayList<BufferedImage[]> sprites;
-	private boolean spritesLoaded;
+	private boolean spritesLoaded = false;
 	private final int numFrames[] = {1, 4, 4, 4, 4};
 	private Color eyeColor, eyeColor2;
 	
@@ -71,18 +71,19 @@ public class Player {
 		abilities = playerInfo[20];
 		cooldowns = playerInfo[21];
 		
-		speed = 5;
+		//Our speed is one tile at a time
+		speed = 1;
 		movingUp = false;
 		movingDown = false;
 		movingLeft = false;
 		movingRight = false;
 		playerRect = new Rectangle(x, y, WIDTH, HEIGHT);
 		
-		animation = new Animation();
+		//animation = new Animation();
 		spritesLoaded = false;
 		
 		eyeColor = null;
-		loadSprites("resources/Sprites/SpriteTemplet.gif");
+		//loadSprites("resources/Sprites/SpriteTemplet.gif");
 	}
 	
 	public boolean loadSprites(String filePath){
@@ -318,7 +319,7 @@ public class Player {
 		if(movingRight){
 			x+=speed;
 		}
-	
+/*	
 		//animation Update
 		if(spritesLoaded){
 			if( !movingDown & movingUp & currentAnimation != MOVINGUP)
@@ -355,8 +356,8 @@ public class Player {
 			}
 			animation.update();
 		}
-		
-		playerRect.setBounds(x, y, WIDTH, HEIGHT);
+	*/	
+		playerRect.setBounds(x, y, 1, 1);
 	}
 	
 	public void draw(Graphics g){
@@ -366,7 +367,8 @@ public class Player {
 		}
 		else {
 			g.setColor(Color.black);
-			g.fillRect(GamePanel.WIDTH/2, GamePanel.HEIGHT/2, WIDTH*SCALE, HEIGHT*SCALE);
+			//Just drawing the players box to be more similar to how the sprite will look.
+			g.fillRect(GamePanel.WIDTH/2, GamePanel.HEIGHT/2 - 10, WIDTH*SCALE, 50);
 		}
 	}
 	
@@ -428,28 +430,28 @@ public class Player {
 	public void moveUp(){
 		if(movingUp == false){
 			movingUp = true;
-			animation.setCurrentFrame(1);
+			//animation.setCurrentFrame(1);
 		}
 	}
 	
 	public void moveDown(){
 		if(movingDown == false){
 			movingDown = true;
-			animation.setCurrentFrame(1);
+			//animation.setCurrentFrame(1);
 		}
 	}
 	
 	public void moveLeft(){
 		if(movingLeft == false){
 			movingLeft = true;
-			animation.setCurrentFrame(1);
+			//animation.setCurrentFrame(1);
 		}
 	}
 	
 	public void moveRight(){
 		if(movingRight == false){
 			movingRight = true;
-			animation.setCurrentFrame(1);
+			//animation.setCurrentFrame(1);
 		}
 	}
 	
