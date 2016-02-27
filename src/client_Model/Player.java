@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 import client_Controller.Animation;
+import client_Controller.Tile;
 import client_View.GamePanel;
 
 public class Player {
@@ -19,9 +20,9 @@ public class Player {
 	int level, health, mana, experience, pointsToSpend, x, y, gold;
 	int strength, dexterity, constitution, intelligence, willpower, luck;
 	int speed;
-	Boolean movingUp, movingDown, movingLeft, movingRight;
+	Boolean moving;
 	final int WIDTH = 16;
-	final int HEIGHT = 16;
+	final int HEIGHT = 26;
 	final int SCALE = 2;
 	long tookDamageTime;
 	
@@ -29,16 +30,29 @@ public class Player {
 	private BufferedImage spriteSheet;
 	private ArrayList<BufferedImage[]> sprites;
 	private boolean spritesLoaded = false;
-	private final int numFrames[] = {1, 4, 4, 4, 4};
+	private final int numFrames[] = {4, 4, 4, 4, 4};
 	private Color eyeColor, eyeColor2;
 	
 	private int currentAnimation;
-	private static final int IDLE = 0;
-	private static final int MOVINGUP = 1;
-	private static final int MOVINGLEFT = 2;
-	private static final int MOVINGDOWN = 3;
-	private static final int MOVINGRIGHT = 4;
-	private static final int DELAY = 150;
+	private int direction;
+	
+	private static final int MOVINGUP = 0;
+	private static final int MOVINGLEFT = 1;
+	private static final int MOVINGDOWN = 2;
+	private static final int MOVINGRIGHT = 3;
+	private static final int IDLE = 4;
+	private static final int DELAY = 125;
+	
+	
+	private int[] idleOffset = {0,0,0,0};
+	private int[] movingUpOffsetX = {0, 0, 0, 0};
+	private int[] movingUpOffsetY = {-Tile.HEIGHT/4, -Tile.HEIGHT/2, -(3*Tile.HEIGHT)/4, -Tile.HEIGHT};
+	private int[] movingLeftOffsetX = {-Tile.WIDTH/4, -Tile.WIDTH/2, -(3*Tile.WIDTH)/4, -Tile.WIDTH};
+	private int[] movingLeftOffsetY = {0, 0, 0, 0};
+	private int[] movingDownOffsetX = {0, 0, 0, 0};
+	private int[] movingDownOffsetY = {Tile.HEIGHT/4, Tile.HEIGHT/2, (3*Tile.HEIGHT)/4, Tile.HEIGHT};
+	private int[] movingRightOffsetX = {Tile.WIDTH/4, Tile.WIDTH/2, (3*Tile.WIDTH)/4, Tile.WIDTH};
+	private int[] movingRightOffsetY = {0, 0, 0, 0};
 	
 	Rectangle playerRect;
 
@@ -73,17 +87,14 @@ public class Player {
 		
 		//Our speed is one tile at a time
 		speed = 1;
-		movingUp = false;
-		movingDown = false;
-		movingLeft = false;
-		movingRight = false;
+		moving = false;
 		playerRect = new Rectangle(x, y, WIDTH, HEIGHT);
 		
-		//animation = new Animation();
+		animation = new Animation();
 		spritesLoaded = false;
 		
 		eyeColor = null;
-		//loadSprites("resources/Sprites/SpriteTemplet.gif");
+		loadSprites("resources/Sprites/SpriteTemplet.gif");
 	}
 	
 	public boolean loadSprites(String filePath){
@@ -123,8 +134,10 @@ public class Player {
 			//default to IDEL animation
 			currentAnimation = IDLE;
 			animation.setFrames(sprites.get(IDLE));
-			animation.setCurrentFrame(0);
+			animation.setCurrentFrame(MOVINGDOWN);
 			animation.setDelay(-1);
+			animation.setOffsetX(idleOffset);
+			animation.setOffsetY(idleOffset);
 			
 			spritesLoaded = true;
 		
@@ -136,12 +149,63 @@ public class Player {
 		
 	}
 	
+	public void update()
+	{
+		
+		if(moving & animation.getHasPlayedOnce()){
+			System.out.println("HIT");
+			currentAnimation = IDLE;
+			animation.setFrames(sprites.get(IDLE));
+			animation.setCurrentFrame(direction);
+			animation.setOffsetX(idleOffset);
+			animation.setOffsetY(idleOffset);
+			animation.setDelay(-1);
+			animation.resetHasPlayedOnce();
+			if(direction == MOVINGUP){
+				y -= speed;
+			} else if (direction == MOVINGLEFT){
+				x -= speed;
+			} else if (direction == MOVINGDOWN){
+				y += speed;
+			} else if (direction == MOVINGRIGHT){
+				x += speed;
+			}
+			moving = false;
+		}
+		
+		playerRect.setBounds(x, y, 1, 1);
+	}
+	
+	public void animationUpdate(){
+		animation.update();
+	}
+	
+	public void draw(Graphics g){
+		if(spritesLoaded){
+			g.drawImage(animation.getImage() , GamePanel.WIDTH/2 - (SCALE * this.WIDTH/2), GamePanel.HEIGHT/2 - (SCALE * this.WIDTH/2) - SCALE*(this.HEIGHT - this.WIDTH), null);
+			drawEyes(g);
+		}
+		else {
+			g.setColor(Color.black);
+			//Just drawing the players box to be more similar to how the sprite will look.
+			g.fillRect(GamePanel.WIDTH/2 - (SCALE * this.WIDTH/2), GamePanel.HEIGHT/2 - (SCALE * this.WIDTH/2) - SCALE*(this.HEIGHT - this.WIDTH), WIDTH*SCALE, 50);
+		}
+	}
+	
 	public String getAllCharInfo()
 	{
 		//charName, loggedIn, class, level, gender, str, dex, con, int, wil, luck, exp, pointsToSpend, xCoord, yCoord, location, clanName, abilities, cooldowns
 		return name + ":" + loggedIn + ":" + playerClass + ":" + level + ":" + gender + ":" + strength + ":" + dexterity + ":" + 
 				constitution + ":" + intelligence + ":" + willpower + ":" + luck + ":" + experience + ":" + pointsToSpend + ":" +
 				x + ":" + y + ":" + location + ":" + clanName + ":" + abilities + ":" + cooldowns;
+	}
+	
+	public int getAnimationOffsetX(){
+		return animation.getOffsetX();
+	}
+	
+	public int getAnimationOffsetY(){
+		return animation.getOffsetY();
 	}
 	
 	public String getName() {
@@ -311,94 +375,6 @@ public class Player {
 	{
 		location = newLocation;
 	}
-
-	public void update()
-	{
-		if(movingUp){
-			y-=speed;
-		}
-		
-		if(movingDown){
-			y+=speed;
-		}
-		
-		if(movingLeft){
-			x-=speed;
-		}
-		
-		if(movingRight){
-			x+=speed;
-		}
-/*	
-		//animation Update
-		if(spritesLoaded){
-			if( !movingDown & movingUp & currentAnimation != MOVINGUP)
-			{
-				currentAnimation = MOVINGUP;
-				animation.setFrames(sprites.get(MOVINGUP));
-				animation.setDelay(DELAY);
-			} 
-			else if(!movingUp & movingDown & currentAnimation != MOVINGDOWN)
-			{
-				currentAnimation = MOVINGDOWN;
-				animation.setFrames(sprites.get(MOVINGDOWN));
-				animation.setDelay(DELAY);
-			} 
-			else if((!movingDown & !movingUp) &&  !movingLeft & movingRight && currentAnimation != MOVINGRIGHT)
-			{
-				currentAnimation = MOVINGRIGHT;
-				animation.setFrames(sprites.get(MOVINGRIGHT));
-				animation.setDelay(DELAY);
-			} 
-			else if((!movingDown & !movingUp) && !movingRight & movingLeft && currentAnimation != MOVINGLEFT)
-			{
-				currentAnimation = MOVINGLEFT;
-				animation.setFrames(sprites.get(MOVINGLEFT));
-				animation.setDelay(DELAY);
-			} 
-			
-			else  if((movingDown & movingUp) | (movingRight & movingLeft) | 
-					(!movingLeft & !movingRight & !movingUp & !movingDown & currentAnimation != IDLE))
-			{
-				currentAnimation = IDLE;
-				animation.setCurrentFrame(0);
-				animation.setDelay(-1);
-			}
-			animation.update();
-		}
-	*/	
-		playerRect.setBounds(x, y, 1, 1);
-	}
-	
-	public void draw(Graphics g){
-		if(spritesLoaded){
-			g.drawImage(animation.getImage() , GamePanel.WIDTH/2, GamePanel.HEIGHT/2, null);
-			drawEyes(g);
-		}
-		else {
-			g.setColor(Color.black);
-			//Just drawing the players box to be more similar to how the sprite will look.
-			g.fillRect(GamePanel.WIDTH/2, GamePanel.HEIGHT/2 - 10, WIDTH*SCALE, 50);
-		}
-	}
-	
-	/*
-	 
-	 
-	 if(sprite != null){
-			setSprite();
-			g.drawImage(sprite, GamePanel.WIDTH/2, GamePanel.HEIGHT/2, WIDTH, HEIGHT, null);
-//			g.drawImage(sprite, x, y, WIDTH, HEIGHT, null);
-//			g.setColor(Color.black);
-//			g.fillRect(GamePanel.WIDTH/2, GamePanel.HEIGHT/2, WIDTH, HEIGHT);
-		} 
-		else {
-			g.setColor(Color.black);
-			g.fillRect(x, y, WIDTH, HEIGHT);
-		}
-	 
-	 
-	 */
 	
 	public void drawEyes(Graphics g){
 		if(eyeColor == null){
@@ -438,47 +414,67 @@ public class Player {
 	}
 	
 	public void moveUp(){
-		if(movingUp == false){
-			movingUp = true;
-			//animation.setCurrentFrame(1);
+		if(moving == false & currentAnimation == IDLE){
+			moving = true;
+			currentAnimation = MOVINGUP;
+			direction = MOVINGUP;
+			animation.setFrames(sprites.get(MOVINGUP));
+			animation.setDelay(DELAY);
+			animation.setOffsetX(movingUpOffsetX);
+			animation.setOffsetY(movingUpOffsetY);
 		}
 	}
 	
 	public void moveDown(){
-		if(movingDown == false){
-			movingDown = true;
-			//animation.setCurrentFrame(1);
+		if(moving == false & currentAnimation == IDLE){
+			moving = true;
+			currentAnimation = MOVINGDOWN;
+			direction = MOVINGDOWN;
+			animation.setFrames(sprites.get(MOVINGDOWN));
+			animation.setDelay(DELAY);
+			animation.setOffsetX(movingDownOffsetX);
+			animation.setOffsetY(movingDownOffsetY);
 		}
 	}
 	
 	public void moveLeft(){
-		if(movingLeft == false){
-			movingLeft = true;
-			//animation.setCurrentFrame(1);
+		if(moving == false & currentAnimation == IDLE){
+			moving = true;
+			currentAnimation = MOVINGLEFT;
+			direction = MOVINGLEFT;
+			animation.setFrames(sprites.get(MOVINGLEFT));
+			animation.setDelay(DELAY);
+			animation.setOffsetX(movingLeftOffsetX);
+			animation.setOffsetY(movingLeftOffsetY);
 		}
 	}
 	
 	public void moveRight(){
-		if(movingRight == false){
-			movingRight = true;
-			//animation.setCurrentFrame(1);
+		if(moving == false & currentAnimation == IDLE){
+			moving = true;
+			currentAnimation = MOVINGRIGHT;
+			direction = MOVINGRIGHT;
+			animation.setFrames(sprites.get(MOVINGRIGHT));
+			animation.setDelay(DELAY);
+			animation.setOffsetX(movingRightOffsetX);
+			animation.setOffsetY(movingRightOffsetY);
 		}
 	}
 	
 	public void stopUp(){
-		movingUp = false;
+		//movingUp = false;
 	}
 	
 	public void stopDown(){
-		movingDown = false;
+		//movingDown = false;
 	}
 	
 	public void stopLeft(){
-		movingLeft = false;
+		//movingLeft = false;
 	}
 	
 	public void stopRight(){
-		movingRight = false;
+		//movingRight = false;
 	}
 	
 	public void setEyeColor(Color c, Color c2){
