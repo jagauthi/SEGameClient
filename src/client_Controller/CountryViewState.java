@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import client_View.GamePanel;
 public class CountryViewState extends IState
 {
 	ArrayList<Location> locations;
-	Image mapImage;
+	BufferedImage mapImage;
 	int xOffset, yOffset = 0;
 	double randomEncounterChance = 0.0;
 	
@@ -42,6 +43,7 @@ public class CountryViewState extends IState
 	
     public void update()
     {
+    	player.animationUpdate();
         //player.update();
         //checkPlayerIntersectLocation();
     }
@@ -54,9 +56,14 @@ public class CountryViewState extends IState
   
     public void render(Graphics g)
     {
-    	xOffset = (player.getX() * Tile.WIDTH) - GamePanel.WIDTH/2;
-    	yOffset = (player.getY() * Tile.HEIGHT) - GamePanel.HEIGHT/2;
-		g.drawImage(mapImage, 0-xOffset, 0-yOffset, mapImage.getWidth(null), mapImage.getHeight(null), null);
+    	xOffset = (player.getX() * Tile.WIDTH) - GamePanel.WIDTH/2 + Tile.WIDTH/2 + player.getAnimationOffsetX();
+    	yOffset = (player.getY() * Tile.HEIGHT) - GamePanel.HEIGHT/2 + Tile.HEIGHT/2 + player.getAnimationOffsetY();
+		if(xOffset < 0) xOffset = 0;
+		if(yOffset < 0) yOffset = 0;
+    	
+    	//This Takes only the part of the image that will be drawn
+		//If you are too close to the edge it wont seem like your moving untill you get far enough away from the edge
+    	g.drawImage(mapImage.getSubimage(0+xOffset, 0+yOffset, GamePanel.WIDTH, GamePanel.WIDTH), 0, 0, GamePanel.WIDTH, GamePanel.HEIGHT, null);
 		/*
 		 * The next three are just so that there is a fuller map to play on, instead
 		 * of starting in the top left corner of the map.
@@ -152,19 +159,15 @@ public class CountryViewState extends IState
     public void keyPressed(int keyCode){
     	if(keyCode == KeyEvent.VK_W){
 			player.moveUp();
-			player.stopDown();
 		}
     	if(keyCode == KeyEvent.VK_A){
     		player.moveLeft();
-    		player.stopRight();
 		}
     	if(keyCode == KeyEvent.VK_S){
     		player.moveDown();
-    		player.stopUp();
 		}
     	if(keyCode == KeyEvent.VK_D){
     		player.moveRight();
-    		player.stopLeft();
 		}
     	if(keyCode == KeyEvent.VK_SPACE){
 
@@ -173,16 +176,16 @@ public class CountryViewState extends IState
     
     public void keyReleased(int keyCode){
     	if(keyCode == KeyEvent.VK_W){
-			player.stopUp();
+
 		}
     	if(keyCode == KeyEvent.VK_A){
-    		player.stopLeft();
+
 		}
     	if(keyCode == KeyEvent.VK_S){
-    		player.stopDown();
+
 		}
     	if(keyCode == KeyEvent.VK_D){
-    		player.stopRight();
+
 		}
     }
     
