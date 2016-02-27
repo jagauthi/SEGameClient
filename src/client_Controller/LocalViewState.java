@@ -22,6 +22,7 @@ public class LocalViewState extends IState{
 	
     public void update()
     {
+    	player.animationUpdate();
     	if(exitBox != null)
     	{
 	    	if(player.getPlayerRect().intersects(exitBox))
