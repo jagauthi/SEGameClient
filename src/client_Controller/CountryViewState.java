@@ -44,13 +44,14 @@ public class CountryViewState extends IState
     public void update()
     {
     	player.animationUpdate();
+    	player.update();
         //player.update();
         //checkPlayerIntersectLocation();
     }
     
     public void oncePerSecondUpdate()
     {
-    	player.update();
+    	//player.update();
         checkPlayerIntersectLocation();
     }
   
