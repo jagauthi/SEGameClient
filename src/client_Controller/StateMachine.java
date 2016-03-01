@@ -28,6 +28,7 @@ public class StateMachine //extends Thread
     public StateMachine(String[] playerInfo, ChatClient c)
     {	
         player = new Player(playerInfo);
+        player.setStateMachine(this);
         client = c;
         client.setStateMachine(this);
     	countryViewState = new CountryViewState(player, this);
@@ -54,8 +55,13 @@ public class StateMachine //extends Thread
     
     public void oncePerSecondUpdate()
     {
-    	client.sendMessage("UPDATECHARINFO:" + player.getAllCharInfo());
+    	//client.sendMessage("UPDATECHARINFO:" + player.getAllCharInfo());
     	currentState.oncePerSecondUpdate();
+    }
+    
+    public void sendServerMyPosition()
+    {
+    	client.sendMessage("UPDATECHARPOS:" + player.getLocationInfo());
     }
     
     public void updateCharsAroundMe(String[] charsAroundMe)
