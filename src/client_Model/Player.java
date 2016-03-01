@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 import client_Controller.Animation;
+import client_Controller.StateMachine;
 import client_Controller.Tile;
 import client_View.GamePanel;
 
@@ -54,6 +55,8 @@ public class Player {
 	private int[] movingRightOffsetX = {Tile.WIDTH/4, Tile.WIDTH/2, (3*Tile.WIDTH)/4, Tile.WIDTH};
 	private int[] movingRightOffsetY = {0, 0, 0, 0};
 	
+	StateMachine sm;
+	
 	Rectangle playerRect;
 
 	public Player(String[] playerInfo) 
@@ -95,6 +98,11 @@ public class Player {
 		
 		eyeColor = null;
 		loadSprites("resources/Sprites/SpriteTemplet.gif");
+	}
+	
+	public void setStateMachine(StateMachine newSm)
+	{
+		sm = newSm;
 	}
 	
 	public boolean loadSprites(String filePath){
@@ -151,7 +159,6 @@ public class Player {
 	
 	public void update()
 	{
-		
 		if(moving & animation.getHasPlayedOnce()){
 			System.out.println("HIT");
 			currentAnimation = IDLE;
@@ -171,9 +178,16 @@ public class Player {
 				x += speed;
 			}
 			moving = false;
+			sm.sendServerMyPosition();
 		}
 		
 		playerRect.setBounds(x, y, 1, 1);
+	}
+	
+	public String getLocationInfo()
+	{
+		String message = name + ":" + x + ":" + y + ":" + location;
+		return message;
 	}
 	
 	public void animationUpdate(){
@@ -194,8 +208,8 @@ public class Player {
 	
 	public String getAllCharInfo()
 	{
-		//charName, loggedIn, class, level, gender, str, dex, con, int, wil, luck, exp, pointsToSpend, xCoord, yCoord, location, clanName, abilities, cooldowns
-		return name + ":" + loggedIn + ":" + playerClass + ":" + level + ":" + gender + ":" + strength + ":" + dexterity + ":" + 
+		//charName, loggedIn, class, level, gender, health, mana, str, dex, con, int, wil, luck, exp, pointsToSpend, xCoord, yCoord, location, clanName, abilities, cooldowns
+		return name + ":" + loggedIn + ":" + playerClass + ":" + level + ":" + gender + ":" + health + ":" + mana + ":" + strength + ":" + dexterity + ":" + 
 				constitution + ":" + intelligence + ":" + willpower + ":" + luck + ":" + experience + ":" + pointsToSpend + ":" +
 				x + ":" + y + ":" + location + ":" + clanName + ":" + abilities + ":" + cooldowns;
 	}
