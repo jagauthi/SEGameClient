@@ -4,6 +4,11 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import client_Model.OtherPlayer;
 import client_Model.Player;
@@ -12,17 +17,29 @@ import client_View.GamePanel;
 public class LocalViewState extends IState{
 	
 	int xOffset, yOffset = 0;
+	BufferedImage mapImage;
 	int playerEnterX, playerEnterY, playerExitX, playerExitY = 0;
 	Rectangle exitBox;
 	
 	public LocalViewState(Player p, StateMachine s)
 	{
 		super(p, s);
+		
+		String mapLocation = "resources/FFMap.png";
+    	mapImage = null;
+
+		try {
+			mapImage = ImageIO.read(new File(mapLocation));
+        } 
+		catch (IOException ioe) {
+            System.out.println("Unable to load image file.");
+        }
 	}
 	
     public void update()
     {
     	player.animationUpdate();
+    	player.update();
     	if(exitBox != null)
     	{
 	    	if(player.getPlayerRect().intersects(exitBox))
@@ -36,16 +53,16 @@ public class LocalViewState extends IState{
     
     public void oncePerSecondUpdate()
     {
-    	player.update();
+    	//player.update();
     }
   
     public void render(Graphics g)
     {
-    	xOffset = (player.getX() * Tile.WIDTH) - GamePanel.WIDTH/2;
-    	yOffset = (player.getY() * Tile.HEIGHT) - GamePanel.HEIGHT/2;
+    	xOffset = (player.getX() * Tile.WIDTH) - GamePanel.WIDTH/2 + Tile.WIDTH/2 + player.getAnimationOffsetX();
+    	yOffset = (player.getY() * Tile.HEIGHT) - GamePanel.HEIGHT/2 + Tile.HEIGHT/2 + player.getAnimationOffsetY();
     	
-    	g.setColor(new Color(0.8f, 0.5f, 0.8f));
-    	g.fillRect(0, 0, GamePanel.WIDTH, GamePanel.HEIGHT);
+    	g.drawImage(mapImage, 0-xOffset, 0-yOffset, mapImage.getWidth(null), mapImage.getHeight(null), null);
+
     	player.draw(g);
     	g.setColor(Color.lightGray);
     	g.fillRect(0, 600, 300, 120);
