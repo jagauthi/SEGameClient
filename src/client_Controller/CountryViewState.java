@@ -155,6 +155,7 @@ public class CountryViewState extends IState
     		locations.add(new Location(thisLoc[0], Integer.parseInt(thisLoc[1]), 
     						Integer.parseInt(thisLoc[2])));
     	}
+    	onEnter();
     }
     
     public void keyPressed(int keyCode){
