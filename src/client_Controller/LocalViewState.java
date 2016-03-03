@@ -122,11 +122,6 @@ public class LocalViewState extends IState{
     
     public void loadInfo(String[] info)
     {
-    	//This is where we get all the info about the location we have just entered.
-    	for(int i = 0; i < info.length; i++)
-    	{
-    		System.out.println(i + " " + info[i]);
-    	}
     	exitBox = new Rectangle(Integer.parseInt(info[10]), Integer.parseInt(info[11]), 2, 2);
     	playerEnterX = Integer.parseInt(info[14]);
     	playerEnterY = Integer.parseInt(info[15]);
@@ -138,6 +133,7 @@ public class LocalViewState extends IState{
     	//info[13] holds where the player will be when he goes back to the country view Y
     	//info[14] holds where the player will enter X
     	//info[15] holds where the player will enter Y
+    	onEnter();
     }
     
     public void keyPressed(int keyCode){
