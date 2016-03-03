@@ -160,7 +160,6 @@ public class Player {
 	public void update()
 	{
 		if(moving & animation.getHasPlayedOnce()){
-			System.out.println("HIT");
 			currentAnimation = IDLE;
 			animation.setFrames(sprites.get(IDLE));
 			animation.setCurrentFrame(direction);
