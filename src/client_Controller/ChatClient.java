@@ -147,10 +147,11 @@ public class ChatClient extends Thread{
 	            }
 	            else if (message[0].equals("loadLocations")) { 
 	            	//charUpdated:char1Name char1x char1y:char2Name char2x char2y:...
-	            	sm.currentState.loadInfo(message);
+	            	sm.getCountryViewState().loadInfo(message);
 	            }
 	            else if(message[0].equals("localInfo")) {
-	            	sm.currentState.loadInfo(message);
+	            	if(sm.currentState instanceof LocalViewState)
+	            		sm.currentState.loadInfo(message);
 	            }
 	            else
 	            {
