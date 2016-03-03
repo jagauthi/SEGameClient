@@ -11,10 +11,11 @@ public class StateMachine //extends Thread
 {
 	//States
     Map<String, IState> states = new HashMap<String, IState>();
-    IState currentState;
+    IState currentState = null;
     EmptyState emptyState;
 	CountryViewState countryViewState;
 	LocalViewState localViewState;
+	CombatState combatState;
 	BlueState blueState;
 	//HashMap<String, OtherPlayer> otherPlayers = new HashMap<String, OtherPlayer>();
 	public static ArrayList<OtherPlayer> otherPlayers = new ArrayList<OtherPlayer>();
@@ -34,10 +35,18 @@ public class StateMachine //extends Thread
     	countryViewState = new CountryViewState(player, this);
     	localViewState = new LocalViewState(player, this);
     	blueState = new BlueState(player, this);
+    	combatState = new CombatState(player, this);
     	this.add("CountryViewState", countryViewState);
     	this.add("LocalViewState", localViewState);
     	this.add("BlueState", blueState);
-        currentState = countryViewState;
+    	this.add("CombatState", combatState);
+    	if(!player.getLocation().equals("CountryView"))
+    	{
+    		String[] args = {"LocalViewState", player.getLocation()};
+    		changeState(args);
+    	}
+    	else
+    		currentState = countryViewState;
     }
     
     public void finalize()
@@ -104,7 +113,8 @@ public class StateMachine //extends Thread
     	 * args[0] = "Local View State"
     	 * args[1] = "StartingTown"
     	 */
-    	currentState.onExit();
+    	if(currentState != null)
+    		currentState.onExit();
     	if(args[0].equals("LocalViewState"))
     	{
     		currentState = states.get(args[0]);
@@ -118,7 +128,12 @@ public class StateMachine //extends Thread
     		currentState = states.get(args[0]);
     		player.setLocation("CountryView");
     	}
-    	currentState.onEnter();
+    	//currentState.onEnter();
+    }
+    
+    public CountryViewState getCountryViewState()
+    {
+    	return countryViewState;
     }
    
 }
