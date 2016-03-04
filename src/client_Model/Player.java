@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 
@@ -61,6 +62,7 @@ public class Player {
 
 	public Player(String[] playerInfo) 
 	{
+		
 		//The first element of this array is the thing that just says "LoginSuccess", so don't look at the first element in the array when loading player info.
 		//"characterInfo", name, class, logggedIn, level, gender, health, mana, exp, pointsToSpend, xCoord, yCoord, 
 			//location, clanName, str, dex, con, int, wil, luck, abilities, cooldown
@@ -160,27 +162,33 @@ public class Player {
 	public void update()
 	{
 		if(moving & animation.getHasPlayedOnce()){
-			currentAnimation = IDLE;
-			animation.setFrames(sprites.get(IDLE));
-			animation.setCurrentFrame(direction);
-			animation.setOffsetX(idleOffset);
-			animation.setOffsetY(idleOffset);
-			animation.setDelay(-1);
-			animation.resetHasPlayedOnce();
-			if(direction == MOVINGUP){
-				y -= speed;
-			} else if (direction == MOVINGLEFT){
-				x -= speed;
-			} else if (direction == MOVINGDOWN){
-				y += speed;
-			} else if (direction == MOVINGRIGHT){
-				x += speed;
-			}
-			moving = false;
-			sm.sendServerMyPosition();
+			updateOncePerMove();
 		}
 		
 		playerRect.setBounds(x, y, 1, 1);
+	}
+	
+	public void updateOncePerMove()
+	{
+		currentAnimation = IDLE;
+		animation.setFrames(sprites.get(IDLE));
+		animation.setCurrentFrame(direction);
+		animation.setOffsetX(idleOffset);
+		animation.setOffsetY(idleOffset);
+		animation.setDelay(-1);
+		animation.resetHasPlayedOnce();
+		if(direction == MOVINGUP){
+			y -= speed;
+		} else if (direction == MOVINGLEFT){
+			x -= speed;
+		} else if (direction == MOVINGDOWN){
+			y += speed;
+		} else if (direction == MOVINGRIGHT){
+			x += speed;
+		}
+		moving = false;
+		sm.sendServerMyPosition();
+		sm.getCurrentState().calculateRandomEncounterChance();
 	}
 	
 	public String getLocationInfo()
