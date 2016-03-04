@@ -878,7 +878,7 @@ public class Launcher{
 	
 	private void selectChar(int selecter)
 	{
-		System.out.println("Selecting " + selecter);
+		System.out.println("Selecting " + characterNames[selecter]);
 		charSelected = selecter;
 	}
 	
