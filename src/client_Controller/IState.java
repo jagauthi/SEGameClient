@@ -23,12 +23,22 @@ import client_Model.Player;
  		
  	}
  	
+ 	public HashMap getMap()
+ 	{
+ 		return map;
+ 	}
+ 	
     public void update()
     {
     	
     }
     
     public void oncePerSecondUpdate()
+    {
+    	
+    }
+    
+    public void calculateRandomEncounterChance()
     {
     	
     }
