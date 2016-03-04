@@ -8,6 +8,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 
@@ -38,14 +40,51 @@ public class CountryViewState extends IState
 		catch (IOException ioe) {
             System.out.println("Unable to load image file.");
         }
-		//loadMap();
+		loadMap();
+	}
+	
+	public void loadMap()
+	{
+		int[] textMap = {
+				
+			1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5,
+			1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5,
+			1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5,
+			1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5,
+			1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5,
+			1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5,
+			1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5,
+			1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5,
+			1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5,
+			1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+			1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5,
+			1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5,
+			1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5,
+			1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5,
+			1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5,
+			1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5,
+			1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5,
+			1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5,
+			1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5,
+			1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5
+						
+		};
+		
+		for(int y = 0; y < 20; y++)
+		{
+			map.put(y, new HashMap<Integer, Tile>());
+			for(int x = 0; x < 20; x++)
+			{
+				map.get(y).put(x, new Tile(x, y, textMap[y*20 + x]));
+			}
+		}
+		
 	}
 	
     public void update()
     {
     	player.animationUpdate();
     	player.update();
-        //player.update();
         //checkPlayerIntersectLocation();
     }
     
@@ -53,6 +92,23 @@ public class CountryViewState extends IState
     {
     	//player.update();
         checkPlayerIntersectLocation();
+    }
+    
+    public void calculateRandomEncounterChance()
+    {
+    	Tile currentTile = map.get( player.getY() ).get( player.getX() );
+    	if(currentTile.getType() != 1)
+    		randomEncounterChance += currentTile.getRandomEncounterChance();
+    	else
+    		randomEncounterChance = 0;
+    	System.out.println("Random encounter chance: " + randomEncounterChance );
+    	Random rand = new Random();
+    	int chance = rand.nextInt(100);
+    	if(chance < randomEncounterChance)
+    	{
+    		System.out.println("Random encounter!");
+    		randomEncounterChance = 0.0;
+    	}
     }
   
     public void render(Graphics g)
