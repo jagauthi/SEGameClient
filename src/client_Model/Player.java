@@ -6,8 +6,6 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
-
 import javax.imageio.ImageIO;
 
 import client_Controller.Animation;
@@ -57,6 +55,7 @@ public class Player {
 	private int[] movingRightOffsetY = {0, 0, 0, 0};
 	
 	StateMachine sm;
+	ArrayList<String> groupMembers;
 	
 	Rectangle playerRect;
 
@@ -94,6 +93,7 @@ public class Player {
 		speed = 1;
 		moving = false;
 		playerRect = new Rectangle(x, y, WIDTH, HEIGHT);
+		groupMembers = new ArrayList<String>();
 		
 		animation = new Animation();
 		spritesLoaded = false;
@@ -227,6 +227,11 @@ public class Player {
 	
 	public int getAnimationOffsetY(){
 		return animation.getOffsetY();
+	}
+	
+	public BufferedImage getImage()
+	{
+		return animation.getImage();
 	}
 	
 	public String getName() {
