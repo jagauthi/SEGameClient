@@ -6,18 +6,23 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.imageio.ImageIO;
 
+import client_Model.Enemy;
 import client_Model.Player;
 import client_View.GamePanel;
 
 public class CombatState extends IState
 {
 	BufferedImage mapImage;
+	ArrayList<Enemy> enemies;
 	
 	public CombatState(Player p, StateMachine s)
 	{
 		super(p, s);
+		enemies = new ArrayList<Enemy>();
 		
 		String mapLocation = "resources/ZeldaMap.jpg";
     	mapImage = null;
@@ -45,14 +50,18 @@ public class CombatState extends IState
     {
     	g.drawImage(mapImage, 0, 0, GamePanel.WIDTH, GamePanel.HEIGHT, null);
 
-    	player.draw(g);
+    	g.drawImage(player.getImage(), 3*GamePanel.WIDTH/4, GamePanel.HEIGHT/4, null);
+    	
     	g.setColor(Color.lightGray);
-    	g.fillRect(0, 600, 300, 120);
+    	g.fillRect(GamePanel.WIDTH/2, 3*GamePanel.HEIGHT/4, GamePanel.WIDTH/2, GamePanel.HEIGHT/4);
+    	g.setColor(Color.orange);
+    	g.fillRect(0, 3*GamePanel.HEIGHT/4, GamePanel.WIDTH/2, GamePanel.HEIGHT/4);
+    	
+    	//Left Box
     	g.setColor(Color.black);
-    	g.drawString("Name: " + player.getName(), 10, 610);
-    	g.drawString("HP: " + player.getHealth(), 10, 630);
-    	g.drawString("Mana: " + player.getMana(), 10, 650);
-    	g.drawString("Coords: " + player.getX() + ", " + player.getY(), 10, 670);
+    	g.drawString("Name: " + player.getName(), 10, (3*GamePanel.HEIGHT/4)+10);
+    	g.drawString("HP: " + player.getHealth(), 10, (3*GamePanel.HEIGHT/4)+30);
+    	g.drawString("Mana: " + player.getMana(), 10, (3*GamePanel.HEIGHT/4)+50);
     }
     
     public void drawOtherPlayers(Graphics g)
@@ -75,7 +84,7 @@ public class CombatState extends IState
         // No action to take when the state is exited
     }
     
-    public void loadInfo(String[] locs)
+    public void loadInfo(String[] info)
     {
     	
     }
