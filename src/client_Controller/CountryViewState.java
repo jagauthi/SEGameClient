@@ -49,6 +49,8 @@ public class CountryViewState extends IState
 	{
 		String fileName = "resources/Maps/mtStart.txt";
         String line = null;
+        int width = 0, height = 0;
+        int[] textMap = {};
         try {
             FileReader fileReader = 
                 new FileReader(fileName);
@@ -57,11 +59,25 @@ public class CountryViewState extends IState
             
             //Reads the first line of the file, which contains the width and height
             if((line = bufferedReader.readLine()) != null)
-            	System.out.println("Width and height: " + line);
-
+            {
+            	String[] specs = line.split(" ");
+            	width = Integer.parseInt(specs[0]);
+            	height = Integer.parseInt(specs[1]);
+            }
+            textMap = new int[width*height];
             //Reads the rest of the file, which contains the actual tile data
+            int lineCount = 0;
             while((line = bufferedReader.readLine()) != null) {
-                System.out.println(line);
+            	String[] tiles = line.split(" ");
+            	for(int x = 0; x < tiles.length; x++)
+            	{
+            		if(!tiles[x].equals("null"))
+            		{
+            			System.out.println(tiles[x]);
+            			textMap[x + tiles.length*lineCount] = Integer.parseInt(tiles[x]);
+            		}
+            	}
+            	lineCount++;
             }   
             bufferedReader.close();         
         }
@@ -69,15 +85,14 @@ public class CountryViewState extends IState
             e.printStackTrace();                
         }
 		
-		/*for(int y = 0; y < 20; y++)
+		for(int y = 0; y < height; y++)
 		{
 			map.put(y, new HashMap<Integer, Tile>());
-			for(int x = 0; x < 20; x++)
+			for(int x = 0; x < width; x++)
 			{
 				map.get(y).put(x, new Tile(x, y, textMap[y*20 + x]));
 			}
-		}*/
-		
+		}
 	}
 	
     public void update()
@@ -100,7 +115,7 @@ public class CountryViewState extends IState
     		randomEncounterChance += currentTile.getRandomEncounterChance();
     	else
     		randomEncounterChance = 0;
-    	System.out.println("Random encounter chance: " + randomEncounterChance );
+//    	System.out.println("Random encounter chance: " + randomEncounterChance );
     	Random rand = new Random();
     	int chance = rand.nextInt(100);
     	if(chance < randomEncounterChance)
@@ -124,7 +139,14 @@ public class CountryViewState extends IState
     	
     	//This Takes only the part of the image that will be drawn
 		//If you are too close to the edge it wont seem like your moving untill you get far enough away from the edge
-    	g.drawImage(mapImage.getSubimage(0+xOffset, 0+yOffset, GamePanel.WIDTH/2, GamePanel.HEIGHT/2), 0, 0, GamePanel.WIDTH, GamePanel.HEIGHT, null);
+    	g.drawImage(mapImage.getSubimage(0+xOffset, 0+yOffset, GamePanel.WIDTH, GamePanel.HEIGHT), 0, 0, GamePanel.WIDTH, GamePanel.HEIGHT, null);
+    	for(int y = 0; y < 100; y++)
+    	{
+    		for(int x = 0; x < 100; x++)
+    		{
+    	    	g.drawString(String.valueOf(map.get(y).get(x).getType()), x*40-xOffset, y*40-yOffset);
+    		}
+    	}
 		/*
 		 * The next three are just so that there is a fuller map to play on, instead
 		 * of starting in the top left corner of the map.
