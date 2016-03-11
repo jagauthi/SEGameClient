@@ -104,10 +104,15 @@ public class CountryViewState extends IState
     	Random rand = new Random();
     	int chance = rand.nextInt(100);
     	if(chance < randomEncounterChance)
-    	{
-    		System.out.println("Random encounter!");
-    		randomEncounterChance = 0.0;
-    	}
+    		randomEncounter();
+    }
+    
+    public void randomEncounter()
+    {
+		System.out.println("Random encounter!");
+		randomEncounterChance = 0.0;
+    	String[] args = { "CombatState", player.getLocation() };
+		sm.changeState(args);
     }
   
     public void render(Graphics g)
