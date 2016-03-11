@@ -80,7 +80,7 @@ public class ChatClient extends Thread{
 	        // Process all messages from server, according to the protocol.
 	        while (true) {
 	            String line = in.readLine();
-	            String[] message = line.split(":");
+	            String[] message = line.split("#");
 	            if (message[0].equals("SUBMITNAME")) {
 	                out.println(getScreenName());
 	            } 
@@ -142,7 +142,7 @@ public class ChatClient extends Thread{
 	            	launcher.intoGame(message);
 	            }
 	            else if (message[0].equals("charUpdated")) { 
-	            	//charUpdated:char1Name char1x char1y:char2Name char2x char2y:...
+	            	//charUpdated:char1Name char1x char1y char1Direction char1EquippedItems char1Sex:char2Name char2x char2y...
 	            	sm.updateCharsAroundMe(message);
 	            }
 	            else if (message[0].equals("loadLocations")) { 
