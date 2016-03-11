@@ -11,12 +11,13 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 import client_Model.Enemy;
+import client_Model.Location;
 import client_Model.Player;
 import client_View.GamePanel;
 
 public class CombatState extends IState
 {
-	BufferedImage mapImage;
+	BufferedImage backgroundImage;
 	ArrayList<Enemy> enemies;
 	
 	public CombatState(Player p, StateMachine s)
@@ -24,11 +25,11 @@ public class CombatState extends IState
 		super(p, s);
 		enemies = new ArrayList<Enemy>();
 		
-		String mapLocation = "resources/ZeldaMap.jpg";
-    	mapImage = null;
+		String backgroundPath = "resources/MKMap.jpg";
+    	backgroundImage = null;
 
 		try {
-			mapImage = ImageIO.read(new File(mapLocation));
+			backgroundImage = ImageIO.read(new File(backgroundPath));
         } 
 		catch (IOException ioe) {
             System.out.println("Unable to load image file.");
@@ -48,7 +49,7 @@ public class CombatState extends IState
   
     public void render(Graphics g)
     {
-    	g.drawImage(mapImage, 0, 0, GamePanel.WIDTH, GamePanel.HEIGHT, null);
+    	g.drawImage(backgroundImage, 0, 0, null);
 
     	g.drawImage(player.getImage(), 3*GamePanel.WIDTH/4, GamePanel.HEIGHT/4, null);
     	
@@ -86,7 +87,14 @@ public class CombatState extends IState
     
     public void loadInfo(String[] info)
     {
-    	
+		enemies = new ArrayList<Enemy>();
+		for(int i = 1; i < info.length; i++)
+    	{
+    		String[] thisEnemy = info[i].split(" ");
+    		//Takes an enemies name, health, and damage (?)
+    		enemies.add(new Enemy(thisEnemy[0], Integer.parseInt(thisEnemy[1]), Integer.parseInt(thisEnemy[2])));
+    	}
+    	onEnter();
     }
     
     public void keyPressed(int keyCode){
