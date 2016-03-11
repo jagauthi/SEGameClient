@@ -122,6 +122,11 @@ public class StateMachine //extends Thread
     		player.setLocation(args[1]);
     		//currentState.loadInfo(args[1]);
     	}
+    	else if(args[0].equals("CombatState"))
+    	{
+    		currentState = states.get(args[0]);
+    		client.sendMessage("GETCOMBATINFO:" + args[1]);
+    	}
     	else if(args[0].equals("CountryViewState"))
     	{
     		//Do we need to give coordinates to where the player will be returned in the country view?
