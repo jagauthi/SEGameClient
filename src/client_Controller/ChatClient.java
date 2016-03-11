@@ -153,6 +153,10 @@ public class ChatClient extends Thread{
 	            	if(sm.currentState instanceof LocalViewState)
 	            		sm.currentState.loadInfo(message);
 	            }
+	            else if(message[0].equals("encounterInfo")) {
+	            	if(sm.currentState instanceof CombatState)
+	            		sm.currentState.loadInfo(message);
+	            }
 	            else
 	            {
 	            	System.out.println("Not sure how to handle this error... the error is: ");
