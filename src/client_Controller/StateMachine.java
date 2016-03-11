@@ -75,6 +75,7 @@ public class StateMachine //extends Thread
     
     public void updateCharsAroundMe(String[] charsAroundMe)
     {
+    	//charUpdated:char1Name char1x char1y char1Direction char1EquippedItems char1Sex:char2Name char2x char2y...
     	otherPlayers.clear();
     	if(charsAroundMe.length > 1)
     	{
