@@ -5,7 +5,9 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,7 +33,7 @@ public class CountryViewState extends IState
 		locations = new ArrayList<Location>();
 		getLocations();
 		
-		String mapLocation = "resources/ZeldaMap.jpg";
+		String mapLocation = "resources/Maps/mtStart.png";
     	mapImage = null;
 
 		try {
@@ -45,39 +47,36 @@ public class CountryViewState extends IState
 	
 	public void loadMap()
 	{
-		int[] textMap = {
-				
-			1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5,
-			1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5,
-			1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5,
-			1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5,
-			1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5,
-			1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5,
-			1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5,
-			1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5,
-			1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5,
-			1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-			1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5,
-			1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5,
-			1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5,
-			1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5,
-			1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5,
-			1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5,
-			1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5,
-			1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5,
-			1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5,
-			1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5
-						
-		};
+		String fileName = "resources/Maps/mtStart.txt";
+        String line = null;
+        try {
+            FileReader fileReader = 
+                new FileReader(fileName);
+            BufferedReader bufferedReader = 
+                new BufferedReader(fileReader);
+            
+            //Reads the first line of the file, which contains the width and height
+            if((line = bufferedReader.readLine()) != null)
+            	System.out.println("Width and height: " + line);
+
+            //Reads the rest of the file, which contains the actual tile data
+            while((line = bufferedReader.readLine()) != null) {
+                System.out.println(line);
+            }   
+            bufferedReader.close();         
+        }
+        catch(Exception e) {
+            e.printStackTrace();                
+        }
 		
-		for(int y = 0; y < 20; y++)
+		/*for(int y = 0; y < 20; y++)
 		{
 			map.put(y, new HashMap<Integer, Tile>());
 			for(int x = 0; x < 20; x++)
 			{
 				map.get(y).put(x, new Tile(x, y, textMap[y*20 + x]));
 			}
-		}
+		}*/
 		
 	}
 	
@@ -120,7 +119,7 @@ public class CountryViewState extends IState
     	
     	//This Takes only the part of the image that will be drawn
 		//If you are too close to the edge it wont seem like your moving untill you get far enough away from the edge
-    	g.drawImage(mapImage.getSubimage(0+xOffset, 0+yOffset, GamePanel.WIDTH, GamePanel.WIDTH), 0, 0, GamePanel.WIDTH, GamePanel.HEIGHT, null);
+    	g.drawImage(mapImage.getSubimage(0+xOffset, 0+yOffset, GamePanel.WIDTH/2, GamePanel.HEIGHT/2), 0, 0, GamePanel.WIDTH, GamePanel.HEIGHT, null);
 		/*
 		 * The next three are just so that there is a fuller map to play on, instead
 		 * of starting in the top left corner of the map.
