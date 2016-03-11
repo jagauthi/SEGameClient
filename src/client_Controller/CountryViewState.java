@@ -73,7 +73,6 @@ public class CountryViewState extends IState
             	{
             		if(!tiles[x].equals("null"))
             		{
-            			System.out.println(tiles[x]);
             			textMap[x + tiles.length*lineCount] = Integer.parseInt(tiles[x]);
             		}
             	}
@@ -142,7 +141,7 @@ public class CountryViewState extends IState
     	g.drawImage(mapImage.getSubimage(0+xOffset, 0+yOffset, GamePanel.WIDTH, GamePanel.HEIGHT), 0, 0, GamePanel.WIDTH, GamePanel.HEIGHT, null);
     	for(int y = 0; y < 100; y++)
     	{
-    		for(int x = 0; x < 100; x++)
+    		for(int x = 0; x < 200; x++)
     		{
     	    	g.drawString(String.valueOf(map.get(y).get(x).getType()), x*40-xOffset, y*40-yOffset);
     		}
