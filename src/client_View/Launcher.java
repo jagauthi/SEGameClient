@@ -669,7 +669,7 @@ public class Launcher{
 		}
 		else 
 		{
-			client.sendMessage("LOGIN:" + username + ":" + password);
+			client.sendMessage("LOGIN#" + username + "#" + password);
 		}
 	}
 	
@@ -767,11 +767,11 @@ public class Launcher{
 			}
 			else 
 			{
-				client.sendMessage("CREATEACCOUNT:" + username + ":" 
-						+ password + ":" + email + ":" 
-						+ securityQuestion1 + ":" 
-						+ securityAnswer1 + ":"
-						+ securityQuestion2 + ":"
+				client.sendMessage("CREATEACCOUNT#" + username + "#" 
+						+ password + "#" + email + "#" 
+						+ securityQuestion1 + "#" 
+						+ securityAnswer1 + "#"
+						+ securityQuestion2 + "#"
 						+ securityAnswer2);
 			}
 		}
@@ -780,12 +780,12 @@ public class Launcher{
 			if(!(createPasswordText.getPassword()).equals(acctInfo[1]) || createEmailText.getText().equals(acctInfo[2]) || 
 					createSecAnswer1Text.getText().equals(acctInfo[4]) || createSecAnswer2Text.getText().equals(acctInfo[6]))
 			{
-				client.sendMessage("UPDATEACCOUNT:" + acctInfo[0] + ":" + 
-									String.valueOf(createPasswordText.getPassword()) + ":" +
-									createEmailText.getText() + ":" + 
-									acctInfo[3] + ":" + 
-									createSecAnswer1Text.getText() + ":" + 
-									acctInfo[5] + ":" + 
+				client.sendMessage("UPDATEACCOUNT#" + acctInfo[0] + "#" + 
+									String.valueOf(createPasswordText.getPassword()) + "#" +
+									createEmailText.getText() + "#" + 
+									acctInfo[3] + "#" + 
+									createSecAnswer1Text.getText() + "#" + 
+									acctInfo[5] + "#" + 
 									createSecAnswer2Text.getText());
 			}
 		}
@@ -811,7 +811,7 @@ public class Launcher{
 	
 	public void getSecurityInfo(ActionEvent evt)
 	{
-		client.sendMessage("GETSECURITYINFO:" + accountID);
+		client.sendMessage("GETSECURITYINFO#" + accountID);
 	}
 	
 	public void manageAccount(String[] securityInfo)
@@ -854,7 +854,7 @@ public class Launcher{
 		
 		if(count == 4)
 		{
-			client.sendMessage("LOCKACCOUNT:" + accountID);
+			client.sendMessage("LOCKACCOUNT#" + accountID);
 			switchCards("Login Panel");
 		}	
 	}
@@ -923,9 +923,9 @@ public class Launcher{
 		}
 		else
 		{
-			client.sendMessage("CREATECHAR:" + charName + ":" + accountID + 
-								":" + chosenClass + ":" + chosenSex + ":" + str +
-								":" + dex + ":" + con + ":" + intel + ":" + wil + ":" + lck);
+			client.sendMessage("CREATECHAR#" + charName + "#" + accountID + 
+								"#" + chosenClass + "#" + chosenSex + "#" + str +
+								"#" + dex + "#" + con + "#" + intel + "#" + wil + "#" + lck);
 		}
 	}
 	
@@ -1022,12 +1022,12 @@ public class Launcher{
 	
 	public void deleteChar()
 	{
-		client.sendMessage("DELETECHAR:" + characterNames[charSelected] + ":" + accountID);
+		client.sendMessage("DELETECHAR#" + characterNames[charSelected] + "#" + accountID);
 	}
 	
 	public void playGame()
 	{
-		client.sendMessage("PLAYGAME:" + characterNames[charSelected]);
+		client.sendMessage("PLAYGAME#" + characterNames[charSelected]);
 	}
 	
 	public void intoGame(String[] playerInfo)
