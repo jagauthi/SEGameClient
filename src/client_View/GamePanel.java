@@ -5,7 +5,11 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import javax.swing.JFrame;
+import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import client_Controller.ChatClient;
 import client_Controller.StateMachine;
@@ -27,14 +31,25 @@ public class GamePanel extends JPanel
 	
 	public GamePanel(String[] playerInfo, ChatClient client){
 		super();
+		setLayout(null);
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		setFocusable(true);
 		requestFocus();
-    	sm = new StateMachine(playerInfo, client);
+    	sm = new StateMachine(playerInfo, client, this);
 		addKeyListener(this);
 		running = true;
 		thread = new Thread(this);
 		thread.start();
+	}
+	
+	public void addComponent(JComponent button)
+	{
+		this.add(button);
+	}
+	
+	public void removeComponent(JButton button)
+	{
+		this.remove(button);
 	}
 	
 	@Override
@@ -60,6 +75,7 @@ public class GamePanel extends JPanel
 			
 			update();
 			repaint();
+			SwingUtilities.windowForComponent(this).pack();
 			
 			elapsed = System.nanoTime() - start;
 			
@@ -88,9 +104,6 @@ public class GamePanel extends JPanel
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if(e.getKeyCode() == KeyEvent.VK_SPACE){
-			//sm.changeState();
-		}
 		sm.getCurrentState().keyPressed(e.getKeyCode());
 	}
 
