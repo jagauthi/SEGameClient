@@ -4,8 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.JButton;
+import javax.swing.JComponent;
+
 import client_Model.OtherPlayer;
 import client_Model.Player;
+import client_View.GamePanel;
  
 public class StateMachine //extends Thread
 {
@@ -24,10 +28,13 @@ public class StateMachine //extends Thread
 	
 	Player player;
 	
+	GamePanel panel;
+	
 	static ChatClient client;
 	
-    public StateMachine(String[] playerInfo, ChatClient c)
+    public StateMachine(String[] playerInfo, ChatClient c, GamePanel gp)
     {	
+    	panel = gp;
         player = new Player(playerInfo);
         player.setStateMachine(this);
         client = c;
@@ -140,6 +147,19 @@ public class StateMachine //extends Thread
     public CountryViewState getCountryViewState()
     {
     	return countryViewState;
+    }
+    
+    /*
+     * Maybe later change these to adding panels instead of just buttons?
+     */
+    public void addComponent(JComponent button)
+    {
+    	panel.addComponent(button);
+    }
+    
+    public void removeComponent(JButton button)
+    {
+    	panel.removeComponent(button);
     }
    
 }
