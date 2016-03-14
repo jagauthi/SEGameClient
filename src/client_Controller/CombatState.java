@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.swing.JButton;
 
 import client_Model.Enemy;
 import client_Model.Location;
@@ -19,6 +20,7 @@ public class CombatState extends IState
 {
 	BufferedImage backgroundImage;
 	ArrayList<Enemy> enemies;
+	JButton attackButton, magicButton, inventoryButton, runButton;
 	
 	public CombatState(Player p, StateMachine s)
 	{
@@ -34,6 +36,26 @@ public class CombatState extends IState
 		catch (IOException ioe) {
             System.out.println("Unable to load image file.");
         }
+	}
+	
+	public void attackMenu()
+	{
+		
+	}
+	
+	public void magicMenu()
+	{
+		
+	}
+	
+	public void inventoryMenu()
+	{
+		
+	}
+	
+	public void runAway()
+	{
+		
 	}
 	
     public void update()
@@ -77,7 +99,39 @@ public class CombatState extends IState
   
     public void onEnter()
     {
-        // No action to take when the state is entered
+    	attackButton = new JButton("Attack");
+		attackButton.setBounds(GamePanel.WIDTH/2 + 10, 2*GamePanel.HEIGHT/3 + 10, 300, 110);
+		attackButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                attackMenu();
+            }
+        });
+		magicButton = new JButton("Magic");
+		magicButton.setBounds(GamePanel.WIDTH/2 + 310, 2*GamePanel.HEIGHT/3 + 10, 300, 110);
+		magicButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                magicMenu();
+            }
+        });
+		inventoryButton = new JButton("Inventory");
+		inventoryButton.setBounds(GamePanel.WIDTH/2 + 10, 2*GamePanel.HEIGHT/3 + 120, 300, 110);
+		inventoryButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inventoryMenu();
+            }
+        });
+		runButton = new JButton("Run");
+		runButton.setBounds(GamePanel.WIDTH/2 + 310, 2*GamePanel.HEIGHT/3 + 120, 300, 110);
+		runButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                runAway();
+            }
+        });
+		
+		sm.addComponent(attackButton);
+		sm.addComponent(magicButton);
+		sm.addComponent(inventoryButton);
+		sm.addComponent(runButton);
     }
   
     public void onExit()
