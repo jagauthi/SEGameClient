@@ -1,6 +1,7 @@
 package client_Controller;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
@@ -14,6 +15,8 @@ import java.util.HashMap;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
+import javax.swing.JButton;
+import javax.swing.JPanel;
 
 import client_Model.Location;
 import client_Model.OtherPlayer;
