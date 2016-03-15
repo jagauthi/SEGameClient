@@ -188,7 +188,7 @@ public class Player {
 		}
 		moving = false;
 		sm.sendServerMyPosition();
-		//sm.getCurrentState().calculateRandomEncounterChance();
+		sm.getCurrentState().calculateRandomEncounterChance();
 	}
 	
 	public String getLocationInfo()
