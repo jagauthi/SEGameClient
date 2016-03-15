@@ -25,7 +25,7 @@ public class Tile {
 		else if(type == 5)
 			randomEncounterChance = 4.0;
 		else
-			randomEncounterChance = 0;
+			randomEncounterChance = 20.0;
 	}
 
 	public int getType()
