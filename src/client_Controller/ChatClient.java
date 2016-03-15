@@ -155,7 +155,9 @@ public class ChatClient extends Thread{
 	            }
 	            else if(message[0].equals("encounterInfo")) {
 	            	if(sm.currentState instanceof CombatState)
+	            	{
 	            		sm.currentState.loadInfo(message);
+	            	}
 	            }
 	            else
 	            {
