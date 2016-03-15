@@ -117,7 +117,7 @@ public class CountryViewState extends IState
     		randomEncounterChance += currentTile.getRandomEncounterChance();
     	else
     		randomEncounterChance = 0;
-//    	System.out.println("Random encounter chance: " + randomEncounterChance );
+    	System.out.println("Random encounter chance: " + randomEncounterChance );
     	Random rand = new Random();
     	int chance = rand.nextInt(100);
     	if(chance < randomEncounterChance)
