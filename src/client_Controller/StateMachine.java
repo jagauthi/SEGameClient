@@ -126,14 +126,14 @@ public class StateMachine //extends Thread
     	if(args[0].equals("LocalViewState"))
     	{
     		currentState = states.get(args[0]);
-    		client.sendMessage("GETLOCALINFO:" + args[1]);
+    		client.sendMessage("GETLOCALINFO#" + args[1]);
     		player.setLocation(args[1]);
     		//currentState.loadInfo(args[1]);
     	}
     	else if(args[0].equals("CombatState"))
     	{
     		currentState = states.get(args[0]);
-    		client.sendMessage("GETCOMBATINFO:" + args[1]);
+    		client.sendMessage("GETCOMBATINFO#" + args[1]);
     	}
     	else if(args[0].equals("CountryViewState"))
     	{
