@@ -59,7 +59,7 @@ public class StateMachine //extends Thread
     public void finalize()
     {
     	player.setLoggedIn("0");
-    	client.sendMessage("UPDATECHARINFO:" + player.getAllCharInfo());
+    	client.sendMessage("UPDATECHARINFO#" + player.getAllCharInfo());
     }
   
     public void update()
