@@ -193,7 +193,7 @@ public class Player {
 	
 	public String getLocationInfo()
 	{
-		String message = name + ":" + x + ":" + y + ":" + location;
+		String message = name + "#" + x + "#" + y + "#" + location;
 		return message;
 	}
 	
