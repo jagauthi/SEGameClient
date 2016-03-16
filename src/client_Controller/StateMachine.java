@@ -59,7 +59,7 @@ public class StateMachine //extends Thread
     public void finalize()
     {
     	player.setLoggedIn("0");
-    	client.sendMessage("UPDATECHARINFO#" + player.getAllCharInfo());
+    	client.sendMessage("UPDATECHARINFO:" + player.getAllCharInfo());
     }
   
     public void update()
@@ -77,7 +77,7 @@ public class StateMachine //extends Thread
     
     public void sendServerMyPosition()
     {
-    	client.sendMessage("UPDATECHARPOS:" + player.getLocationInfo());
+    	client.sendMessage("UPDATECHARPOS#" + player.getLocationInfo());
     }
     
     public void updateCharsAroundMe(String[] charsAroundMe)
@@ -89,8 +89,8 @@ public class StateMachine //extends Thread
 	    	for(int i = 1; i < charsAroundMe.length; i++)
 	    	{
 	    		String[] otherGuy = charsAroundMe[i].split(" ");
-	    		otherPlayers.add(new OtherPlayer(otherGuy[0], otherGuy[1],
-	    				Integer.parseInt(otherGuy[2]), Integer.parseInt(otherGuy[3])));
+	    		otherPlayers.add(new OtherPlayer(otherGuy[0],
+	    				Integer.parseInt(otherGuy[1]), Integer.parseInt(otherGuy[2])));
 	    	}
     	}
     }
