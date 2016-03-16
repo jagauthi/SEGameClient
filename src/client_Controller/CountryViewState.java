@@ -178,14 +178,6 @@ public class CountryViewState extends IState
     		for(int i = 0; i < StateMachine.otherPlayers.size(); i++)
     		{
     			OtherPlayer other = StateMachine.otherPlayers.get(i);
-    			if(other.getPlayerClass().equals("Rogue"))
-    			{
-    				g.setColor(Color.green);
-    			}
-    			else if(other.getPlayerClass().equals("Mage"))
-    				g.setColor(Color.blue);
-    			else
-    				g.setColor(Color.red);
     			
     			if(!other.getName().equals(player.getName()))
     			{
