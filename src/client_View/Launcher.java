@@ -356,9 +356,10 @@ public class Launcher{
 			
 			deleteButtons[x] = new JButton("Delete");
 			deleteButtons[x].setPreferredSize(new Dimension(200, 200));
+			final int selected = x;
 			deleteButtons[x].addActionListener(new java.awt.event.ActionListener() {
 	            public void actionPerformed(java.awt.event.ActionEvent evt) {
-	                deleteChar();
+	                deleteChar(selected);
 	            }
 	        });
 	        
@@ -1020,9 +1021,9 @@ public class Launcher{
 		switchCards("Char Select Panel");
 	}
 	
-	public void deleteChar()
+	public void deleteChar(int x)
 	{
-		client.sendMessage("DELETECHAR#" + characterNames[charSelected] + "#" + accountID);
+		client.sendMessage("DELETECHAR#" + characterNames[x] + "#" + accountID);
 	}
 	
 	public void playGame()
