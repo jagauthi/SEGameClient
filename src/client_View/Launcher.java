@@ -836,6 +836,10 @@ public class Launcher{
 		while(!correctSecAnswer && count < 4)
 		{
 			String secAnswer = JOptionPane.showInputDialog(null, acctInfo[3], "Security Question", JOptionPane.INFORMATION_MESSAGE);
+			System.out.println(secAnswer);
+			if(secAnswer == null)
+				break;
+			
 			if(secAnswer.equals(acctInfo[4]))
 			{
 				correctSecAnswer = true;
