@@ -22,6 +22,10 @@ public class CombatState extends IState
 	BufferedImage backgroundImage;
 	ArrayList<Enemy> enemies;
 	JButton attackButton, magicButton, inventoryButton, runButton;
+	JButton enemy1Button, enemy2Button, enemy3Button, enemy4Button;
+	int selectedEnemy = 0;
+	static int numEnemiesKilled = 0;
+	boolean started = false;
 	
 	public CombatState(Player p, StateMachine s)
 	{
@@ -67,17 +71,46 @@ public class CombatState extends IState
                 runAway();
             }
         });
+				
+		enemy1Button = new JButton("Enemy1");
+		enemy1Button.setBounds(GamePanel.WIDTH/8, GamePanel.HEIGHT/8, Enemy.WIDTH, Enemy.HEIGHT);
+		enemy1Button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectEnemy(1);
+            }
+        });
+		enemy2Button = new JButton("Enemy2");
+		enemy2Button.setBounds(GamePanel.WIDTH/8, GamePanel.HEIGHT/8 + 140, Enemy.WIDTH, Enemy.HEIGHT);
+		enemy2Button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	selectEnemy(2);
+            }
+        });
+		enemy3Button = new JButton("Enemy3");
+		enemy3Button.setBounds(GamePanel.WIDTH/8, GamePanel.HEIGHT/8 + 280, Enemy.WIDTH, Enemy.HEIGHT);
+		enemy3Button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	selectEnemy(3);
+            }
+        });
+		enemy4Button = new JButton("Enemy4");
+		enemy4Button.setBounds(GamePanel.WIDTH/8, GamePanel.HEIGHT/8 + 420, Enemy.WIDTH, Enemy.HEIGHT);
+		enemy4Button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	selectEnemy(4);
+            }
+        });
 		
 	}
 	
 	public void attackMenu()
 	{
-		System.out.println("Attaaaaaaack");
+		enemies.get(selectedEnemy-1).takeDamage(player.getMeleeDamage());
 	}
 	
 	public void magicMenu()
 	{
-		System.out.println("PewPew");
+		enemies.get(selectedEnemy-1).takeDamage(player.getMagicDamage());
 	}
 	
 	public void inventoryMenu()
@@ -90,10 +123,18 @@ public class CombatState extends IState
 		System.out.println("Run away, little girl.");
 	}
 	
+	public void selectEnemy(int num)
+	{
+		System.out.println("Selecting enemy number: " + num);
+		selectedEnemy = num;
+	}
+	
     public void update()
     {
     	//player.animationUpdate();
     	//player.update();
+    	if(started)
+    		truncateEnemies();
     }
     
     public void oncePerSecondUpdate()
@@ -107,15 +148,25 @@ public class CombatState extends IState
 
     	g.drawImage(player.getImage(), 3*GamePanel.WIDTH/4, GamePanel.HEIGHT/4, null);
     	
-    	
-    	
     	if(enemies.size() > 0)
     	{
     		g.setColor(Color.red);
 			for(int i = 0; i < enemies.size(); i++)
 			{
-				Rectangle enemyRect = enemies.get(i).getRect();
-				g.fillRect(enemyRect.x, enemyRect.y, enemyRect.width, enemyRect.height);
+				if(enemies.get(i).isAlive())
+				{
+					Enemy enemy = enemies.get(i);
+					Rectangle enemyRect = enemy.getRect();
+					//Drawing Enemy Rectangle
+					g.fillRect(enemyRect.x, enemyRect.y, enemyRect.width, enemyRect.height);
+					
+					//Enemy HealthBar
+					float currentHealth = (float)enemy.getHealth()/(float)enemy.getMaxHealth() * 100.0f;
+					g.setColor(Color.white);
+					g.fillRect(enemyRect.x - 20, enemyRect.y - 25, 104, 20);
+					g.setColor(Color.red);
+					g.fillRect(enemyRect.x - 18, enemyRect.y - 23, (int) currentHealth, 16);
+				}
 			}
     	}
     	//Left Box Background
@@ -132,6 +183,38 @@ public class CombatState extends IState
     	g.drawString("Mana: " + player.getMana(), 10, (3*GamePanel.HEIGHT/4)+50);
     }
     
+    public void truncateEnemies()
+    {
+    	if(numEnemiesKilled < enemies.size())
+    	{
+	    	for(int i = 0; i < enemies.size(); i++)
+	    	{
+	    		if(!enemies.get(i).isAlive())
+	    		{
+	    			//enemies.remove(i);
+	    			if(i == 0)
+	    				sm.removeComponent(enemy1Button);
+	    			else if(i == 1)
+	    				sm.removeComponent(enemy2Button);
+	    			else if(i == 2)
+	    				sm.removeComponent(enemy3Button);
+	    			else
+	    				sm.removeComponent(enemy4Button);
+	    		}
+	    	}
+    	}
+    	else
+    	{
+    		String[] args = { "CountryViewState" };
+    		sm.changeState(args);
+    	}
+    }
+    
+    public static void incrementNumEnemiesKilled()
+    {
+    	numEnemiesKilled++;
+    }
+    
     public void drawOtherPlayers(Graphics g)
     {
     	
@@ -144,15 +227,29 @@ public class CombatState extends IState
   
     public void onEnter()
     {
+    	started = true;
+    	numEnemiesKilled = 0;
 		sm.addComponent(attackButton);
 		sm.addComponent(magicButton);
 		sm.addComponent(inventoryButton);
 		sm.addComponent(runButton);
+		
+		sm.addComponent(enemy1Button);
+		sm.addComponent(enemy2Button);
+		//sm.addComponent(enemy3Button);
+		//sm.addComponent(enemy4Button);
     }
   
     public void onExit()
     {
-        // No action to take when the state is exited
+        started = false;
+    	sm.removeComponent(attackButton);
+		sm.removeComponent(magicButton);
+		sm.removeComponent(inventoryButton);
+		sm.removeComponent(runButton);
+		
+		sm.removeComponent(enemy1Button);
+		sm.removeComponent(enemy2Button);
     }
     
     public void loadInfo(String[] info)
@@ -163,7 +260,7 @@ public class CombatState extends IState
     		String[] thisEnemy = info[i].split(" ");
     		//Takes an enemies name, health, and damage (?)
     		Enemy newEnemy = new Enemy(thisEnemy[0], Integer.parseInt(thisEnemy[1]), Integer.parseInt(thisEnemy[2]));
-    		newEnemy.setRect(GamePanel.WIDTH/8, GamePanel.HEIGHT/8 + (i*100), Enemy.WIDTH, Enemy.HEIGHT);
+    		newEnemy.setRect(GamePanel.WIDTH/8, GamePanel.HEIGHT/8 + ((i-1)*140), Enemy.WIDTH, Enemy.HEIGHT);
     		enemies.add(newEnemy);
     	}
     	onEnter();
