@@ -63,6 +63,8 @@ public class GamePanel extends JPanel
 		
 		while(running){
 			
+			this.requestFocus();
+			
 			if(System.currentTimeMillis() - timer > 1000)
             {
 				//if we make timer+=1000, it will go off once per second.
