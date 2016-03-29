@@ -1143,6 +1143,8 @@ public class Launcher{
 	public void logout(ActionEvent evt)
 	{
 		charSelectPanel.removeAll();
+		for(int i = 0; i < characterNames.length; i++)
+			characterNames[i] = "";
 		switchCards("Login Panel");
 		loginNameText.setText("");
 		loginPasswordText.setText("");
