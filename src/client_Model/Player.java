@@ -188,7 +188,7 @@ public class Player {
 		}
 		moving = false;
 		sm.sendServerMyPosition();
-		//sm.getCurrentState().calculateRandomEncounterChance();
+		sm.getCurrentState().calculateRandomEncounterChance();
 	}
 	
 	public String getLocationInfo()
@@ -506,6 +506,16 @@ public class Player {
 	public void setEyeColor(Color c, Color c2){
 		eyeColor = c;
 		eyeColor2 = c2;
+	}
+	
+	public int getMeleeDamage()
+	{
+		return strength;
+	}
+	
+	public int getMagicDamage()
+	{
+		return intelligence;
 	}
 
 }
