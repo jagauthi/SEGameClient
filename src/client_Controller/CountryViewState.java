@@ -92,7 +92,7 @@ public class CountryViewState extends IState
 			map.put(y, new HashMap<Integer, Tile>());
 			for(int x = 0; x < width; x++)
 			{
-				map.get(y).put(x, new Tile(x, y, textMap[y*20 + x]));
+				map.get(y).put(x, new Tile(x, y, textMap[y*width + x]));
 			}
 		}
 	}
