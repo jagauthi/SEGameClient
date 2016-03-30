@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -17,6 +19,9 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 import client_Model.Location;
 import client_Model.OtherPlayer;
@@ -29,6 +34,10 @@ public class CountryViewState extends IState
 	BufferedImage mapImage;
 	int xOffset, yOffset = 0;
 	double randomEncounterChance = 0.0;
+	
+    JTextField textField = new JTextField(40);
+    static JTextArea messageArea = new JTextArea(8, 40);
+    JScrollPane scrollPane;
 	
 	public CountryViewState(Player p, StateMachine s)
 	{
@@ -46,6 +55,35 @@ public class CountryViewState extends IState
             System.out.println("Unable to load image file.");
         }
 		loadMap();
+		
+		//Message area displays the messages
+	    messageArea.setEditable(false);
+	    //Text field is where the user types his/her messages
+		textField.setEditable(true);
+		
+		//Creates the message area, and adds it to a scroll pane so the user can look
+		//through previous messages
+		messageArea.setBounds(0, 0, 400, 100);
+	    scrollPane = new JScrollPane(messageArea);
+	    scrollPane.setBounds(5, 3*GamePanel.HEIGHT/5, 400, 100);
+	    
+	    textField.setBounds(5, 3*GamePanel.HEIGHT/5 + 110, 400, 100);
+
+        // Adds the listener to the text field so the enter button will send the message
+        textField.addActionListener(new ActionListener() {
+            /**
+             * Responds to pressing the enter key in the textfield by sending
+             * the contents of the text field to the server.    Then clear
+             * the text area in preparation for the next message.
+             */
+            public void actionPerformed(ActionEvent e) {
+            	System.out.println("Sending this message...: " + textField.getText());
+            	sm.client.sendMessage("MESSAGE#" + textField.getText());
+                //out.println(textField.getText());
+                textField.setText("");
+            }
+        });
+
 	}
 	
 	public void loadMap()
@@ -248,7 +286,9 @@ public class CountryViewState extends IState
     		player.moveRight();
 		}
     	if(keyCode == KeyEvent.VK_SPACE){
-
+    	    sm.addComponent(textField);
+    	    sm.addComponent(scrollPane);
+    	    //sm.addComponent(new JScrollPane(messageArea));
 		}
     }
     
