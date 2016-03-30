@@ -42,6 +42,11 @@ public class GamePanel extends JPanel
 		thread.start();
 	}
 	
+	public void doRequestFocus()
+	{
+		requestFocus();
+	}
+	
 	public void addComponent(JComponent button)
 	{
 		this.add(button);
@@ -63,7 +68,7 @@ public class GamePanel extends JPanel
 		
 		while(running){
 			
-			this.requestFocus();
+			//this.requestFocus();
 			
 			if(System.currentTimeMillis() - timer > 1000)
             {
