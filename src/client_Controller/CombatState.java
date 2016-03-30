@@ -242,6 +242,7 @@ public class CombatState extends IState
   
     public void onExit()
     {
+    	sm.doRequestFocus();
         started = false;
     	sm.removeComponent(attackButton);
 		sm.removeComponent(magicButton);
