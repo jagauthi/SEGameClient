@@ -88,7 +88,7 @@ public class ChatClient extends Thread{
 	                textField.setEditable(true);
 	            } 
 	            else if (message[0].equals("MESSAGE")) {
-	                messageArea.append(line.substring(8) + "\n");
+	                CountryViewState.messageArea.append(message[2] + ": " + message[1] + "\n");
 	            }
 	            else if (message[0].equals("loginSuccess")) { 
 	                //The server should send each of the characters that belong to 
