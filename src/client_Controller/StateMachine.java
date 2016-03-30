@@ -162,4 +162,8 @@ public class StateMachine //extends Thread
     	panel.removeComponent(button);
     }
    
+    public void doRequestFocus()
+    {
+    	panel.doRequestFocus();
+    }
 }
