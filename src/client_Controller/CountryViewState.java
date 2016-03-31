@@ -63,11 +63,11 @@ public class CountryViewState extends IState
 		
 		//Creates the message area, and adds it to a scroll pane so the user can look
 		//through previous messages
-		messageArea.setBounds(0, 0, 400, 100);
+		messageArea.setBounds(0, 0, 400, 140);
 	    scrollPane = new JScrollPane(messageArea);
-	    scrollPane.setBounds(5, 3*GamePanel.HEIGHT/5, 400, 100);
+	    scrollPane.setBounds(5, 7*GamePanel.HEIGHT/10, 400, 140);
 	    
-	    textField.setBounds(5, 3*GamePanel.HEIGHT/5 + 110, 400, 100);
+	    textField.setBounds(5, 7*GamePanel.HEIGHT/10 + 145, 400, 50);
 
         // Adds the listener to the text field so the enter button will send the message
         textField.addActionListener(new ActionListener() {
@@ -198,13 +198,13 @@ public class CountryViewState extends IState
 
     	player.draw(g);
     	g.setColor(Color.lightGray);
-    	g.fillRect(0, 600, 300, 120);
+    	g.fillRect(0, 0, 300, 120);
     	g.setColor(Color.black);
-    	g.drawString("Name: " + player.getName(), 10, 610);
-    	g.drawString("HP: " + player.getHealth(), 10, 630);
-    	g.drawString("Mana: " + player.getMana(), 10, 650);
-    	g.drawString("Coords: " + player.getX() + ", " + player.getY(), 10, 670);
-    	g.drawString("Exp: " + player.getExperience(), 10, 690);
+    	g.drawString("Name: " + player.getName(), 10, 15);
+    	g.drawString("HP: " + player.getHealth(), 10, 35);
+    	g.drawString("Mana: " + player.getMana(), 10, 55);
+    	g.drawString("Coords: " + player.getX() + ", " + player.getY(), 10, 75);
+    	g.drawString("Exp: " + player.getExperience(), 10, 95);
     	
     	drawOtherPlayers(g);
     	drawLocations(g);
