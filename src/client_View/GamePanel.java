@@ -47,14 +47,14 @@ public class GamePanel extends JPanel
 		requestFocus();
 	}
 	
-	public void addComponent(JComponent button)
+	public void addComponent(JComponent comp)
 	{
-		this.add(button);
+		this.add(comp);
 	}
 	
-	public void removeComponent(JButton button)
+	public void removeComponent(JComponent comp)
 	{
-		this.remove(button);
+		this.remove(comp);
 	}
 	
 	@Override
