@@ -827,11 +827,18 @@ public class Launcher{
 			System.out.println("Security answer: " + securityAnswer1);
 			*/
 			
+			
 			if(!password.equals(passwordVerify))
 			{
 				System.out.println("Passwords do not match");
 			}
-			if(username.equals(""))
+			if(!checkUsername(username))
+			{
+				createNameText.setText("");
+				JOptionPane.showMessageDialog(null, "Please enter a username with only letters.", "ERROR", 
+						JOptionPane.INFORMATION_MESSAGE);
+			}
+			else if(username.equals(""))
 			{
 				createNameText.setText("");
 				createEmailText.setText("");
@@ -1264,4 +1271,13 @@ public class Launcher{
 		}
 	}
 	
+	public boolean checkUsername(String name) {
+	    char[] charArray = name.toCharArray();
+	    for (char c : charArray) {
+	        if(!Character.isLetter(c)) {
+	            return false;
+	        }
+	    }
+	    return true;
+	}
 }
