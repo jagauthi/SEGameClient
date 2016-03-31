@@ -1139,6 +1139,12 @@ public class Launcher{
 			JOptionPane.showMessageDialog(null, "Please enter a character name.", "ERROR", 
 					JOptionPane.INFORMATION_MESSAGE);
 		}
+		else if(!checkUsername(charName))
+		{
+			newCharacterNameText.setText("");
+			JOptionPane.showMessageDialog(null, "Please enter a character name with only letters.", "ERROR", 
+					JOptionPane.INFORMATION_MESSAGE);
+		}
 		else
 		{
 			client.sendMessage("CREATECHAR#" + charName + "#" + accountID + 
