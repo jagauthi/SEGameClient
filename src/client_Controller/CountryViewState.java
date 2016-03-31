@@ -36,7 +36,7 @@ public class CountryViewState extends IState
 	double randomEncounterChance = 0.0;
 	
     JTextField textField = new JTextField(40);
-    static JTextArea messageArea = new JTextArea(8, 40);
+    JTextArea messageArea = new JTextArea(8, 40);
     JScrollPane scrollPane;
 	
 	public CountryViewState(Player p, StateMachine s)
@@ -73,14 +73,14 @@ public class CountryViewState extends IState
         textField.addActionListener(new ActionListener() {
             /**
              * Responds to pressing the enter key in the textfield by sending
-             * the contents of the text field to the server.    Then clear
+             * the contents of the text field to the server. Then clear
              * the text area in preparation for the next message.
              */
             public void actionPerformed(ActionEvent e) {
             	System.out.println("Sending this message...: " + textField.getText());
-            	sm.client.sendMessage("MESSAGE#" + textField.getText());
-                //out.println(textField.getText());
+            	sm.client.sendMessage("MESSAGE#" + player.getName() + "#" + textField.getText());
                 textField.setText("");
+                sm.doRequestFocus();
             }
         });
 
@@ -204,6 +204,7 @@ public class CountryViewState extends IState
     	g.drawString("HP: " + player.getHealth(), 10, 630);
     	g.drawString("Mana: " + player.getMana(), 10, 650);
     	g.drawString("Coords: " + player.getX() + ", " + player.getY(), 10, 670);
+    	g.drawString("Exp: " + player.getExperience(), 10, 690);
     	
     	drawOtherPlayers(g);
     	drawLocations(g);
@@ -248,12 +249,15 @@ public class CountryViewState extends IState
   
     public void onEnter()
     {
-        // No action to take when the state is entered
+	    sm.addComponent(textField);
+	    sm.addComponent(scrollPane);
+        textField.setText("");
     }
   
     public void onExit()
     {
-        // No action to take when the state is exited
+	    sm.removeComponent(textField);
+	    sm.removeComponent(scrollPane);
     }
     
     public void getLocations()
@@ -286,9 +290,10 @@ public class CountryViewState extends IState
     		player.moveRight();
 		}
     	if(keyCode == KeyEvent.VK_SPACE){
-    	    sm.addComponent(textField);
-    	    sm.addComponent(scrollPane);
-    	    //sm.addComponent(new JScrollPane(messageArea));
+    		
+		}
+    	if(keyCode == KeyEvent.VK_ENTER){
+    		textField.requestFocus();
 		}
     }
     
