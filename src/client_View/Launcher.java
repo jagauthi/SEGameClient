@@ -933,7 +933,7 @@ public class Launcher{
 			{
 				System.out.println("Passwords do not match");
 			}
-			if(email.equals(""))
+			if(email.equals("") || email.indexOf("@") < 0 || email.indexOf(".") < 0)
 			{
 				modifyNameText.setText("");
 				modifyEmailText.setText("");
