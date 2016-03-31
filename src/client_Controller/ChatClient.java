@@ -6,8 +6,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.net.Socket;
 
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -51,7 +54,7 @@ public class ChatClient extends Thread{
     {
     	this.sm = sm;
     }
-
+/*
     private String getServerAddress() {
         return JOptionPane.showInputDialog(
             frame,
@@ -59,13 +62,22 @@ public class ChatClient extends Thread{
             "Welcome to the Chatter",
             JOptionPane.QUESTION_MESSAGE);
     }
-
+*/
     public String getScreenName() {
         return JOptionPane.showInputDialog(
             frame,
             "Choose a screen name:",
             "Screen name selection",
             JOptionPane.PLAIN_MESSAGE);
+    }
+    
+    public String getServerAddress(){
+    	String[] choices = { "localhost", "uaf131025.ddns.uark.edu", "uaf131018.ddns.uark.edu" };
+    	String input = (String) JOptionPane.showInputDialog(null, "Options: ",
+    			"Choose Server", JOptionPane.QUESTION_MESSAGE, null,      
+    			choices, // Array of choices
+    			choices[0]); // Initial choice
+    	return input;
     }
 
     public void run() {
@@ -82,7 +94,18 @@ public class ChatClient extends Thread{
 	            String line = in.readLine();
 	            String[] message = line.split("#");
 	            if (message[0].equals("SUBMITNAME")) {
-	                out.println(getScreenName());
+	                //out.println(getScreenName());
+	            	
+	            	//Gets the mac address and sends it to the server's handler
+	            	InetAddress ip = InetAddress.getLocalHost();
+	        		NetworkInterface network = NetworkInterface.getByInetAddress(ip);
+	        		byte[] mac = network.getHardwareAddress();
+	        		StringBuilder sb = new StringBuilder();
+	        		for (int i = 0; i < mac.length; i++) {
+	        			sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));		
+	        		}
+	        		System.out.println(sb.toString());
+	        		out.println(sb.toString());
 	            } 
 	            else if (message[0].equals("NAMEACCEPTED")) {
 	                textField.setEditable(true);
