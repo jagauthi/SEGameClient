@@ -89,9 +89,13 @@ public class ChatClient extends Thread{
 	            } 
 	            else if (message[0].equals("MESSAGE")) {
 	            	String textMessage = "";
-	            	for(int i = 2; i < message.length; i++)
-	            		textMessage += message[i] + "#";
-	            	textMessage = textMessage.substring(0, textMessage.length()-1);
+	            	if(message.length > 1)
+	            	{
+		            	for(int i = 2; i < message.length; i++)
+		            		textMessage += message[i] + "#";
+		            	if(textMessage.length() > 0)
+		            		textMessage = textMessage.substring(0, textMessage.length()-1);
+	            	}
 	                sm.getCountryViewState().messageArea.append(message[1] + ": " + textMessage + "\n");
 	            }
 	            else if (message[0].equals("loginSuccess")) { 
