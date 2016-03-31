@@ -140,6 +140,7 @@ public class StateMachine //extends Thread
     		//Do we need to give coordinates to where the player will be returned in the country view?
     		currentState = states.get(args[0]);
     		player.setLocation("CountryView");
+    		currentState.onEnter();
     	}
     	//currentState.onEnter();
     }
@@ -152,14 +153,14 @@ public class StateMachine //extends Thread
     /*
      * Maybe later change these to adding panels instead of just buttons?
      */
-    public void addComponent(JComponent button)
+    public void addComponent(JComponent comp)
     {
-    	panel.addComponent(button);
+    	panel.addComponent(comp);
     }
     
-    public void removeComponent(JButton button)
+    public void removeComponent(JComponent comp)
     {
-    	panel.removeComponent(button);
+    	panel.removeComponent(comp);
     }
    
     public void doRequestFocus()
