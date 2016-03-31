@@ -518,4 +518,17 @@ public class Player {
 		return intelligence;
 	}
 
+	public void gainExperience(int xp)
+	{
+		experience += xp;
+		if(experience > (level*100 + level*20))
+			levelUp();
+	}
+	
+	public void levelUp()
+	{
+		level++;
+		pointsToSpend += 5;
+		System.out.println("Ding! Leveled up :)");
+	}
 }
