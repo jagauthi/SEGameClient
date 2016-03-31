@@ -205,6 +205,10 @@ public class CombatState extends IState
     	}
     	else
     	{
+    		int totalXP = 0;
+    		for(int i = 0; i < enemies.size(); i++)
+    			totalXP += enemies.get(i).getXP();
+    		player.gainExperience(totalXP);
     		String[] args = { "CountryViewState" };
     		sm.changeState(args);
     	}
