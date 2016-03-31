@@ -7,7 +7,7 @@ import client_Controller.CombatState;
 public class Enemy {
 	
 	String name;
-	int health, maxHealth, damage;
+	int health, maxHealth, damage, experience;
 	boolean alive;
 	Rectangle enemyRect;
 	public static int WIDTH = 60;
@@ -21,6 +21,7 @@ public class Enemy {
 		damage = newDamage;
 		enemyRect = new Rectangle();
 		alive = true;
+		experience = newHealth/3;
 	}
 	
 	public Rectangle getRect()
@@ -68,5 +69,10 @@ public class Enemy {
 	public boolean isAlive()
 	{
 		return (health > 0);
+	}
+	
+	public int getXP()
+	{
+		return experience;
 	}
 }
