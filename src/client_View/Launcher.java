@@ -6,7 +6,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
@@ -14,7 +13,6 @@ import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -166,6 +164,7 @@ public class Launcher{
         loginPasswordText = new JPasswordField();
         JButton loginButton = new JButton();
         JButton createAccountButton = new JButton();
+        JButton forgotPasswordButton = new JButton();
         
         loginNameLabel.setText("Username: ");
         loginPasswordLabel.setText("Password: ");
@@ -175,6 +174,7 @@ public class Launcher{
         loginButton.setText("Login!");
         loginButton.setFont(normalFont);
         createAccountButton.setText("Create Account");
+        forgotPasswordButton.setText("Forgot password?");
         
         loginButton.setPreferredSize(new Dimension(100, 50));
         loginButton.addActionListener(new java.awt.event.ActionListener() {
@@ -186,6 +186,11 @@ public class Launcher{
         createAccountButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 goToCreateAccount(evt);
+            }
+        });
+        forgotPasswordButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                forgotPassword(evt);
             }
         });
         
@@ -212,6 +217,10 @@ public class Launcher{
         c.gridx = 0;
         c.gridy = 3;
         loginPanel.add(createAccountButton, c);
+        
+        c.gridx = 1;
+        c.gridy = 3;
+        loginPanel.add(forgotPasswordButton, c);
         
         c.gridx = 1;
         c.gridy = 2;
@@ -1285,5 +1294,10 @@ public class Launcher{
 	        }
 	    }
 	    return true;
+	}
+	
+	public void forgotPassword(ActionEvent e)
+	{
+		String username = JOptionPane.showInputDialog(null, "What is your username?", "Forgot Password", JOptionPane.INFORMATION_MESSAGE);
 	}
 }
