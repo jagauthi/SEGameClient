@@ -151,6 +151,7 @@ public class CountryViewState extends IState
     public void calculateRandomEncounterChance()
     {
     	Tile currentTile = map.get( player.getY() ).get( player.getX() );
+    	System.out.println("Current tile: " + currentTile.getType());
     	if(currentTile.getType() != 1)
     		randomEncounterChance += currentTile.getRandomEncounterChance();
     	else
@@ -184,7 +185,7 @@ public class CountryViewState extends IState
     	{
     		for(int x = 0; x < 200; x++)
     		{
-    	    	g.drawString(String.valueOf(map.get(y).get(x).getType()), x*40-xOffset, y*40-yOffset);
+    	    	g.drawString(String.valueOf(map.get(y).get(x).getType()), x*20-xOffset, y*20-yOffset);
     		}
     	}
 		/*
