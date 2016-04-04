@@ -242,6 +242,7 @@ public class CombatState extends IState
 		sm.addComponent(enemy2Button);
 		//sm.addComponent(enemy3Button);
 		//sm.addComponent(enemy4Button);
+		selectedEnemy = 1;
     }
   
     public void onExit()
