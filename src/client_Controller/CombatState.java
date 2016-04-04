@@ -256,7 +256,7 @@ public class CombatState extends IState
 		sm.removeComponent(enemy1Button);
 		sm.removeComponent(enemy2Button);
 		
-        sm.client.sendMessage("UPDATECHARINFO:" + player.getAllCharInfo());
+        sm.client.sendMessage("UPDATECHARINFO#" + player.getAllCharInfo());
     }
     
     public void loadInfo(String[] info)
