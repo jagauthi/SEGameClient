@@ -216,9 +216,9 @@ public class Player {
 	public String getAllCharInfo()
 	{
 		//charName, loggedIn, class, level, gender, health, mana, str, dex, con, int, wil, luck, exp, pointsToSpend, xCoord, yCoord, location, clanName, abilities, cooldowns
-		return name + ":" + loggedIn + ":" + playerClass + ":" + level + ":" + gender + ":" + health + ":" + mana + ":" + strength + ":" + dexterity + ":" + 
-				constitution + ":" + intelligence + ":" + willpower + ":" + luck + ":" + experience + ":" + pointsToSpend + ":" +
-				x + ":" + y + ":" + location + ":" + clanName + ":" + abilities + ":" + cooldowns;
+		return name + "#" + loggedIn + "#" + playerClass + "#" + level + "#" + gender + "#" + health + "#" + mana + "#" + strength + "#" + dexterity + "#" + 
+				constitution + "#" + intelligence + "#" + willpower + "#" + luck + "#" + experience + "#" + pointsToSpend + "#" +
+				x + "#" + y + "#" + location + "#" + clanName + "#" + abilities + "#" + cooldowns;
 	}
 	
 	public int getAnimationOffsetX(){
