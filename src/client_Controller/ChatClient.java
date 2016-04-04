@@ -165,6 +165,8 @@ public class ChatClient extends Thread{
 	                launcher.switchCards("Char Select Panel");
 	            }
 	            else if (message[0].equals("accountUpdated")) { 
+	            	launcher.loadCharacterInfo(message);
+	                launcher.initCharSelectPanel();
 	            	launcher.backToCharSelect();
 	            }
 	            else if (message[0].equals("characterInfo")) { 
