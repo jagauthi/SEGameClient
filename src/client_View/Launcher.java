@@ -349,6 +349,7 @@ public class Launcher{
 	
 	public void initModifyAccountPanel()
 	{
+		modifyAccountPanel.removeAll();
 		JLabel modifyNameLabel = new JLabel();
 		JLabel modifyEmailLabel = new JLabel();
 		JLabel modifyPasswordLabel = new JLabel();
@@ -944,14 +945,14 @@ public class Launcher{
 			}
 			if(email.equals("") || email.indexOf("@") < 0 || email.indexOf(".") < 0)
 			{
-				modifyNameText.setText("");
-				modifyEmailText.setText("");
-				modifyPasswordText.setText("");
-				modifyVerifyPasswordText.setText("");
-				modifySecAnswer1Text.setText("");
-				modifySecAnswer2Text.setText("");
+				//modifyNameText.setText("");
+				//modifyEmailText.setText("");
+				//modifyPasswordText.setText("");
+				//modifyVerifyPasswordText.setText("");
+				//modifySecAnswer1Text.setText("");
+				//modifySecAnswer2Text.setText("");
 				
-				JOptionPane.showMessageDialog(null, "Please enter an email.", "ERROR", 
+				JOptionPane.showMessageDialog(null, "Email must contain '@' and '.'.", "ERROR", 
 						JOptionPane.INFORMATION_MESSAGE);
 			}
 			else if(password.equals(""))
@@ -999,12 +1000,12 @@ public class Launcher{
 			else 
 			{
 				client.sendMessage("UPDATEACCOUNT#" + acctInfo[0] + "#" + 
-						String.valueOf(createPasswordText.getPassword()) + "#" +
-						createEmailText.getText() + "#" + 
+						String.valueOf(modifyPasswordText.getPassword()) + "#" +
+						modifyEmailText.getText() + "#" + 
 						acctInfo[3] + "#" + 
-						createSecAnswer1Text.getText() + "#" + 
+						modifySecAnswer1Text.getText() + "#" + 
 						acctInfo[5] + "#" + 
-						createSecAnswer2Text.getText());
+						modifySecAnswer2Text.getText());
 			}
 		}
 	}
@@ -1040,8 +1041,8 @@ public class Launcher{
 	
 	public void manageAccount(String[] securityInfo)
 	{
-		for(int i = 1; i < securityInfo.length; i++)
-			System.out.println(securityInfo[i]);
+		//for(int i = 1; i < securityInfo.length; i++)
+			//System.out.println(securityInfo[i]);
 		//"securityInfo", username, password, email, secQuestion1, secAnswer1, secQuestion2, secAnswer2, macAddress, lastLoginTime
 		acctInfo = new String[9];
 		acctInfo[0] = securityInfo[1];
@@ -1059,7 +1060,6 @@ public class Launcher{
 		while(!correctSecAnswer && count < 4)
 		{
 			String secAnswer = JOptionPane.showInputDialog(null, acctInfo[3], "Security Question", JOptionPane.INFORMATION_MESSAGE);
-			System.out.println(secAnswer);
 			if(secAnswer == null)
 				break;
 			
@@ -1299,5 +1299,7 @@ public class Launcher{
 	public void forgotPassword(ActionEvent e)
 	{
 		String username = JOptionPane.showInputDialog(null, "What is your username?", "Forgot Password", JOptionPane.INFORMATION_MESSAGE);
+		if(username != null)
+			client.sendMessage("FORGOTPASSWORD#" + username);
 	}
 }
