@@ -72,7 +72,7 @@ public class ChatClient extends Thread{
     }
     
     public String getServerAddress(){
-    	String[] choices = { "localhost", "uaf131025.ddns.uark.edu", "uaf131018.ddns.uark.edu" };
+    	String[] choices = { "localhost", "uaf131025.ddns.uark.edu", "uaf131018.ddns.uark.edu", "215-9020-06", "uaf132895.ddns.uark.edu" };
     	String input = (String) JOptionPane.showInputDialog(null, "Options: ",
     			"Choose Server", JOptionPane.QUESTION_MESSAGE, null,      
     			choices, // Array of choices
