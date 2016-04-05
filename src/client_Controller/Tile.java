@@ -16,16 +16,10 @@ public class Tile {
 		y = newY;
 		type = newType;
 		
-		if(type == 2)
-			randomEncounterChance = 1.0;
-		else if(type == 3)
-			randomEncounterChance = 2.0;
-		else if(type == 4)
-			randomEncounterChance = 3.0;
-		else if(type == 5)
-			randomEncounterChance = 4.0;
+		if(type == 1)
+			randomEncounterChance = 0.0;
 		else
-			randomEncounterChance = 20.0;
+			randomEncounterChance = 5.0;
 	}
 
 	public int getType()
