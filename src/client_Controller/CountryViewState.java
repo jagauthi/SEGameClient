@@ -159,8 +159,8 @@ public class CountryViewState extends IState
     	System.out.println("Random encounter chance: " + randomEncounterChance );
     	Random rand = new Random();
     	int chance = rand.nextInt(100);
-    	if(chance < randomEncounterChance)
-    		randomEncounter();
+    	//if(chance < randomEncounterChance)
+    		//randomEncounter();
     }
     
     public void randomEncounter()
@@ -180,12 +180,13 @@ public class CountryViewState extends IState
     	
     	//This Takes only the part of the image that will be drawn
 		//If you are too close to the edge it wont seem like your moving untill you get far enough away from the edge
-    	g.drawImage(mapImage.getSubimage(0+xOffset, 0+yOffset, GamePanel.WIDTH, GamePanel.HEIGHT), 0, 0, GamePanel.WIDTH, GamePanel.HEIGHT, null);
+    	g.drawImage(mapImage.getSubimage(0+xOffset/2, 0+yOffset/2, GamePanel.WIDTH/2, GamePanel.HEIGHT/2), 0, 0, GamePanel.WIDTH, GamePanel.HEIGHT, null);
+    	//g.drawImage(mapImage, 0-xOffset, 0-yOffset, GamePanel.WIDTH*4, GamePanel.HEIGHT*4, null);
     	for(int y = 0; y < 100; y++)
     	{
     		for(int x = 0; x < 200; x++)
     		{
-    	    	g.drawString(String.valueOf(map.get(y).get(x).getType()), x*20-xOffset, y*20-yOffset);
+    	    	//g.drawString(String.valueOf(map.get(y).get(x).getType()), x*40-xOffset, y*40-yOffset);
     		}
     	}
 		/*
