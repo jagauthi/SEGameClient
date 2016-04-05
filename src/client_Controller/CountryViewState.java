@@ -152,15 +152,16 @@ public class CountryViewState extends IState
     {
     	Tile currentTile = map.get( player.getY() ).get( player.getX() );
     	System.out.println("Current tile: " + currentTile.getType());
-    	if(currentTile.getType() != 1)
+    	if( (currentTile.getType() != 1) && !(currentTile.getType() > 31 && currentTile.getType() < 48) && 
+    			!(currentTile.getType() > 64 && currentTile.getType() < 70))
     		randomEncounterChance += currentTile.getRandomEncounterChance();
     	else
     		randomEncounterChance = 0;
     	System.out.println("Random encounter chance: " + randomEncounterChance );
     	Random rand = new Random();
     	int chance = rand.nextInt(100);
-    	//if(chance < randomEncounterChance)
-    		//randomEncounter();
+    	if(chance < randomEncounterChance)
+    		randomEncounter();
     }
     
     public void randomEncounter()
@@ -280,16 +281,20 @@ public class CountryViewState extends IState
     
     public void keyPressed(int keyCode){
     	if(keyCode == KeyEvent.VK_W){
-			player.moveUp();
+    		if(map.get(player.getY()-1).get(player.getX()).getType() >= 0)
+    			player.moveUp();
 		}
     	if(keyCode == KeyEvent.VK_A){
-    		player.moveLeft();
+    		if(map.get(player.getY()).get(player.getX()-1).getType() >= 0)
+    			player.moveLeft();
 		}
     	if(keyCode == KeyEvent.VK_S){
-    		player.moveDown();
+    		if(map.get(player.getY()+1).get(player.getX()).getType() >= 0)
+    			player.moveDown();
 		}
     	if(keyCode == KeyEvent.VK_D){
-    		player.moveRight();
+    		if(map.get(player.getY()).get(player.getX()+1).getType() >= 0)
+    			player.moveRight();
 		}
     	if(keyCode == KeyEvent.VK_SPACE){
     		
