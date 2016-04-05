@@ -34,6 +34,7 @@ public class CountryViewState extends IState
 	BufferedImage mapImage;
 	int xOffset, yOffset = 0;
 	double randomEncounterChance = 0.0;
+	boolean showMap;
 	
     JTextField textField = new JTextField(40);
     JTextArea messageArea = new JTextArea(8, 40);
@@ -47,6 +48,7 @@ public class CountryViewState extends IState
 		
 		String mapLocation = "resources/Maps/mtStart.png";
     	mapImage = null;
+    	showMap = false;
 
 		try {
 			mapImage = ImageIO.read(new File(mapLocation));
@@ -179,38 +181,43 @@ public class CountryViewState extends IState
 		if(xOffset < 0) xOffset = 0;
 		if(yOffset < 0) yOffset = 0;
     	
-    	//This Takes only the part of the image that will be drawn
-		//If you are too close to the edge it wont seem like your moving untill you get far enough away from the edge
-    	g.drawImage(mapImage.getSubimage(0+xOffset/2, 0+yOffset/2, GamePanel.WIDTH/2, GamePanel.HEIGHT/2), 0, 0, GamePanel.WIDTH, GamePanel.HEIGHT, null);
-    	//g.drawImage(mapImage, 0-xOffset, 0-yOffset, GamePanel.WIDTH*4, GamePanel.HEIGHT*4, null);
-    	for(int y = 0; y < 100; y++)
-    	{
-    		for(int x = 0; x < 200; x++)
-    		{
-    	    	//g.drawString(String.valueOf(map.get(y).get(x).getType()), x*40-xOffset, y*40-yOffset);
-    		}
-    	}
-		/*
-		 * The next three are just so that there is a fuller map to play on, instead
-		 * of starting in the top left corner of the map.
-		 
-		g.drawImage(mapImage, 0-xOffset-mapImage.getWidth(null), 0-yOffset, mapImage.getWidth(null), mapImage.getHeight(null), null);
-		g.drawImage(mapImage, 0-xOffset, 0-yOffset-mapImage.getHeight(null), mapImage.getWidth(null), mapImage.getHeight(null), null);
-		g.drawImage(mapImage, 0-xOffset-mapImage.getWidth(null), 0-yOffset-mapImage.getHeight(null), mapImage.getWidth(null), mapImage.getHeight(null), null);
-		*/
-
-    	player.draw(g);
-    	g.setColor(Color.lightGray);
-    	g.fillRect(0, 0, 300, 120);
-    	g.setColor(Color.black);
-    	g.drawString("Name: " + player.getName(), 10, 15);
-    	g.drawString("HP: " + player.getHealth(), 10, 35);
-    	g.drawString("Mana: " + player.getMana(), 10, 55);
-    	g.drawString("Coords: " + player.getX() + ", " + player.getY(), 10, 75);
-    	g.drawString("Exp: " + player.getExperience(), 10, 95);
-    	
-    	drawOtherPlayers(g);
-    	drawLocations(g);
+		if(!showMap){
+	    	//This Takes only the part of the image that will be drawn
+			//If you are too close to the edge it wont seem like your moving untill you get far enough away from the edge
+	    	g.drawImage(mapImage.getSubimage(0+xOffset/2, 0+yOffset/2, GamePanel.WIDTH/2, GamePanel.HEIGHT/2), 0, 0, GamePanel.WIDTH, GamePanel.HEIGHT, null);
+	    	//g.drawImage(mapImage, 0-xOffset, 0-yOffset, GamePanel.WIDTH*4, GamePanel.HEIGHT*4, null);
+	    	for(int y = 0; y < 100; y++)
+	    	{
+	    		for(int x = 0; x < 200; x++)
+	    		{
+	    	    	//g.drawString(String.valueOf(map.get(y).get(x).getType()), x*40-xOffset, y*40-yOffset);
+	    		}
+	    	}
+			/*
+			 * The next three are just so that there is a fuller map to play on, instead
+			 * of starting in the top left corner of the map.
+			 
+			g.drawImage(mapImage, 0-xOffset-mapImage.getWidth(null), 0-yOffset, mapImage.getWidth(null), mapImage.getHeight(null), null);
+			g.drawImage(mapImage, 0-xOffset, 0-yOffset-mapImage.getHeight(null), mapImage.getWidth(null), mapImage.getHeight(null), null);
+			g.drawImage(mapImage, 0-xOffset-mapImage.getWidth(null), 0-yOffset-mapImage.getHeight(null), mapImage.getWidth(null), mapImage.getHeight(null), null);
+			*/
+	
+	    	player.draw(g);
+	    	g.setColor(Color.lightGray);
+	    	g.fillRect(0, 0, 300, 120);
+	    	g.setColor(Color.black);
+	    	g.drawString("Name: " + player.getName(), 10, 15);
+	    	g.drawString("HP: " + player.getHealth(), 10, 35);
+	    	g.drawString("Mana: " + player.getMana(), 10, 55);
+	    	g.drawString("Coords: " + player.getX() + ", " + player.getY(), 10, 75);
+	    	g.drawString("Exp: " + player.getExperience(), 10, 95);
+	    	
+	    	drawOtherPlayers(g);
+	    	drawLocations(g);
+		}
+		else{
+			g.drawImage(mapImage, 0, 0, GamePanel.WIDTH, GamePanel.HEIGHT, null);
+		}
     }
     
     public void drawOtherPlayers(Graphics g)
@@ -301,6 +308,9 @@ public class CountryViewState extends IState
 		}
     	if(keyCode == KeyEvent.VK_ENTER){
     		textField.requestFocus();
+		}
+    	if(keyCode == KeyEvent.VK_M){
+    		showMap = !showMap;
 		}
     }
     
