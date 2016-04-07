@@ -402,6 +402,16 @@ public class Player {
 		location = newLocation;
 	}
 	
+	public int getPointsToSpend()
+	{
+		return pointsToSpend;
+	}
+	
+	public void setPointsToSpend(int n)
+	{
+		pointsToSpend = n;
+	}
+	
 	public void drawEyes(Graphics g){
 		if(eyeColor == null){
 			return;
@@ -529,6 +539,28 @@ public class Player {
 	{
 		level++;
 		pointsToSpend += 5;
+		health = getMaxHealth();
+		mana = getMaxMana();
 		System.out.println("Ding! Leveled up :)");
+	}
+	
+	public int getMaxHealth()
+	{
+		if(playerClass.equals("Mage"))
+			return constitution;
+		else if(playerClass.equals("Rogue"))
+			return constitution * 2;
+		else
+			return constitution * 3;
+	}
+	
+	public int getMaxMana()
+	{
+		if(playerClass.equals("Warrior"))
+			return intelligence;
+		else if(playerClass.equals("Rogue"))
+			return intelligence * 2;
+		else
+			return intelligence * 3;
 	}
 }
