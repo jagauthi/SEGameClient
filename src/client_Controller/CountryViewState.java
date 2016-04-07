@@ -221,7 +221,7 @@ public class CountryViewState extends IState
 	    	g.drawString("HP: " + player.getHealth(), 10, 35);
 	    	g.drawString("Mana: " + player.getMana(), 10, 55);
 	    	g.drawString("Coords: " + player.getX() + ", " + player.getY(), 10, 75);
-	    	g.drawString("Exp: " + player.getExperience(), 10, 95);
+	    	g.drawString("Exp: " + player.getExperience() + "/" + player.getExpToNextLevel(), 10, 95);
 	    	
 	    	drawOtherPlayers(g);
 	    	drawLocations(g);
@@ -704,6 +704,9 @@ public class CountryViewState extends IState
     		else
     			closeCharacterSheet();
     	}
+    	if(keyCode == KeyEvent.VK_ESCAPE){
+    		sm.disposeWindow();
+		}
     }
     
     public void keyReleased(int keyCode){
