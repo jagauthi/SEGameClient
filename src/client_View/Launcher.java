@@ -1257,7 +1257,9 @@ public class Launcher{
 	
 	public void deleteChar(int x)
 	{
-		client.sendMessage("DELETECHAR#" + characterNames[x] + "#" + accountID);
+		String delete = JOptionPane.showInputDialog(null, "Type \"DELETE\" in all caps to confirm deletion.", "Confirm Delete", JOptionPane.INFORMATION_MESSAGE);
+		if(delete.equals("DELETE"))
+			client.sendMessage("DELETECHAR#" + characterNames[x] + "#" + accountID);
 	}
 	
 	public void playGame()
