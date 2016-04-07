@@ -536,20 +536,23 @@ public class CountryViewState extends IState
     
     public void addStat(String stat)
     {
-    	if(stat.equals("Str"))
-    		levelUpStrCount++;
-    	else if(stat.equals("Dex"))
-    		levelUpDexCount++;
-    	else if(stat.equals("Con"))
-    		levelUpConCount++;
-    	else if(stat.equals("Int"))
-    		levelUpIntCount++;
-    	else if(stat.equals("Wil"))
-    		levelUpWilCount++;
-    	else if(stat.equals("Lck"))
-    		levelUpLckCount++;
+    	if(player.getPointsToSpend() > 0)
+    	{
+	    	if(stat.equals("Str"))
+	    		levelUpStrCount++;
+	    	else if(stat.equals("Dex"))
+	    		levelUpDexCount++;
+	    	else if(stat.equals("Con"))
+	    		levelUpConCount++;
+	    	else if(stat.equals("Int"))
+	    		levelUpIntCount++;
+	    	else if(stat.equals("Wil"))
+	    		levelUpWilCount++;
+	    	else if(stat.equals("Lck"))
+	    		levelUpLckCount++;
     	
-    	player.setPointsToSpend(player.getPointsToSpend()-1);
+	    	player.setPointsToSpend(player.getPointsToSpend()-1);
+    	}
     	setUpCharacterSheet();
     }
     
