@@ -2,6 +2,7 @@ package client_View;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Window;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -20,6 +21,8 @@ public class GamePanel extends JPanel
 	
 	public static final int WIDTH = 1280;
 	public static final int HEIGHT = 720;
+	
+	JFrame window;
 
 	private Thread thread;
 	private boolean running;
@@ -29,8 +32,9 @@ public class GamePanel extends JPanel
 	
 	private StateMachine sm;
 	
-	public GamePanel(String[] playerInfo, ChatClient client){
+	public GamePanel(String[] playerInfo, ChatClient client, JFrame w){
 		super();
+		window = w;
 		setLayout(null);
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		setFocusable(true);
@@ -55,6 +59,12 @@ public class GamePanel extends JPanel
 	public void removeComponent(JComponent comp)
 	{
 		this.remove(comp);
+	}
+	
+	public void disposeWindow()
+	{
+		window.dispose();
+		
 	}
 	
 	@Override
