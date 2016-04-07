@@ -167,4 +167,9 @@ public class StateMachine //extends Thread
     {
     	panel.doRequestFocus();
     }
+    
+    public void disposeWindow()
+    {
+    	panel.disposeWindow();
+    }
 }
