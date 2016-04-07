@@ -531,7 +531,7 @@ public class Player {
 	public void gainExperience(int xp)
 	{
 		experience += xp;
-		if(experience > (level*100 + level*20))
+		if(experience > getExpToNextLevel())
 			levelUp();
 	}
 	
@@ -562,5 +562,10 @@ public class Player {
 			return intelligence * 2;
 		else
 			return intelligence * 3;
+	}
+	
+	public int getExpToNextLevel()
+	{
+		return (level*50) * level;
 	}
 }
