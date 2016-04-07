@@ -3,6 +3,8 @@ package client_Controller;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,6 +20,7 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -35,7 +38,11 @@ public class CountryViewState extends IState
 	int xOffset, yOffset = 0;
 	double randomEncounterChance = 0.0;
 	boolean showMap;
+	boolean charSheetOpen = false;
+	int levelUpStrCount, levelUpDexCount, levelUpConCount = 0;
+	int levelUpIntCount, levelUpWilCount, levelUpLckCount = 0;
 	
+	JPanel characterSheetPanel;
     JTextField textField = new JTextField(40);
     JTextArea messageArea = new JTextArea(8, 40);
     JScrollPane scrollPane;
@@ -62,7 +69,6 @@ public class CountryViewState extends IState
 	    messageArea.setEditable(false);
 	    //Text field is where the user types his/her messages
 		textField.setEditable(true);
-		
 		//Creates the message area, and adds it to a scroll pane so the user can look
 		//through previous messages
 		messageArea.setBounds(0, 0, 400, 140);
@@ -85,7 +91,10 @@ public class CountryViewState extends IState
                 sm.doRequestFocus();
             }
         });
-
+        
+        characterSheetPanel = new JPanel();
+		characterSheetPanel.setBounds(GamePanel.WIDTH/2, GamePanel.HEIGHT/8, 3*GamePanel.WIDTH/8, 3*GamePanel.HEIGHT/4);
+		characterSheetPanel.setBackground(Color.LIGHT_GRAY);
 	}
 	
 	public void loadMap()
@@ -206,7 +215,9 @@ public class CountryViewState extends IState
 	    	g.setColor(Color.lightGray);
 	    	g.fillRect(0, 0, 300, 120);
 	    	g.setColor(Color.black);
-	    	g.drawString("Name: " + player.getName(), 10, 15);
+	    	g.drawString("Name: " + player.getName() + ", level " + player.getLevel(), 10, 15);
+	    	if(player.getPointsToSpend() > 0)
+	    		g.drawString("(points to spend)", 160, 15);
 	    	g.drawString("HP: " + player.getHealth(), 10, 35);
 	    	g.drawString("Mana: " + player.getMana(), 10, 55);
 	    	g.drawString("Coords: " + player.getX() + ", " + player.getY(), 10, 75);
@@ -255,6 +266,377 @@ public class CountryViewState extends IState
 //    					Location.WIDTH, Location.HEIGHT);
     		}
     	}
+    }
+    
+    public void setUpCharacterSheet()
+    {
+    	characterSheetPanel.removeAll();
+    	characterSheetPanel.setLayout(null);
+    	
+    	JLabel blankLine = new JLabel("\n");
+    	JLabel charName = new JLabel(player.getName() + ", level " + player.getLevel() + " " + player.getPlayerClass());
+    	JLabel health = new JLabel("Health: " + player.getHealth() + "/" + player.getMaxHealth());
+    	JLabel mana = new JLabel("Mana: " + player.getMana() + "/" + player.getMaxMana());
+    	JLabel strength = new JLabel("Strength: ");
+    	JLabel dexterity = new JLabel("Dexterity: ");
+    	JLabel constitution = new JLabel("Constitution: ");
+    	JLabel intelligence = new JLabel("Intelligence: ");
+    	JLabel willpower = new JLabel("Willpower: ");
+    	JLabel luck = new JLabel("Luck: ");
+    	JLabel strengthValue = new JLabel("" + player.getStrength());
+    	JLabel dexterityValue = new JLabel("" + player.getDexterity());
+    	JLabel constitutionValue = new JLabel("" + player.getConstitution());
+    	JLabel intelligenceValue = new JLabel("" + player.getIntelligence());
+    	JLabel willpowerValue = new JLabel("" + player.getWillpower());
+    	JLabel luckValue = new JLabel("" + player.getLuck());
+    	JLabel pointsToSpend = new JLabel("Points to spend: " + player.getPointsToSpend());
+    	
+    	JButton strengthPlusButton = new JButton("+");
+    	strengthPlusButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addStat("Str");
+            }
+        });
+    	
+    	JButton strengthMinusButton = new JButton("-");
+    	strengthMinusButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subtractStat("Str");
+            }
+        });
+    	
+    	JButton dexterityPlusButton = new JButton("+");
+    	dexterityPlusButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addStat("Dex");
+            }
+        });
+    	
+    	JButton dexterityMinusButton = new JButton("-");
+    	dexterityMinusButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	subtractStat("Dex");
+            }
+        });
+    	
+    	JButton constitutionPlusButton = new JButton("+");
+    	constitutionPlusButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addStat("Con");
+            }
+        });
+    	
+    	JButton constitutionMinusButton = new JButton("-");  
+    	constitutionMinusButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	subtractStat("Con");
+            }
+        });
+    	  	
+    	JButton intelligencePlusButton = new JButton("+");
+    	intelligencePlusButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addStat("Int");
+            }
+        });
+    	
+    	JButton intelligenceMinusButton = new JButton("-");
+    	intelligenceMinusButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	subtractStat("Int");
+            }
+        });
+    	
+    	JButton willpowerPlusButton = new JButton("+");
+    	willpowerPlusButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addStat("Wil");
+            }
+        });
+    	
+    	JButton willpowerMinusButton = new JButton("-");
+    	willpowerMinusButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	subtractStat("Wil");
+            }
+        });
+    	
+    	JButton luckPlusButton = new JButton("+");
+    	luckPlusButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addStat("Lck");
+            }
+        });
+    	
+    	JButton luckMinusButton = new JButton("-");
+    	luckMinusButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	subtractStat("Lck");
+            }
+        });
+    	
+    	
+    	JButton spendPointButton = new JButton("Spend points!");
+    	spendPointButton.setBounds(120, 250, 100, 40);
+    	spendPointButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                spendPoints();
+            }
+        });
+    	
+    	charName.setBounds(10, 0, 200, 20);
+    	characterSheetPanel.add(charName);
+    	health.setBounds(10, 20, 200, 20);
+    	characterSheetPanel.add(health);
+    	mana.setBounds(10, 40, 200, 20);
+    	characterSheetPanel.add(mana);
+    	pointsToSpend.setBounds(10, 80, 200, 20);
+    	characterSheetPanel.add(pointsToSpend);
+    	
+    	strength.setBounds(10, 120, 200, 20);
+    	characterSheetPanel.add(strength);
+    	dexterity.setBounds(10, 140, 200, 20);
+    	characterSheetPanel.add(dexterity);
+    	constitution.setBounds(10, 160, 200, 20);
+    	characterSheetPanel.add(constitution);
+    	intelligence.setBounds(10, 180, 200, 20);
+    	characterSheetPanel.add(intelligence);
+    	willpower.setBounds(10, 200, 200, 20);
+    	characterSheetPanel.add(willpower);
+    	luck.setBounds(10, 220, 200, 20);
+    	characterSheetPanel.add(luck);
+    	
+    	strengthValue.setBounds(110, 120, 200, 20);
+    	characterSheetPanel.add(strengthValue);
+    	dexterityValue.setBounds(110, 140, 200, 20);
+    	characterSheetPanel.add(dexterityValue);
+    	constitutionValue.setBounds(110, 160, 200, 20);
+    	characterSheetPanel.add(constitutionValue);
+    	intelligenceValue.setBounds(110, 180, 200, 20);
+    	characterSheetPanel.add(intelligenceValue);
+    	willpowerValue.setBounds(110, 200, 200, 20);
+    	characterSheetPanel.add(willpowerValue);
+    	luckValue.setBounds(110, 220, 200, 20);
+    	characterSheetPanel.add(luckValue);
+    	
+    	boolean pointsBeingSpent = false;
+    	if((levelUpStrCount > 0) || (levelUpDexCount > 0) || (levelUpConCount > 0) ||
+    			(levelUpIntCount > 0) || (levelUpWilCount > 0) || (levelUpLckCount > 0))
+    		pointsBeingSpent = true;
+    	
+    	if(player.getPointsToSpend() > 0 || pointsBeingSpent)
+    	{
+    		strengthPlusButton.setBounds(175, 120, 20, 20);
+        	characterSheetPanel.add(strengthPlusButton);
+        	strengthMinusButton.setBounds(150, 120, 20, 20);
+        	characterSheetPanel.add(strengthMinusButton);
+        	
+        	dexterityPlusButton.setBounds(175, 140, 20, 20);
+        	characterSheetPanel.add(dexterityPlusButton);
+        	dexterityMinusButton.setBounds(150, 140, 20, 20);
+        	characterSheetPanel.add(dexterityMinusButton);
+        	
+        	constitutionPlusButton.setBounds(175, 160, 20, 20);
+        	characterSheetPanel.add(constitutionPlusButton);
+        	constitutionMinusButton.setBounds(150, 160, 20, 20);
+        	characterSheetPanel.add(constitutionMinusButton);
+        	
+        	intelligencePlusButton.setBounds(175, 180, 20, 20);
+        	characterSheetPanel.add(intelligencePlusButton);
+        	intelligenceMinusButton.setBounds(150, 180, 20, 20);
+        	characterSheetPanel.add(intelligenceMinusButton);
+        	
+        	willpowerPlusButton.setBounds(175, 200, 20, 20);
+        	characterSheetPanel.add(willpowerPlusButton);
+        	willpowerMinusButton.setBounds(150, 200, 20, 20);
+        	characterSheetPanel.add(willpowerMinusButton);
+        	
+        	luckPlusButton.setBounds(175, 220, 20, 20);
+        	characterSheetPanel.add(luckPlusButton);
+        	luckMinusButton.setBounds(150, 220, 20, 20);
+        	characterSheetPanel.add(luckMinusButton);
+    	}
+    	
+    	JLabel strCount = new JLabel("+" + levelUpStrCount);
+		JLabel dexCount = new JLabel("+" + levelUpDexCount);
+		JLabel conCount = new JLabel("+" + levelUpConCount);
+		JLabel intCount = new JLabel("+" + levelUpIntCount);
+		JLabel wilCount = new JLabel("+" + levelUpWilCount);
+		JLabel lckCount = new JLabel("+" + levelUpLckCount);
+		
+    	if(levelUpStrCount > 0)
+    	{
+    		strCount.setBounds(200, 120, 20, 20);
+        	characterSheetPanel.add(strCount);
+    	}
+    	else
+    	{
+    		characterSheetPanel.remove(strCount);
+    	}
+    	
+    	if(levelUpDexCount > 0)
+    	{
+    		dexCount.setBounds(200, 140, 20, 20);
+        	characterSheetPanel.add(dexCount);
+    	}
+    	else
+    	{
+    		characterSheetPanel.remove(dexCount);
+    	}
+    	
+    	if(levelUpConCount > 0)
+    	{
+    		conCount.setBounds(200, 160, 20, 20);
+        	characterSheetPanel.add(conCount);
+    	}
+    	else
+    	{
+    		characterSheetPanel.remove(conCount);
+    	}
+    	
+    	if(levelUpIntCount > 0)
+    	{
+    		intCount.setBounds(200, 180, 20, 20);
+        	characterSheetPanel.add(intCount);
+    	}
+    	else
+    	{
+    		characterSheetPanel.remove(intCount);
+    	}
+    	
+    	if(levelUpWilCount > 0)
+    	{
+    		wilCount.setBounds(200, 200, 20, 20);
+        	characterSheetPanel.add(wilCount);
+    	}
+    	else
+    	{
+    		characterSheetPanel.remove(wilCount);
+    	}
+    	
+    	if(levelUpLckCount > 0)
+    	{
+    		lckCount.setBounds(200, 220, 20, 20);
+        	characterSheetPanel.add(lckCount);
+    	}
+    	else
+    	{
+    		characterSheetPanel.remove(lckCount);
+    	}
+    	
+    	if(pointsBeingSpent)
+    	{
+        	characterSheetPanel.add(spendPointButton);
+    	}
+    	else
+    	{
+    		characterSheetPanel.remove(spendPointButton);
+    	}
+    }
+    
+    public void addStat(String stat)
+    {
+    	if(stat.equals("Str"))
+    		levelUpStrCount++;
+    	else if(stat.equals("Dex"))
+    		levelUpDexCount++;
+    	else if(stat.equals("Con"))
+    		levelUpConCount++;
+    	else if(stat.equals("Int"))
+    		levelUpIntCount++;
+    	else if(stat.equals("Wil"))
+    		levelUpWilCount++;
+    	else if(stat.equals("Lck"))
+    		levelUpLckCount++;
+    	
+    	player.setPointsToSpend(player.getPointsToSpend()-1);
+    	setUpCharacterSheet();
+    }
+    
+    public void subtractStat(String stat)
+    {
+    	if(stat.equals("Str"))
+    	{
+    		if(levelUpStrCount > 0)
+    		{
+    			levelUpStrCount--;
+    			player.setPointsToSpend(player.getPointsToSpend()+1);
+    		}
+    	}
+    	else if(stat.equals("Dex"))
+    	{
+    		if(levelUpDexCount > 0)
+    		{
+    			levelUpDexCount--;
+    			player.setPointsToSpend(player.getPointsToSpend()+1);
+    		}
+    	}
+    	else if(stat.equals("Con"))
+    	{
+    		if(levelUpConCount > 0)
+    		{
+    			levelUpConCount--;
+    			player.setPointsToSpend(player.getPointsToSpend()+1);
+    		}
+    	}
+    	else if(stat.equals("Int"))
+    	{
+    		if(levelUpIntCount > 0)
+    		{
+    			levelUpIntCount--;
+    			player.setPointsToSpend(player.getPointsToSpend()+1);
+    		}
+    	}
+    	else if(stat.equals("Wil"))
+    	{
+    		if(levelUpWilCount > 0)
+    		{
+    			levelUpWilCount--;
+    			player.setPointsToSpend(player.getPointsToSpend()+1);
+    		}
+    	}
+    	else if(stat.equals("Lck"))
+    	{
+    		if(levelUpLckCount > 0)
+    		{
+    			levelUpLckCount--;
+    			player.setPointsToSpend(player.getPointsToSpend()+1);
+    		}
+    	}
+    	
+    	setUpCharacterSheet();
+    }
+    
+    public void spendPoints()
+    {
+    	player.setStrength(player.getStrength() + levelUpStrCount);
+    	player.setDexterity(player.getDexterity() + levelUpDexCount);
+    	player.setConstitution(player.getConstitution() + levelUpConCount);
+    	player.setIntelligence(player.getIntelligence() + levelUpIntCount);
+    	player.setWillpower(player.getWillpower() + levelUpWilCount);
+    	player.setLuck(player.getLuck() + levelUpLckCount);
+    	levelUpStrCount = 0;
+		levelUpDexCount = 0;
+		levelUpConCount = 0;
+		levelUpIntCount = 0;
+		levelUpWilCount = 0;
+    	levelUpLckCount = 0;
+
+    	setUpCharacterSheet();
+        sm.client.sendMessage("UPDATECHARINFO#" + player.getAllCharInfo());
+    }
+    
+    public void openCharacterSheet()
+    {
+    	charSheetOpen = true;
+    	setUpCharacterSheet();
+		sm.addComponent(characterSheetPanel);
+    }
+    
+    public void closeCharacterSheet()
+    {
+    	charSheetOpen = false;
+		sm.removeComponent(characterSheetPanel);
     }
   
     public void onEnter()
@@ -312,6 +694,12 @@ public class CountryViewState extends IState
     	if(keyCode == KeyEvent.VK_M){
     		showMap = !showMap;
 		}
+    	if(keyCode == KeyEvent.VK_C){
+    		if(!charSheetOpen)
+    			openCharacterSheet();
+    		else
+    			closeCharacterSheet();
+    	}
     }
     
     public void keyReleased(int keyCode){
