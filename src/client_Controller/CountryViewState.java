@@ -2,6 +2,7 @@ package client_Controller;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -10,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -39,10 +41,11 @@ public class CountryViewState extends IState
 	double randomEncounterChance = 0.0;
 	boolean showMap;
 	boolean charSheetOpen = false;
+	boolean optionsMenuOpen = false;
 	int levelUpStrCount, levelUpDexCount, levelUpConCount = 0;
 	int levelUpIntCount, levelUpWilCount, levelUpLckCount = 0;
 	
-	JPanel characterSheetPanel;
+	JPanel characterSheetPanel, optionsPanel;
     JTextField textField = new JTextField(40);
     JTextArea messageArea = new JTextArea(8, 40);
     JScrollPane scrollPane;
@@ -95,6 +98,22 @@ public class CountryViewState extends IState
         characterSheetPanel = new JPanel();
 		characterSheetPanel.setBounds(GamePanel.WIDTH/2, GamePanel.HEIGHT/8, 3*GamePanel.WIDTH/8, 3*GamePanel.HEIGHT/4);
 		characterSheetPanel.setBackground(Color.LIGHT_GRAY);
+		
+		optionsPanel = new JPanel();
+		optionsPanel.setLayout(null);
+		optionsPanel.setBounds(GamePanel.WIDTH/4, GamePanel.HEIGHT/4, GamePanel.WIDTH/2, GamePanel.HEIGHT/2);
+		optionsPanel.setBackground(Color.BLACK);
+		
+		JButton logoutButton = new JButton("Logout");
+		logoutButton.setFont(new Font("TimesRoman", Font.BOLD, 20));
+		logoutButton.setBounds(250, 120, 150, 100);
+		logoutButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logout();
+            }
+        });
+		optionsPanel.add(logoutButton);
+		
 	}
 	
 	public void loadMap()
@@ -642,6 +661,21 @@ public class CountryViewState extends IState
     	charSheetOpen = false;
 		sm.removeComponent(characterSheetPanel);
     }
+    
+    public void openOptionsMenu()
+    {
+		sm.addComponent(optionsPanel);
+    }
+    
+    public void closeOptionsMenu()
+    {
+		sm.removeComponent(optionsPanel);
+    }
+    
+    public void logout()
+    {
+    	sm.disposeWindow();
+    }
   
     public void onEnter()
     {
@@ -705,7 +739,10 @@ public class CountryViewState extends IState
     			closeCharacterSheet();
     	}
     	if(keyCode == KeyEvent.VK_ESCAPE){
-    		sm.disposeWindow();
+    		if(!optionsMenuOpen)
+    			openOptionsMenu();
+    		else
+    			closeOptionsMenu();
 		}
     }
     
