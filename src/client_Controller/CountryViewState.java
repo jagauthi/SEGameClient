@@ -241,6 +241,7 @@ public class CountryViewState extends IState
     			
     			if(!other.getName().equals(player.getName()))
     			{
+    				g.setColor(Color.BLACK);
 	    			g.fillRect(other.getX()*40-xOffset, 
 	    					other.getY()*40-yOffset, 
 	    					other.getWidth(), 
