@@ -26,6 +26,7 @@ public class CombatState extends IState
 	int selectedEnemy = 0;
 	static int numEnemiesKilled = 0;
 	boolean started = false;
+	boolean playerTurn;
 	
 	public CombatState(Player p, StateMachine s)
 	{
@@ -105,12 +106,20 @@ public class CombatState extends IState
 	
 	public void attackMenu()
 	{
-		enemies.get(selectedEnemy-1).takeDamage(player.getMeleeDamage());
+		if(playerTurn)
+		{
+			enemies.get(selectedEnemy-1).takeDamage(player.getMeleeDamage());
+			playerTurn = false;
+		}
 	}
 	
 	public void magicMenu()
 	{
-		enemies.get(selectedEnemy-1).takeDamage(player.getMagicDamage());
+		if(playerTurn)
+		{
+			enemies.get(selectedEnemy-1).takeDamage(player.getMagicDamage());
+			playerTurn = false;
+		}
 	}
 	
 	public void inventoryMenu()
@@ -135,6 +144,11 @@ public class CombatState extends IState
     	//player.update();
     	if(started)
     		truncateEnemies();
+    	if(!playerTurn)
+    	{
+    		enemiesAttack();
+    		playerTurn = true;
+    	}
     }
     
     public void oncePerSecondUpdate()
@@ -219,6 +233,20 @@ public class CombatState extends IState
     	numEnemiesKilled++;
     }
     
+    public void enemiesAttack()
+    {
+    	if(numEnemiesKilled < enemies.size())
+    	{
+	    	for(int i = 0; i < enemies.size(); i++)
+	    	{
+	    		if(enemies.get(i).isAlive())
+	    		{
+	    			enemies.get(i).attack(player);
+	    		}
+	    	}
+    	}
+    }
+    
     public void drawOtherPlayers(Graphics g)
     {
     	
@@ -232,6 +260,7 @@ public class CombatState extends IState
     public void onEnter()
     {
     	started = true;
+    	playerTurn = true;
     	numEnemiesKilled = 0;
 		sm.addComponent(attackButton);
 		sm.addComponent(magicButton);
