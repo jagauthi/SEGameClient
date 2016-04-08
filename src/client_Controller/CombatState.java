@@ -115,9 +115,10 @@ public class CombatState extends IState
 	
 	public void magicMenu()
 	{
-		if(playerTurn)
+		int damage = player.getMagicDamage();
+		if(playerTurn && damage > 0)
 		{
-			enemies.get(selectedEnemy-1).takeDamage(player.getMagicDamage());
+			enemies.get(selectedEnemy-1).takeDamage(damage);
 			playerTurn = false;
 		}
 	}
@@ -130,6 +131,8 @@ public class CombatState extends IState
 	public void runAway()
 	{
 		System.out.println("Run away, little girl.");
+		String[] args = { "CountryViewState" };
+		sm.changeState(args);
 	}
 	
 	public void selectEnemy(int num)
