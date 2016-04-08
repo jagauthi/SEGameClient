@@ -45,6 +45,8 @@ public class CountryViewState extends IState
 	int levelUpStrCount, levelUpDexCount, levelUpConCount = 0;
 	int levelUpIntCount, levelUpWilCount, levelUpLckCount = 0;
 	
+	boolean keepMoving = false;
+	
 	JPanel characterSheetPanel, optionsPanel;
     JTextField textField = new JTextField(40);
     JTextArea messageArea = new JTextArea(8, 40);
@@ -746,11 +748,13 @@ public class CountryViewState extends IState
     		else
     			closeOptionsMenu();
 		}
+    	if(keyCode == KeyEvent.VK_F){
+    		player.useInventoryItem(0);
+		}
     }
     
     public void keyReleased(int keyCode){
     	if(keyCode == KeyEvent.VK_W){
-
 		}
     	if(keyCode == KeyEvent.VK_A){
 
