@@ -6,10 +6,10 @@ public class Consumable extends Item{
 	int restoreAmount;
 	Player player;
 	
-	public Consumable(Player p, String n)
+	public Consumable(String name, Player player)
 	{
-		player = p;
-		name = n;
+		super(name);
+		this.player = player;
 	}
 	
 	public void use()
