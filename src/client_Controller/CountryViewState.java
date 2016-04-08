@@ -397,46 +397,46 @@ public class CountryViewState extends IState
     	
     	
     	JButton spendPointButton = new JButton("Spend points!");
-    	spendPointButton.setBounds(120, 250, 100, 40);
+    	spendPointButton.setBounds(120, 440, 200, 90);
     	spendPointButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 spendPoints();
             }
         });
     	
-    	charName.setBounds(10, 5, 400, 20);
+    	charName.setBounds(10, 5, 400, 30);
     	characterSheetPanel.add(charName);
-    	health.setBounds(10, 35, 400, 20);
+    	health.setBounds(10, 35, 400, 30);
     	characterSheetPanel.add(health);
-    	mana.setBounds(10, 65, 400, 20);
+    	mana.setBounds(10, 65, 400, 30);
     	characterSheetPanel.add(mana);
-    	pointsToSpend.setBounds(10, 110, 400, 20);
+    	pointsToSpend.setBounds(10, 120, 400, 30);
     	characterSheetPanel.add(pointsToSpend);
     	
-    	strength.setBounds(10, 160, 200, 20);
+    	strength.setBounds(10, 160, 200, 30);
     	characterSheetPanel.add(strength);
-    	dexterity.setBounds(10, 200, 200, 20);
+    	dexterity.setBounds(10, 200, 200, 30);
     	characterSheetPanel.add(dexterity);
-    	constitution.setBounds(10, 240, 200, 20);
+    	constitution.setBounds(10, 240, 200, 30);
     	characterSheetPanel.add(constitution);
-    	intelligence.setBounds(10, 280, 200, 20);
+    	intelligence.setBounds(10, 280, 200, 30);
     	characterSheetPanel.add(intelligence);
-    	willpower.setBounds(10, 320, 200, 20);
+    	willpower.setBounds(10, 320, 200, 30);
     	characterSheetPanel.add(willpower);
-    	luck.setBounds(10, 360, 240, 20);
+    	luck.setBounds(10, 360, 240, 30);
     	characterSheetPanel.add(luck);
     	
-    	strengthValue.setBounds(110, 120, 200, 20);
+    	strengthValue.setBounds(220, 160, 200, 30);
     	characterSheetPanel.add(strengthValue);
-    	dexterityValue.setBounds(110, 140, 200, 20);
+    	dexterityValue.setBounds(220, 200, 200, 30);
     	characterSheetPanel.add(dexterityValue);
-    	constitutionValue.setBounds(110, 160, 200, 20);
+    	constitutionValue.setBounds(220, 240, 200, 30);
     	characterSheetPanel.add(constitutionValue);
-    	intelligenceValue.setBounds(110, 180, 200, 20);
+    	intelligenceValue.setBounds(220, 280, 200, 30);
     	characterSheetPanel.add(intelligenceValue);
-    	willpowerValue.setBounds(110, 200, 200, 20);
+    	willpowerValue.setBounds(220, 320, 200, 30);
     	characterSheetPanel.add(willpowerValue);
-    	luckValue.setBounds(110, 220, 200, 20);
+    	luckValue.setBounds(220, 360, 200, 30);
     	characterSheetPanel.add(luckValue);
     	
     	boolean pointsBeingSpent = false;
@@ -446,34 +446,34 @@ public class CountryViewState extends IState
     	
     	if(player.getPointsToSpend() > 0 || pointsBeingSpent)
     	{
-    		strengthPlusButton.setBounds(175, 120, 20, 20);
+    		strengthPlusButton.setBounds(295, 160, 30, 30);
         	characterSheetPanel.add(strengthPlusButton);
-        	strengthMinusButton.setBounds(150, 120, 20, 20);
+        	strengthMinusButton.setBounds(260, 160, 30, 30);
         	characterSheetPanel.add(strengthMinusButton);
         	
-        	dexterityPlusButton.setBounds(175, 140, 20, 20);
+        	dexterityPlusButton.setBounds(295, 200, 30, 30);
         	characterSheetPanel.add(dexterityPlusButton);
-        	dexterityMinusButton.setBounds(150, 140, 20, 20);
+        	dexterityMinusButton.setBounds(260, 200, 30, 30);
         	characterSheetPanel.add(dexterityMinusButton);
         	
-        	constitutionPlusButton.setBounds(175, 160, 20, 20);
+        	constitutionPlusButton.setBounds(295, 240, 30, 30);
         	characterSheetPanel.add(constitutionPlusButton);
-        	constitutionMinusButton.setBounds(150, 160, 20, 20);
+        	constitutionMinusButton.setBounds(260, 240, 30, 30);
         	characterSheetPanel.add(constitutionMinusButton);
         	
-        	intelligencePlusButton.setBounds(175, 180, 20, 20);
+        	intelligencePlusButton.setBounds(295, 280, 30, 30);
         	characterSheetPanel.add(intelligencePlusButton);
-        	intelligenceMinusButton.setBounds(150, 180, 20, 20);
+        	intelligenceMinusButton.setBounds(260, 280, 30, 30);
         	characterSheetPanel.add(intelligenceMinusButton);
         	
-        	willpowerPlusButton.setBounds(175, 200, 20, 20);
+        	willpowerPlusButton.setBounds(295, 320, 30, 30);
         	characterSheetPanel.add(willpowerPlusButton);
-        	willpowerMinusButton.setBounds(150, 200, 20, 20);
+        	willpowerMinusButton.setBounds(260, 320, 30, 30);
         	characterSheetPanel.add(willpowerMinusButton);
         	
-        	luckPlusButton.setBounds(175, 220, 20, 20);
+        	luckPlusButton.setBounds(295, 360, 30, 30);
         	characterSheetPanel.add(luckPlusButton);
-        	luckMinusButton.setBounds(150, 220, 20, 20);
+        	luckMinusButton.setBounds(260, 360, 30, 30);
         	characterSheetPanel.add(luckMinusButton);
     	}
     	
@@ -486,7 +486,7 @@ public class CountryViewState extends IState
 		
     	if(levelUpStrCount > 0)
     	{
-    		strCount.setBounds(200, 120, 20, 20);
+    		strCount.setBounds(335, 160, 30, 30);
         	characterSheetPanel.add(strCount);
     	}
     	else
@@ -496,7 +496,7 @@ public class CountryViewState extends IState
     	
     	if(levelUpDexCount > 0)
     	{
-    		dexCount.setBounds(200, 140, 20, 20);
+    		dexCount.setBounds(335, 200, 30, 30);
         	characterSheetPanel.add(dexCount);
     	}
     	else
@@ -506,7 +506,7 @@ public class CountryViewState extends IState
     	
     	if(levelUpConCount > 0)
     	{
-    		conCount.setBounds(200, 160, 20, 20);
+    		conCount.setBounds(335, 240, 30, 30);
         	characterSheetPanel.add(conCount);
     	}
     	else
@@ -516,7 +516,7 @@ public class CountryViewState extends IState
     	
     	if(levelUpIntCount > 0)
     	{
-    		intCount.setBounds(200, 180, 20, 20);
+    		intCount.setBounds(335, 280, 30, 30);
         	characterSheetPanel.add(intCount);
     	}
     	else
@@ -526,7 +526,7 @@ public class CountryViewState extends IState
     	
     	if(levelUpWilCount > 0)
     	{
-    		wilCount.setBounds(200, 200, 20, 20);
+    		wilCount.setBounds(335, 320, 30, 30);
         	characterSheetPanel.add(wilCount);
     	}
     	else
@@ -536,7 +536,7 @@ public class CountryViewState extends IState
     	
     	if(levelUpLckCount > 0)
     	{
-    		lckCount.setBounds(200, 220, 20, 20);
+    		lckCount.setBounds(335, 360, 30, 30);
         	characterSheetPanel.add(lckCount);
     	}
     	else
