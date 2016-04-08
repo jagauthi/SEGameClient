@@ -404,26 +404,26 @@ public class CountryViewState extends IState
             }
         });
     	
-    	charName.setBounds(10, 0, 200, 20);
+    	charName.setBounds(10, 5, 400, 20);
     	characterSheetPanel.add(charName);
-    	health.setBounds(10, 20, 200, 20);
+    	health.setBounds(10, 35, 400, 20);
     	characterSheetPanel.add(health);
-    	mana.setBounds(10, 40, 200, 20);
+    	mana.setBounds(10, 65, 400, 20);
     	characterSheetPanel.add(mana);
-    	pointsToSpend.setBounds(10, 80, 200, 20);
+    	pointsToSpend.setBounds(10, 110, 400, 20);
     	characterSheetPanel.add(pointsToSpend);
     	
-    	strength.setBounds(10, 120, 200, 20);
+    	strength.setBounds(10, 160, 200, 20);
     	characterSheetPanel.add(strength);
-    	dexterity.setBounds(10, 140, 200, 20);
+    	dexterity.setBounds(10, 200, 200, 20);
     	characterSheetPanel.add(dexterity);
-    	constitution.setBounds(10, 160, 200, 20);
+    	constitution.setBounds(10, 240, 200, 20);
     	characterSheetPanel.add(constitution);
-    	intelligence.setBounds(10, 180, 200, 20);
+    	intelligence.setBounds(10, 280, 200, 20);
     	characterSheetPanel.add(intelligence);
-    	willpower.setBounds(10, 200, 200, 20);
+    	willpower.setBounds(10, 320, 200, 20);
     	characterSheetPanel.add(willpower);
-    	luck.setBounds(10, 220, 200, 20);
+    	luck.setBounds(10, 360, 240, 20);
     	characterSheetPanel.add(luck);
     	
     	strengthValue.setBounds(110, 120, 200, 20);
