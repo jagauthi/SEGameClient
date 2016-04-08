@@ -58,6 +58,7 @@ public class Player {
 	ArrayList<String> groupMembers;
 	
 	ArrayList<Item> inventory;
+	ArrayList<Equipment> equippedItems;
 	
 	Rectangle playerRect;
 
@@ -97,12 +98,18 @@ public class Player {
 		playerRect = new Rectangle(x, y, WIDTH, HEIGHT);
 		groupMembers = new ArrayList<String>();
 		inventory = new ArrayList<Item>();
+		equippedItems = new ArrayList<Equipment>();
 		
-		inventory.add(new HealthPotion(this, "HealthPotion1", 1));
-		inventory.add(new HealthPotion(this, "HealthPotion1", 1));
-		inventory.add(new HealthPotion(this, "HealthPotion1", 1));
-		inventory.add(new HealthPotion(this, "HealthPotion1", 1));
-		inventory.add(new HealthPotion(this, "HealthPotion1", 1));
+		inventory.add(new HealthPotion("HealthPotion1", this, 1));
+		inventory.add(new HealthPotion("HealthPotion1", this, 1));
+		inventory.add(new HealthPotion("HealthPotion1", this, 1));
+		inventory.add(new HealthPotion("HealthPotion1", this, 1));
+		inventory.add(new HealthPotion("HealthPotion1", this, 1));
+		
+		equippedItems.add(new Weapon("Iron Sword", Slot.RightHand, Rarity.Common, 10));
+		equippedItems.add(new Armor("Iron Helm", Slot.Head, Rarity.Common, 10));
+		equippedItems.add(new Armor("Iron Chest", Slot.Head, Rarity.Common, 20));
+		equippedItems.add(new Armor("Iron Legs", Slot.Head, Rarity.Common, 15));
 		
 		animation = new Animation();
 		spritesLoaded = false;
