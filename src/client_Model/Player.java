@@ -412,6 +412,24 @@ public class Player {
 		pointsToSpend = n;
 	}
 	
+	public void takeDamage(int damage)
+	{
+		if(isAlive())
+		{
+			health -= damage;
+			if(health <= 0)
+				System.out.println("Oh no... I'm dead...");
+		}
+	}
+	
+	public boolean isAlive()
+	{
+		if(health > 0)
+			return true;
+		else
+			return false;
+	}
+	
 	public void drawEyes(Graphics g){
 		if(eyeColor == null){
 			return;
@@ -547,11 +565,11 @@ public class Player {
 	public int getMaxHealth()
 	{
 		if(playerClass.equals("Mage"))
-			return constitution;
+			return (20*level) + constitution;
 		else if(playerClass.equals("Rogue"))
-			return constitution * 2;
+			return (int) ((20*level) + constitution * 1.5);
 		else
-			return constitution * 3;
+			return (20*level) + constitution * 2;
 	}
 	
 	public int getMaxMana()
