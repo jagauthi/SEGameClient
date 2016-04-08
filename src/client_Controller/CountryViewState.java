@@ -488,7 +488,7 @@ public class CountryViewState extends IState
 		
     	if(levelUpStrCount > 0)
     	{
-    		strCount.setBounds(335, 160, 30, 30);
+    		strCount.setBounds(335, 160, 60, 40);
         	characterSheetPanel.add(strCount);
     	}
     	else
@@ -498,7 +498,7 @@ public class CountryViewState extends IState
     	
     	if(levelUpDexCount > 0)
     	{
-    		dexCount.setBounds(335, 200, 30, 30);
+    		dexCount.setBounds(335, 200, 60, 40);
         	characterSheetPanel.add(dexCount);
     	}
     	else
@@ -508,7 +508,7 @@ public class CountryViewState extends IState
     	
     	if(levelUpConCount > 0)
     	{
-    		conCount.setBounds(335, 240, 30, 30);
+    		conCount.setBounds(335, 240, 60, 40);
         	characterSheetPanel.add(conCount);
     	}
     	else
@@ -518,7 +518,7 @@ public class CountryViewState extends IState
     	
     	if(levelUpIntCount > 0)
     	{
-    		intCount.setBounds(335, 280, 30, 30);
+    		intCount.setBounds(335, 280, 60, 40);
         	characterSheetPanel.add(intCount);
     	}
     	else
@@ -528,7 +528,7 @@ public class CountryViewState extends IState
     	
     	if(levelUpWilCount > 0)
     	{
-    		wilCount.setBounds(335, 320, 30, 30);
+    		wilCount.setBounds(335, 320, 60, 40);
         	characterSheetPanel.add(wilCount);
     	}
     	else
@@ -538,7 +538,7 @@ public class CountryViewState extends IState
     	
     	if(levelUpLckCount > 0)
     	{
-    		lckCount.setBounds(335, 360, 30, 30);
+    		lckCount.setBounds(335, 360, 60, 40);
         	characterSheetPanel.add(lckCount);
     	}
     	else
