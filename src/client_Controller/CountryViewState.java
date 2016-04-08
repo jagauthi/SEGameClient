@@ -674,7 +674,9 @@ public class CountryViewState extends IState
     
     public void logout()
     {
+        sm.client.sendMessage("UPDATECHARINFO#" + player.getAllCharInfo());
     	sm.disposeWindow();
+    	sm.client.sendMessage("LOGOUT#" + player.getName());
     }
   
     public void onEnter()
