@@ -582,12 +582,29 @@ public class Player {
 	
 	public int getMeleeDamage()
 	{
-		return strength;
+		if(playerClass.equals("Warrior"))
+			return (int) (strength*1.5);
+		else if(playerClass.equals("Rogue"))
+			return strength + dexterity;
+		else
+			return strength;
 	}
 	
 	public int getMagicDamage()
 	{
-		return intelligence;
+		if(mana > 10)
+		{
+			mana -= 10;
+			if(playerClass.equals("Mage"))
+				return (int) (intelligence*1.5);
+			else
+				return strength;
+		}
+		else
+		{
+			System.out.println("Not enough mana!");
+			return 0;
+		}
 	}
 
 	public void gainExperience(int xp)
