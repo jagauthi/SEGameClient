@@ -75,4 +75,10 @@ public class Enemy {
 	{
 		return experience;
 	}
+	
+	public void attack(Player p)
+	{
+		System.out.println(name + " attacking!");
+		p.takeDamage(damage);
+	}
 }
