@@ -564,12 +564,15 @@ public class Player {
 	
 	public int getMaxHealth()
 	{
+		/*
 		if(playerClass.equals("Mage"))
 			return (20*level) + constitution;
 		else if(playerClass.equals("Rogue"))
 			return (int) ((20*level) + constitution * 1.5);
 		else
 			return (20*level) + constitution * 2;
+			*/
+		return (10*level) + (10*constitution);
 	}
 	
 	public int getMaxMana()
