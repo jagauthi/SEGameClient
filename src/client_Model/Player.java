@@ -57,6 +57,8 @@ public class Player {
 	StateMachine sm;
 	ArrayList<String> groupMembers;
 	
+	ArrayList<Item> inventory;
+	
 	Rectangle playerRect;
 
 	public Player(String[] playerInfo) 
@@ -94,6 +96,13 @@ public class Player {
 		moving = false;
 		playerRect = new Rectangle(x, y, WIDTH, HEIGHT);
 		groupMembers = new ArrayList<String>();
+		inventory = new ArrayList<Item>();
+		
+		inventory.add(new HealthPotion(this, "HealthPotion1", 1));
+		inventory.add(new HealthPotion(this, "HealthPotion1", 1));
+		inventory.add(new HealthPotion(this, "HealthPotion1", 1));
+		inventory.add(new HealthPotion(this, "HealthPotion1", 1));
+		inventory.add(new HealthPotion(this, "HealthPotion1", 1));
 		
 		animation = new Animation();
 		spritesLoaded = false;
@@ -419,6 +428,34 @@ public class Player {
 			health -= damage;
 			if(health <= 0)
 				System.out.println("Oh no... I'm dead...");
+		}
+	}
+	
+	public ArrayList<Item> getInventory()
+	{
+		return inventory;
+	}
+	
+	public Item getInventoryItem(int n)
+	{
+		try{
+			return inventory.get(n);
+		}
+		catch(IndexOutOfBoundsException e){
+			System.out.println("Inventory slot " + n + " is empty");
+		}
+		//Shouldn't ever get to this null value...
+		return null;
+	}
+	
+	public void useInventoryItem(int n)
+	{
+		try{
+			inventory.get(n).use();
+			inventory.remove(n);
+		}
+		catch(IndexOutOfBoundsException e){
+			System.out.println("Inventory slot " + n + " is empty");
 		}
 	}
 	
