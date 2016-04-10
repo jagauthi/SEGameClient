@@ -51,7 +51,7 @@ public class StatField {
         
 		minus = new JButton();
 		minus.setBackground(Launcher.FAKETRANS);
-		minus.setBorder(null);
+		minus.setBorder(Launcher.emptyBorder);
 		minus.setMinimumSize(new Dimension(minusIcon.getIconWidth(), minusIcon.getIconHeight()));
 //		minus.setBounds(0,0,minus.getWidth(), minus.getHeight());
         minus.addActionListener(new java.awt.event.ActionListener() {
@@ -79,7 +79,7 @@ public class StatField {
         plus = new JButton();
         
         plus.setBackground(Launcher.TRANSPARENT);
-        plus.setBorder(null);
+        plus.setBorder(Launcher.emptyBorder);
         plus.setMinimumSize(new Dimension(plusIcon.getIconWidth(), plusIcon.getIconHeight()));
 //        plus.setBounds(minus.getWidth() + points.getWidth() + 20, 0, plus.getWidth(), plus.getHeight());
         plus.addActionListener(new java.awt.event.ActionListener() {
@@ -154,7 +154,7 @@ public class StatField {
 			minus.setEnabled(false);
 			pointsToAdd.setBackground(Launcher.TRANSPARENT);
 			pointsToAdd.setForeground(Launcher.TRANSPARENT);
-			pointsToAdd.setBorder(null);
+			pointsToAdd.setBorder(Launcher.emptyBorder);
 		}
 	}
 	
@@ -283,7 +283,7 @@ public class StatField {
 			minus.setEnabled(false);
 			pointsToAdd.setBackground(Launcher.TRANSPARENT);
 			pointsToAdd.setForeground(Launcher.TRANSPARENT);
-			pointsToAdd.setBorder(null);
+			pointsToAdd.setBorder(Launcher.emptyBorder);
 		}
 	}
 }
