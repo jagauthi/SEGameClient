@@ -47,8 +47,9 @@ public class Launcher{
 		public static final Color FAKETRANS = new Color(128, 128, 128);
 		public static final Color FIELDGRAY = new Color(200,200,200);
 		public static Font smallFont;
-		public Font normalFont;
+		public static Font normalFont;
 		public static Font bigFont;
+		public static Border emptyBorder;
 		private Image closeIcon;
 		static Image plusIcon;
 		static Image minusIcon;
@@ -163,6 +164,7 @@ public class Launcher{
 		UIManager.put("TextField.font", normalFont);
 		UIManager.put("TextField.background", FIELDGRAY);
 		NinePatchImage np = new NinePatchImage(WIDTH, HEIGHT, 23, 23, npBackground);
+		emptyBorder = BorderFactory.createEmptyBorder();
 		
 		frame = new JFrame();
        frame.setUndecorated(true);
@@ -213,7 +215,7 @@ public class Launcher{
 		JButton closeButton = new JButton(new ImageIcon(closeIcon));
         closeButton.setMargin(new Insets(0, 0, 0, 0));
         closeButton.setBackground(TRANSPARENT);
-        closeButton.setBorder(null);
+        closeButton.setBorder(emptyBorder);
         closeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
         		System.exit(0);
@@ -226,7 +228,7 @@ public class Launcher{
         JButton connectButton = new JButton();
         connectButton.setPreferredSize(new Dimension(400, 200));
         connectButton.setBackground(TRANSPARENT);
-        connectButton.setBorder(null);
+        connectButton.setBorder(emptyBorder);
         connectButton.setIcon(new ImageIcon(np.getScaledImage(400, 200)));
         connectButton.setText("Play!");
         connectButton.setFont(bigFont);
@@ -281,7 +283,7 @@ public class Launcher{
         rememberLoginName.setText("Remember Login Name");
         rememberLoginName.setFont(smallFont);
         rememberLoginName.setBackground(TRANSPARENT);
-        rememberLoginName.setBorder(null);
+        rememberLoginName.setBorder(emptyBorder);
         rememberLoginName.setFocusPainted(false);
         size = rememberLoginName.getPreferredSize();
         rememberLoginName.setBounds(loginNameLabel.getBounds().x, loginPasswordLabel.getBounds().y+(loginPasswordLabel.getHeight()*3/2), size.width, size.height);
@@ -289,7 +291,7 @@ public class Launcher{
         JButton closeButton = new JButton(new ImageIcon(closeIcon));
         closeButton.setMargin(new Insets(0, 0, 0, 0));
         closeButton.setBackground(TRANSPARENT);
-        closeButton.setBorder(null);
+        closeButton.setBorder(emptyBorder);
         closeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
         		System.exit(0);
@@ -300,7 +302,7 @@ public class Launcher{
 		
         createAccountButton.setText("Create Account");
         createAccountButton.setFont(smallFont);
-        createAccountButton.setBorder(null);
+        createAccountButton.setBorder(emptyBorder);
         createAccountButton.setBackground(TRANSPARENT);
         createAccountButton.setHorizontalTextPosition(JButton.CENTER);
         createAccountButton.setPreferredSize(new Dimension(WIDTH/3, HEIGHT/5));
@@ -317,7 +319,7 @@ public class Launcher{
         loginButton.setHorizontalTextPosition(JButton.CENTER);
         loginButton.setFont(normalFont);
         loginButton.setBackground(TRANSPARENT);
-        loginButton.setBorder(null);
+        loginButton.setBorder(emptyBorder);
         loginButton.setIcon(new ImageIcon(np.getScaledImage((int)size.getWidth(), (int)size.getHeight())));
         loginButton.setBounds(WIDTH - loginPanel.getNinePatch().getCornerWidth() - size.width, HEIGHT - loginPanel.getNinePatch().getCornerHeight() - size.height, size.width, size.height);
         loginButton.addActionListener(new java.awt.event.ActionListener() {
@@ -330,7 +332,7 @@ public class Launcher{
         forgotPasswordButton.setHorizontalTextPosition(JButton.CENTER);
         forgotPasswordButton.setFont(smallFont);
         forgotPasswordButton.setBackground(TRANSPARENT);
-        forgotPasswordButton.setBorder(null);
+        forgotPasswordButton.setBorder(emptyBorder);
         size = forgotPasswordButton.getPreferredSize();
         forgotPasswordButton.setBounds(WIDTH - loginPanel.getNinePatch().getCornerWidth() - size.width, loginPasswordLabel.getBounds().y+(loginPasswordLabel.getHeight()*3/2), size.width, size.height);
         forgotPasswordButton.addActionListener(new java.awt.event.ActionListener() {
@@ -385,7 +387,7 @@ public class Launcher{
         closeButton.setIcon(new ImageIcon(closeIcon));
         closeButton.setMargin(new Insets(0, 0, 0, 0));
         closeButton.setBackground(TRANSPARENT);
-        closeButton.setBorder(null);
+        closeButton.setBorder(emptyBorder);
         size = closeButton.getPreferredSize();
         closeButton.setBounds(WIDTH-size.width-cornerW+5, cornerH-5, size.width, size.height);
         closeButton.addActionListener(new java.awt.event.ActionListener() {
@@ -397,7 +399,7 @@ public class Launcher{
         createAccountBackButton.setText("<< Back");
         createAccountBackButton.setHorizontalTextPosition(JButton.CENTER);
         createAccountBackButton.setBackground(TRANSPARENT);
-        createAccountBackButton.setBorder(null);
+        createAccountBackButton.setBorder(emptyBorder);
         size = createAccountBackButton.getPreferredSize();
         createAccountBackButton.setBounds(cornerW-5, cornerH-5, size.width+10, size.height+10);
         createAccountBackButton.setIcon(new ImageIcon(np.getScaledImage(size.width+10, size.height+10)));
@@ -453,7 +455,7 @@ public class Launcher{
         createButton.setText("Create!");
         createButton.setHorizontalTextPosition(JButton.CENTER);
         createButton.setBackground(TRANSPARENT);
-        createButton.setBorder(null);
+        createButton.setBorder(emptyBorder);
         size = createButton.getPreferredSize();
         createButton.setBounds(WIDTH-cornerW-size.width-15, HEIGHT-cornerH-size.height-5, size.width+15, size.height+10);
         createButton.setIcon(new ImageIcon(np.getScaledImage(size.width+15, size.height+10)));
@@ -520,7 +522,7 @@ public class Launcher{
         closeButton.setIcon(new ImageIcon(closeIcon));
         closeButton.setMargin(new Insets(0, 0, 0, 0));
         closeButton.setBackground(TRANSPARENT);
-        closeButton.setBorder(null);
+        closeButton.setBorder(emptyBorder);
         size = closeButton.getPreferredSize();
         closeButton.setBounds(WIDTH-size.width-cornerW+5, cornerH-5, size.width, size.height);
         closeButton.addActionListener(new java.awt.event.ActionListener() {
@@ -532,7 +534,7 @@ public class Launcher{
         modifyAccountBackButton.setText("<< Back");
         modifyAccountBackButton.setHorizontalTextPosition(JButton.CENTER);
         modifyAccountBackButton.setBackground(TRANSPARENT);
-        modifyAccountBackButton.setBorder(null);
+        modifyAccountBackButton.setBorder(emptyBorder);
         size = modifyAccountBackButton.getPreferredSize();
         modifyAccountBackButton.setBounds(cornerW-5, cornerH-5, size.width+10, size.height+10);
         modifyAccountBackButton.setIcon(new ImageIcon(np.getScaledImage(size.width+10, size.height+10)));
@@ -554,18 +556,6 @@ public class Launcher{
         modifySecAnswer2Text.setPreferredSize(new Dimension(200, 40));
         secQuestions1.setPreferredSize(new Dimension(300, 40));
         secQuestions2.setPreferredSize(new Dimension(300, 40));
-        
-        modifyButton.setText("Modify!");
-        //createButton.setFont(normalFont);
-        modifyAccountBackButton.setText("<< Back");
-        
-        modifyButton.setPreferredSize(new Dimension(100, 50));
-        modifyButton.setActionCommand("modify");
-        modifyButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-            	modifyAccount(evt);
-            }
-        });
 
         modifyEmailLabel.setText("Email: ");
         modifyEmailLabel.setHorizontalAlignment(JLabel.LEFT);
@@ -610,16 +600,17 @@ public class Launcher{
         modifySecAnswer2Text.setBorder(BorderFactory.createLineBorder(Color.black));
         modifySecAnswer2Text.setBounds(WIDTH/2+10, secQuestions2.getBounds().y, WIDTH/2-cornerW-10, size.height);
         
-        modifyButton.setText("Modify!");
+        modifyButton.setText("Modify");
+        modifyButton.setActionCommand("modify");
         modifyButton.setHorizontalTextPosition(JButton.CENTER);
         modifyButton.setBackground(TRANSPARENT);
-        modifyButton.setBorder(null);
+        modifyButton.setBorder(emptyBorder);
         size = modifyButton.getPreferredSize();
-        modifyButton.setBounds(WIDTH-cornerW-size.width-15, (int) (modifySecAnswer2Text.getBounds().y+modifySecAnswer2Text.getBounds().getHeight()), size.width+15, size.height);
+        modifyButton.setBounds(WIDTH-cornerW-size.width-15, HEIGHT-cornerH-size.height-5, size.width+15, size.height+10);
         modifyButton.setIcon(new ImageIcon(np.getScaledImage(size.width+15, size.height+10)));
         modifyButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                createAccount(evt);
+            	modifyAccount(evt);
             }
         });
         
@@ -668,7 +659,7 @@ public class Launcher{
 			
 			charSelectButtons[x] = new JButton();
 			charSelectButtons[x].setBackground(TRANSPARENT);
-			charSelectButtons[x].setBorder(null);
+			charSelectButtons[x].setBorder(emptyBorder);
 			if(charInfo[1].equals("Mage")){
 				charSelectButtons[x].setIcon(new ImageIcon(magePort));
 			} else if (charInfo[1].equals("Rogue")){
@@ -686,18 +677,10 @@ public class Launcher{
 	        size = charSelectButtons[x].getPreferredSize();
 	        charSelectButtons[x].setBounds(cornerW, cornerH+40+((size.height+3)*x), size.width+10, size.height+10);
 			
-			charLabels[x] = new JLabel();
-			charLabels[x].setText(charInfo[0] + ", a level " + charInfo[2] + " " + charInfo[1]);
-			size = charLabels[x].getPreferredSize();
-			charLabels[x].setBounds(charSelectButtons[x].getBounds().x+charSelectButtons[x].getBounds().width,
-					charSelectButtons[x].getBounds().y, size.width, charSelectButtons[x].getBounds().height);
-			
-			
-			
 			deleteButtons[x] = new JButton("Delete");
 			deleteButtons[x].setHorizontalTextPosition(JButton.CENTER);
 			deleteButtons[x].setBackground(TRANSPARENT);
-			deleteButtons[x].setBorder(null);
+			deleteButtons[x].setBorder(emptyBorder);
 	        size = deleteButtons[x].getPreferredSize();
 	        deleteButtons[x].setBounds(charSelectPanel.getWidth()-cornerW - size.width-20, charSelectButtons[x].getBounds().y, size.width+20, charSelectButtons[x].getBounds().height);
 	        deleteButtons[x].setIcon(new ImageIcon(np.getScaledImage(size.width+20, size.height+10)));
@@ -707,6 +690,12 @@ public class Launcher{
 	                deleteChar(selected);
 	            }
 	        });
+			
+			charLabels[x] = new JLabel();
+			charLabels[x].setText(charInfo[0] + ", a level " + charInfo[2] + " " + charInfo[1]);
+			size = charLabels[x].getPreferredSize();
+			charLabels[x].setBounds(charSelectButtons[x].getX()+charSelectButtons[x].getWidth(),charSelectButtons[x].getY(), 
+					deleteButtons[x].getX() - charSelectButtons[x].getX() - charSelectButtons[x].getWidth() , charSelectButtons[x].getBounds().height);
 
 	        charSelectPanel.add(charSelectButtons[x]);
 	        
@@ -718,7 +707,7 @@ public class Launcher{
 		closeButton.setIcon(new ImageIcon(closeIcon));
         closeButton.setMargin(new Insets(0, 0, 0, 0));
         closeButton.setBackground(TRANSPARENT);
-        closeButton.setBorder(null);
+        closeButton.setBorder(emptyBorder);
         size = closeButton.getPreferredSize();
         closeButton.setBounds(WIDTH-size.width-cornerW+5, cornerH-5, size.width, size.height);
         closeButton.addActionListener(new java.awt.event.ActionListener() {
@@ -732,7 +721,7 @@ public class Launcher{
 		logoutButton.setFont(smallFont);
         logoutButton.setHorizontalTextPosition(JButton.CENTER);
         logoutButton.setBackground(TRANSPARENT);
-        logoutButton.setBorder(null);
+        logoutButton.setBorder(emptyBorder);
         size = logoutButton.getPreferredSize();
         logoutButton.setBounds(cornerW-5, cornerH-5, size.width+20, size.height+10);
         logoutButton.setIcon(new ImageIcon(np.getScaledImage(size.width+20, size.height+10)));
@@ -746,7 +735,7 @@ public class Launcher{
 		accountManagementButton.setFont(smallFont);
 		accountManagementButton.setHorizontalTextPosition(JButton.CENTER);
 		accountManagementButton.setBackground(TRANSPARENT);
-		accountManagementButton.setBorder(null);
+		accountManagementButton.setBorder(emptyBorder);
         size = accountManagementButton.getPreferredSize();
         accountManagementButton.setBounds(logoutButton.getBounds().x+logoutButton.getBounds().width+10, cornerH-5, size.width+20, size.height+10);
         accountManagementButton.setIcon(new ImageIcon(np.getScaledImage(size.width+20, size.height+10)));
@@ -761,9 +750,9 @@ public class Launcher{
         playButton.setText("Play!");
         playButton.setHorizontalTextPosition(JButton.CENTER);
         playButton.setBackground(TRANSPARENT);
-        playButton.setBorder(null);
+        playButton.setBorder(emptyBorder);
         size = playButton.getPreferredSize();
-        playButton.setBounds(WIDTH - cornerW - size.width - 20,HEIGHT - cornerH - size.height - 10, size.width+20, size.height+10);
+        playButton.setBounds(WIDTH - cornerW - size.width - 20,HEIGHT - cornerH - size.height-5, size.width+20, size.height+10);
         playButton.setIcon(new ImageIcon(np.getScaledImage(size.width+20, size.height+10)));
         playButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -783,7 +772,7 @@ public class Launcher{
         	{
         		createNewCharButtons[x] = new JButton();
         		createNewCharButtons[x].setBackground(TRANSPARENT);
-        		createNewCharButtons[x].setBorder(null);
+        		createNewCharButtons[x].setBorder(emptyBorder);
         		createNewCharButtons[x].setIcon(new ImageIcon(newPort));
         		createNewCharButtons[x].addActionListener(new java.awt.event.ActionListener() {
     	            public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -822,7 +811,7 @@ public class Launcher{
         backButton.setText("<< Back");
         backButton.setHorizontalTextPosition(JButton.CENTER);
         backButton.setBackground(TRANSPARENT);
-        backButton.setBorder(null);
+        backButton.setBorder(emptyBorder);
         size = backButton.getPreferredSize();
         backButton.setBounds(cornerW-5, cornerH-5, size.width+10, size.height+10);
         backButton.setIcon(new ImageIcon(np.getScaledImage(size.width+10, size.height+10)));
@@ -848,7 +837,7 @@ public class Launcher{
         backButton.setText("<< Back");
         createNewCharacterButton.setHorizontalTextPosition(JButton.CENTER);
         createNewCharacterButton.setBackground(TRANSPARENT);
-        createNewCharacterButton.setBorder(null);
+        createNewCharacterButton.setBorder(emptyBorder);
         size = createNewCharacterButton.getPreferredSize();
         createNewCharacterButton.setBounds(WIDTH - cornerW - size.width-10, HEIGHT - cornerH-size.height-10, size.width+20, size.height+20);
         createNewCharacterButton.setIcon(new ImageIcon(np.getScaledImage(size.width+20, size.height+20)));
