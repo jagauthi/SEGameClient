@@ -171,13 +171,19 @@ public class CharacterSheetPanel extends BackgroundedPanel{
 	{
 		if(b)
         {
-            spendPointsBut.setText("Cancel");
+            spendPointsBut.setVisible(false);
+            spendPointsBut.setEnabled(false);
             levelingUp = true;
         }
         else
         {
+        	if(player.getPointsToSpend() != 0)
+    		{
+    			spendPointsBut.setVisible(true);
+    			spendPointsBut.setEnabled(true);
+    		}
         	spendPointsBut.setText("Spend Points");
-        	statValueArray[0] = startingPoints;
+        	statValueArray[0] = player.getPointsToSpend();
         	statValueArray[1] = 0;
         	statValueArray[2] = 0;
         	statValueArray[3] = 0;
@@ -193,6 +199,7 @@ public class CharacterSheetPanel extends BackgroundedPanel{
             luckField.reset();
         	levelingUp = false;
         }
+		pointsLeftField.setText(String.valueOf(statValueArray[0]));
         comitBut.setVisible(levelingUp);
 		comitBut.setEnabled(levelingUp);
         strengthField.showPlus(levelingUp);
@@ -205,7 +212,6 @@ public class CharacterSheetPanel extends BackgroundedPanel{
 		
 	public void spendPoints()
 	{
-		System.out.println("HIT IN SPEND POINTS");
 		player.setStrength(player.getStrength() + statValueArray[1]);
 		strengthField.setPointValue(player.getStrength());
 		player.setDexterity(player.getDexterity() + statValueArray[2]);
@@ -220,28 +226,7 @@ public class CharacterSheetPanel extends BackgroundedPanel{
 		luckField.setPointValue(player.getLuck());
 		
 		player.setPointsToSpend(statValueArray[0]);
-		
-		spendPointsBut.setText("Spend Points");
-		if(player.getPointsToSpend() == 0)
-		{
-			spendPointsBut.setVisible(false);
-			spendPointsBut.setEnabled(false);
-		}
-		
-		startingPoints = statValueArray[0];
-    	statValueArray[1] = 0;
-    	statValueArray[2] = 0;
-    	statValueArray[3] = 0;
-    	statValueArray[4] = 0;
-    	statValueArray[5] = 0;
-    	statValueArray[6] = 0;
-    	pointsLeftField.setText(String.valueOf(statValueArray[0]));
-    	strengthField.reset();
-        dexterityField.reset();
-        constitutionField.reset();
-        intelligenceField.reset();
-        willpowerField.reset();
-        luckField.reset();
+    	
     	setLevelingUp(false);
 	
 	    //sm.client.sendMessage("UPDATECHARINFO#" + player.getAllCharInfo());
