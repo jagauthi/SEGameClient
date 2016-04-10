@@ -1,9 +1,14 @@
 package client_Controller;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 
@@ -24,6 +29,10 @@ public class StateMachine //extends Thread
 	//HashMap<String, OtherPlayer> otherPlayers = new HashMap<String, OtherPlayer>();
 	public static ArrayList<OtherPlayer> otherPlayers = new ArrayList<OtherPlayer>();
 
+	//Player Sprites
+	public static BufferedImage mageSpriteSheet, rogueSpriteSheet, warriorSpriteSheet;
+	public static Image mageSprite, rogueSprite, warriorSprite;
+	
 	Boolean started = false;
 	
 	Player player;
@@ -35,7 +44,19 @@ public class StateMachine //extends Thread
     public StateMachine(String[] playerInfo, ChatClient c, GamePanel gp)
     {	
     	panel = gp;
-        player = new Player(playerInfo);
+    	this.loadSprites();
+    	if(playerInfo[2].equals("Mage"))
+		{
+			player = new Player(playerInfo, mageSpriteSheet);
+		} 
+    	else if(playerInfo[2].equals("Rogue"))
+		{
+			player = new Player(playerInfo, rogueSpriteSheet);
+		} 
+		else
+		{
+			player = new Player(playerInfo, warriorSpriteSheet);
+		} 
         player.setStateMachine(this);
         client = c;
         client.setStateMachine(this);
@@ -54,6 +75,21 @@ public class StateMachine //extends Thread
     	}
     	else
     		currentState = countryViewState;
+    }
+    
+    public void loadSprites()
+    {
+    	try {
+			mageSpriteSheet = ImageIO.read(new File("resources/Sprites/mageSprite.png"));
+			rogueSpriteSheet = ImageIO.read(new File("resources/Sprites/rogueSprite.png"));
+			warriorSpriteSheet = ImageIO.read(new File("resources/Sprites/warriorSprite.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	mageSprite = mageSpriteSheet.getSubimage(80, 240, 40, 60);
+    	rogueSprite = rogueSpriteSheet.getSubimage(80, 240, 40, 60);
+    	warriorSprite = warriorSpriteSheet.getSubimage(80, 240, 40, 60);
     }
     
     public void finalize()
