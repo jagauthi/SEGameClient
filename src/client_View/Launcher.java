@@ -46,7 +46,9 @@ public class Launcher{
 		public static final Color TRANSPARENT = new Color(1.0f, 1.0f, 1.0f, 0.0f);
 		public static final Color FAKETRANS = new Color(128, 128, 128);
 		public static final Color FIELDGRAY = new Color(200,200,200);
-		public Font smallFont, normalFont, bigFont;
+		public static Font smallFont;
+		public Font normalFont;
+		public static Font bigFont;
 		private Image closeIcon;
 		static Image plusIcon;
 		static Image minusIcon;
@@ -55,7 +57,7 @@ public class Launcher{
 		private Image warriorPort;
 		private Image newPort;
 		private Image unknownPort;
-		private BufferedImage npBackground, npBasic_50_7;
+		static BufferedImage npBackground, npBasic_50_7;
 
 		private JFrame frame;
 		
@@ -99,6 +101,7 @@ public class Launcher{
 	    String[] characterNames = new String[5];
 	    
 	    //Info that is collected in the Create New Character Panel
+	    int[] statValues;
 	    JTextField newCharacterNameText;
 	    static JTextField pointsLeft;
 	    static int pointsRemaining;
@@ -928,12 +931,14 @@ public class Launcher{
         
         
 /////////Stat Panel
-        pointsRemaining = 10;
+        //Stat Values {pointsRemaining, Str, Dex, Con, Int, Will, Luck}
+        statValues = new int[] {10, 5, 5, 5, 5, 5, 5};
+        StatField[] statFieldArray = new StatField[6];
         
         pointsLeft  = new JTextField(2);
         pointsLeft.setHorizontalAlignment(JTextField.CENTER);
         pointsLeft.setBackground(FAKETRANS);
-        pointsLeft.setText(String.valueOf(pointsRemaining));
+        pointsLeft.setText(String.valueOf(statValues[0]));
         pointsLeft.setFont(bigFont);
         pointsLeft.setEditable(false);
         Border pointsLeftBorder = BorderFactory.createLineBorder(Color.BLACK);
@@ -941,29 +946,38 @@ public class Launcher{
         size = pointsLeft.getPreferredSize();
         pointsLeft.setBounds(WIDTH - cornerW - size.width, sexPanel.getY() + 15, size.width, size.height);
         
-        strengthField = new StatField("Strength");
+//        int statGap = WIDTH - cornerW - newCharacterNameLabel.getX() - (WIDTH -pointsLeft.getX()) - 30;
+//        strengthField.panel.setBounds(newCharacterNameLabel.getX()+(statGap-size.width), sexPanel.getY()+20, size.width+30, size.height-10);
+        
+        strengthField = new StatField("Strength", pointsLeft, statValues, statFieldArray, 1, 5, StatField.NEW);
         size = strengthField.panel.getPreferredSize();
         strengthField.panel.setBounds(newCharacterNameLabel.getX(), sexPanel.getY()+20, size.width+30, size.height-10);
+        statFieldArray[0] = strengthField;
         
-        dexterityField = new StatField("Dexterity");
+        dexterityField = new StatField("Dexterity", pointsLeft, statValues, statFieldArray, 2, 5, StatField.NEW);
         size = dexterityField.panel.getPreferredSize();
         dexterityField.panel.setBounds(newCharacterNameLabel.getX(), strengthField.panel.getY() + strengthField.panel.getHeight(), size.width+30, size.height-10);
+        statFieldArray[1] = dexterityField;
         
-        constitutionField = new StatField("Constitution");
+        constitutionField = new StatField("Constitution", pointsLeft, statValues, statFieldArray, 3, 5, StatField.NEW);
         size = constitutionField.panel.getPreferredSize();
         constitutionField.panel.setBounds(newCharacterNameLabel.getX(), dexterityField.panel.getY() + dexterityField.panel.getHeight(), size.width+30, size.height-10);
+        statFieldArray[2] = constitutionField;
         
-        intelligenceField = new StatField("Intelligence");
+        intelligenceField = new StatField("Intelligence", pointsLeft, statValues, statFieldArray, 4, 5, StatField.NEW);
         size = intelligenceField.panel.getPreferredSize();
         intelligenceField.panel.setBounds(newCharacterNameLabel.getX(), constitutionField.panel.getY() + constitutionField.panel.getHeight(), size.width+30, size.height-10);
+        statFieldArray[3] = intelligenceField;
         
-        willpowerField = new StatField("Willpower");
+        willpowerField = new StatField("Willpower", pointsLeft, statValues, statFieldArray, 5, 5, StatField.NEW);
         size = willpowerField.panel.getPreferredSize();
         willpowerField.panel.setBounds(newCharacterNameLabel.getX(), intelligenceField.panel.getY() + intelligenceField.panel.getHeight(), size.width+30, size.height-10);
+        statFieldArray[4] = willpowerField;
         
-        luckField = new StatField("Luck");
+        luckField = new StatField("Luck", pointsLeft, statValues, statFieldArray, 6, 5, StatField.NEW);
         size = luckField.panel.getPreferredSize();
         luckField.panel.setBounds(newCharacterNameLabel.getX(), willpowerField.panel.getY() + willpowerField.panel.getHeight(), size.width+30, size.height-10);
+        statFieldArray[5] = luckField;
         
 /////////Create New Character Panel
         createNewCharacterPanel.setLayout(null);
@@ -1333,12 +1347,12 @@ public class Launcher{
 		else
 			chosenClass = "Warrior";
 		
-		String str = strengthField.points.getText();
-		String dex = dexterityField.points.getText();
-		String con = constitutionField.points.getText();
-		String intel = intelligenceField.points.getText();
-		String wil = willpowerField.points.getText();
-		String lck = luckField.points.getText();
+		String str = strengthField.getStringValue();
+		String dex = dexterityField.getStringValue();
+		String con = constitutionField.getStringValue();
+		String intel = intelligenceField.getStringValue();
+		String wil = willpowerField.getStringValue();
+		String lck = luckField.getStringValue();
 		
 		//name, accountID, class, gender, str, dex, con, int, wil, lck
 		if(charName.equals(""))
@@ -1457,7 +1471,7 @@ public class Launcher{
 	public void deleteChar(int x)
 	{
 		String delete = JOptionPane.showInputDialog(null, "Type \"DELETE\" in all caps to confirm deletion.", "Confirm Delete", JOptionPane.INFORMATION_MESSAGE);
-		if(delete.equals("DELETE"))
+		if(delete!=null && delete.equals("DELETE"))
 			client.sendMessage("DELETECHAR#" + characterNames[x] + "#" + accountID);
 	}
 	
