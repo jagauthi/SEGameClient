@@ -21,8 +21,8 @@ public class Player {
 	int strength, dexterity, constitution, intelligence, willpower, luck;
 	int speed;
 	Boolean moving;
-	final int WIDTH = 16;
-	final int HEIGHT = 26;
+	final int WIDTH = 20;
+	final int HEIGHT = 30;
 	final int SCALE = 2;
 	long tookDamageTime;
 	
@@ -62,7 +62,7 @@ public class Player {
 	
 	Rectangle playerRect;
 
-	public Player(String[] playerInfo) 
+	public Player(String[] playerInfo, BufferedImage spriteIn) 
 	{
 		
 		//The first element of this array is the thing that just says "LoginSuccess", so don't look at the first element in the array when loading player info.
@@ -111,11 +111,10 @@ public class Player {
 		equippedItems.add(new Armor("Iron Chest", Slot.Head, Rarity.Common, 20));
 		equippedItems.add(new Armor("Iron Legs", Slot.Head, Rarity.Common, 15));
 		
-		animation = new Animation();
 		spritesLoaded = false;
-		
-		eyeColor = null;
-		loadSprites("resources/Sprites/SpriteTemplet.gif");
+		animation = new Animation();
+		spriteSheet = spriteIn;
+		this.sliceSprites();
 	}
 	
 	public void setStateMachine(StateMachine newSm)
@@ -123,35 +122,39 @@ public class Player {
 		sm = newSm;
 	}
 	
-	public boolean loadSprites(String filePath){
+	private boolean sliceSprites(){
 		sprites = new ArrayList<BufferedImage[]>();
 		try{
-			if(filePath == null){
-				//Load each of the armor pieces if not specified a sprite page
-				//For now this is hard coded but file path will depend on how we do inventory
-				BufferedImage head = ImageIO.read(new File("resources/Head/head.gif"));
-				BufferedImage arms = ImageIO.read(new File("resources/Arms/arms.gif"));
-				BufferedImage chest = ImageIO.read(new File("resources/Chest/chest.gif"));
-				BufferedImage legs = ImageIO.read(new File("resources/Legs/legs.gif"));
-				BufferedImage feet = ImageIO.read(new File("resources/Feet/feet.gif"));
-				
-				//Combine each of of the armor pieces into one image
-				spriteSheet = new BufferedImage(head.getWidth(), head.getHeight(), BufferedImage.TYPE_INT_ARGB);
-				Graphics g = spriteSheet.getGraphics();
-				g.drawImage(head, 0, 0, null);
-				g.drawImage(arms, 0, 0, null);
-				g.drawImage(chest, 0, 0, null);
-				g.drawImage(legs, 0, 0, null);
-				g.drawImage(feet, 0, 0, null);
-			} else {
-				//Load spriteSheet if given one
-				spriteSheet = ImageIO.read(new File(filePath));
-			}
+//			Dynamic Armor Stuff
+//			if(filePath == null){
+//				//Load each of the armor pieces if not specified a sprite page
+//				//For now this is hard coded but file path will depend on how we do inventory
+//				BufferedImage head = ImageIO.read(new File("resources/Head/head.gif"));
+//				BufferedImage arms = ImageIO.read(new File("resources/Arms/arms.gif"));
+//				BufferedImage chest = ImageIO.read(new File("resources/Chest/chest.gif"));
+//				BufferedImage legs = ImageIO.read(new File("resources/Legs/legs.gif"));
+//				BufferedImage feet = ImageIO.read(new File("resources/Feet/feet.gif"));
+//				
+//				//Combine each of of the armor pieces into one image
+//				spriteSheet = new BufferedImage(head.getWidth(), head.getHeight(), BufferedImage.TYPE_INT_ARGB);
+//				Graphics g = spriteSheet.getGraphics();
+//				g.drawImage(head, 0, 0, null);
+//				g.drawImage(arms, 0, 0, null);
+//				g.drawImage(chest, 0, 0, null);
+//				g.drawImage(legs, 0, 0, null);
+//				g.drawImage(feet, 0, 0, null);
+//			} else {
+//				//Load spriteSheet if given one
+//				spriteSheet = ImageIO.read(new File(filePath));
+//			}
+			
 			
 			//Slice the spriteSheet into arrays of frames for animations
-			for( int n = 0; n < numFrames.length; n++){
+			for( int n = 0; n < numFrames.length; n++)
+			{
 				BufferedImage[] temp = new BufferedImage[numFrames[n]];
-				for(int m = 0; m < numFrames[n]; m++){
+				for(int m = 0; m < numFrames[n]; m++)
+				{
 					temp[m] = spriteSheet.getSubimage(WIDTH * m * SCALE, HEIGHT * n * SCALE, WIDTH * SCALE, HEIGHT * SCALE);
 				}
 				sprites.add(temp);
