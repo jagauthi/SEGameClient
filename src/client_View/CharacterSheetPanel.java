@@ -81,7 +81,7 @@ public class CharacterSheetPanel extends BackgroundedPanel{
         spendPointsBut.setFont(Launcher.smallFont);
         spendPointsBut.setHorizontalTextPosition(JButton.CENTER);
         spendPointsBut.setBackground(Launcher.TRANSPARENT);
-        spendPointsBut.setBorder(null);
+        spendPointsBut.setBorder(Launcher.emptyBorder);
         size = spendPointsBut.getPreferredSize();
         spendPointsBut.setBounds(pointsLeftField.getX()+pointsLeftField.getWidth()+20, pointsLeftField.getY(), size.width+20, size.height+20);
         spendPointsBut.setIcon(new ImageIcon(new NinePatchImage(size.width+20, size.height+20, 7, 7, Launcher.npBasic_50_7).getScaledImage(size.width+20, size.height+20)));
@@ -95,7 +95,7 @@ public class CharacterSheetPanel extends BackgroundedPanel{
         comitBut.setText("Save");
         comitBut.setHorizontalTextPosition(JButton.CENTER);
         comitBut.setBackground(Launcher.TRANSPARENT);
-        comitBut.setBorder(null);
+        comitBut.setBorder(Launcher.emptyBorder);
         size = comitBut.getPreferredSize();
         comitBut.setBounds(WIDTH - cornerW - size.width - 30, HEIGHT - cornerH - size.height - 30, size.width+20, size.height+20);
         comitBut.setIcon(new ImageIcon(new NinePatchImage(size.width+20, size.height+20, 7, 7, Launcher.npBasic_50_7).getScaledImage(size.width+20, size.height+20)));
