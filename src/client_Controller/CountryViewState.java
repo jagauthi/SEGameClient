@@ -307,11 +307,13 @@ public class CountryViewState extends IState
     public void openOptionsMenu()
     {
 		sm.addComponent(optionsPanel);
+		optionsMenuOpen = true;
     }
     
     public void closeOptionsMenu()
     {
 		sm.removeComponent(optionsPanel);
+		optionsMenuOpen = false;
     }
     
     public void logout()
