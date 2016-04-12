@@ -161,9 +161,11 @@ public class CombatState extends IState
   
     public void render(Graphics g)
     {
-    	g.drawImage(backgroundImage, 0, 0, null);
-
-    	g.drawImage(player.getImage(), 3*GamePanel.WIDTH/4, GamePanel.HEIGHT/4, null);
+    	//g.drawImage(backgroundImage, 0, 0, null);
+    	g.setColor(Color.BLUE);
+    	g.fillRect(0, 0, GamePanel.WIDTH, GamePanel.HEIGHT);
+    	g.drawImage(player.getImage(), 3*GamePanel.WIDTH/4, GamePanel.HEIGHT/4, 
+    				player.getImage().getWidth()*2, player.getImage().getHeight()*2, null);
     	
     	if(enemies.size() > 0)
     	{
@@ -187,17 +189,31 @@ public class CombatState extends IState
 			}
     	}
     	//Left Box Background
-    	g.setColor(Color.orange);
+    	g.setColor(Color.lightGray);
     	g.fillRect(0, 2*GamePanel.HEIGHT/3, GamePanel.WIDTH/2, GamePanel.HEIGHT/3);
     	//Right Box Background
-    	g.setColor(Color.lightGray);
+    	g.setColor(Color.black);
     	g.fillRect(GamePanel.WIDTH/2, 2*GamePanel.HEIGHT/3, GamePanel.WIDTH/2, GamePanel.HEIGHT/3);
     	
     	//Left Box Info
     	g.setColor(Color.black);
     	g.drawString("Name: " + player.getName(), 10, (3*GamePanel.HEIGHT/4)+10);
-    	g.drawString("HP: " + player.getHealth(), 10, (3*GamePanel.HEIGHT/4)+30);
-    	g.drawString("Mana: " + player.getMana(), 10, (3*GamePanel.HEIGHT/4)+50);
+    	
+    	float currentHealth = (float)player.getHealth()/(float)player.getMaxHealth() * 100.0f;
+		g.setColor(Color.white);
+		g.fillRect(10, (3*GamePanel.HEIGHT/4)+30, 104, 20);
+		g.setColor(Color.red);
+		g.fillRect(12, (3*GamePanel.HEIGHT/4)+32, (int) currentHealth, 16);
+		g.setColor(Color.BLACK);
+    	g.drawString(player.getHealth() + "/" + player.getMaxHealth(), 40, (3*GamePanel.HEIGHT/4)+45);
+		
+		float currentMana = (float)player.getMana()/(float)player.getMaxMana() * 100.0f;
+		g.setColor(Color.white);
+		g.fillRect(10, (3*GamePanel.HEIGHT/4)+60, 104, 20);
+		g.setColor(Color.cyan);
+		g.fillRect(12, (3*GamePanel.HEIGHT/4)+62, (int) currentMana, 16);
+		g.setColor(Color.BLACK);
+    	g.drawString(player.getMana() + "/" + player.getMaxMana(), 40, (3*GamePanel.HEIGHT/4)+75);
     }
     
     public void truncateEnemies()
