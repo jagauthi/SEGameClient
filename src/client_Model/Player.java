@@ -585,12 +585,18 @@ public class Player {
 	
 	public int getMeleeDamage()
 	{
+		int damage = 0;
+		for(Equipment e : equippedItems)
+		{
+			if(e.slot == Slot.RightHand || e.slot == Slot.LeftHand)
+				damage += ((Weapon)e).getBaseDamage();
+		}
 		if(playerClass.equals("Warrior"))
-			return (int) (strength*1.5);
+			return damage + (int)(strength*1.5);
 		else if(playerClass.equals("Rogue"))
-			return strength + dexterity;
+			return damage + strength + dexterity;
 		else
-			return strength;
+			return damage + strength;
 	}
 	
 	public int getMagicDamage()
