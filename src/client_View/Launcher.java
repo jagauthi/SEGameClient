@@ -14,10 +14,18 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.SourceDataLine;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -33,6 +41,8 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
+
+import sun.audio.*;
 
 import client_Controller.ChatClient;
 
@@ -128,6 +138,12 @@ public class Launcher{
 		ArrayList<String> characters = new ArrayList<String>();
 		
 		String accountID;
+		
+		final int BUFFER_SIZE = 128000;
+	    File soundFile;
+	    AudioInputStream audioStream;
+	    AudioFormat audioFormat;
+	    SourceDataLine sourceLine;
 	
 	public Launcher(){
 		try {
@@ -201,7 +217,6 @@ public class Launcher{
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
-        
         
         //switchCards("Create New Character Panel");
 	}
@@ -996,6 +1011,7 @@ public class Launcher{
 		//Maybe check to make sure we're connected to server first, before
 		//switching over to the login screen??
 		switchCards("Login Panel");
+		song("src/Output.wav");
     }
 	
 	private void logIn(ActionEvent evt)
@@ -1506,6 +1522,20 @@ public class Launcher{
 		String username = JOptionPane.showInputDialog(null, "What is your username?", "Forgot Password", JOptionPane.INFORMATION_MESSAGE);
 		if(username != null)
 			client.sendMessage("FORGOTPASSWORD#" + username);
+	}
+	
+	public void song(String Filename)
+	{
+		try{
+			InputStream in = new FileInputStream(Filename);
+			AudioStream as = new AudioStream(in);  
+			AudioPlayer.player.start(as); 
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		//AudioPlayer.player.stop(as); 
 	}
 	
 	public void close(){
