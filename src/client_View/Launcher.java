@@ -139,12 +139,6 @@ public class Launcher{
 		
 		String accountID;
 		
-		final int BUFFER_SIZE = 128000;
-	    File soundFile;
-	    AudioInputStream audioStream;
-	    AudioFormat audioFormat;
-	    SourceDataLine sourceLine;
-	
 	public Launcher(){
 		try {
 		     //Load Fonts
@@ -1011,7 +1005,7 @@ public class Launcher{
 		//Maybe check to make sure we're connected to server first, before
 		//switching over to the login screen??
 		switchCards("Login Panel");
-		song("src/Output.wav");
+		song("resources/Sounds/SnowZone.wav");
     }
 	
 	private void logIn(ActionEvent evt)
