@@ -1005,7 +1005,7 @@ public class Launcher{
 		//Maybe check to make sure we're connected to server first, before
 		//switching over to the login screen??
 		switchCards("Login Panel");
-		song("resources/Sounds/SnowZone.wav");
+		song("resources/Sounds/LauncherMusic.wav");
     }
 	
 	private void logIn(ActionEvent evt)
