@@ -23,6 +23,7 @@ import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
@@ -1521,15 +1522,17 @@ public class Launcher{
 	public void song(String Filename)
 	{
 		try{
-			InputStream in = new FileInputStream(Filename);
-			AudioStream as = new AudioStream(in);  
-			AudioPlayer.player.start(as); 
+	        File f = new File(Filename);
+	        Clip clip = AudioSystem.getClip();
+	        AudioInputStream ais = AudioSystem.getAudioInputStream(f);
+	        clip.open(ais);
+	        clip.loop(Clip.LOOP_CONTINUOUSLY);
+	        //clip.setMicrosecondPosition(1000000);
+	        //clip.stop();
+	    }
+		catch(Exception exception){
+			System.out.println("Failed To Play The WAV File!");
 		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-		//AudioPlayer.player.stop(as); 
 	}
 	
 	public void close(){
