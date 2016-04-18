@@ -14,6 +14,7 @@ import javax.swing.JComponent;
 
 import client_Model.OtherPlayer;
 import client_Model.Player;
+import client_View.AudioManager;
 import client_View.GamePanel;
  
 public class StateMachine //extends Thread
@@ -40,6 +41,10 @@ public class StateMachine //extends Thread
 	GamePanel panel;
 	
 	static ChatClient client;
+	
+	AudioManager countryViewSong;
+	AudioManager combatSong;
+	AudioManager townSong;
 	
     public StateMachine(String[] playerInfo, ChatClient c, GamePanel gp)
     {	
@@ -68,13 +73,21 @@ public class StateMachine //extends Thread
     	this.add("LocalViewState", localViewState);
     	this.add("BlueState", blueState);
     	this.add("CombatState", combatState);
+    	
+    	countryViewSong = new AudioManager();
+    	combatSong = new AudioManager();
+    	townSong = new AudioManager();
+    	
     	if(!player.getLocation().equals("CountryView"))
     	{
     		String[] args = {"LocalViewState", player.getLocation()};
     		changeState(args);
     	}
     	else
+    	{
     		currentState = countryViewState;
+    		countryViewSong.playSong("resources/Sounds/SnowZone.wav");
+    	}
     }
     
     public void loadSprites()
@@ -157,10 +170,13 @@ public class StateMachine //extends Thread
     	 * args[0] = "Local View State"
     	 * args[1] = "StartingTown"
     	 */
+    	
     	if(currentState != null)
     		currentState.onExit();
     	if(args[0].equals("LocalViewState"))
     	{
+    		if(countryViewSong.isPlaying())
+    			countryViewSong.pauseSong();
     		currentState = states.get(args[0]);
     		client.sendMessage("GETLOCALINFO#" + args[1]);
     		player.setLocation(args[1]);
@@ -168,11 +184,19 @@ public class StateMachine //extends Thread
     	}
     	else if(args[0].equals("CombatState"))
     	{
+    		if(countryViewSong.isPlaying())
+    			countryViewSong.pauseSong();
+    		combatSong.playSong("resources/Sounds/MaxSong.wav");
     		currentState = states.get(args[0]);
     		client.sendMessage("GETCOMBATINFO#" + args[1]);
     	}
     	else if(args[0].equals("CountryViewState"))
     	{
+    		if(combatSong.isPlaying())
+    			combatSong.stopSong();
+    		if(townSong.isPlaying())
+    			townSong.stopSong();
+    		countryViewSong.resumeSong();
     		//Do we need to give coordinates to where the player will be returned in the country view?
     		currentState = states.get(args[0]);
     		player.setLocation("CountryView");
