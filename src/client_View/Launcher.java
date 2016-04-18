@@ -140,6 +140,8 @@ public class Launcher{
 		
 		String accountID;
 		
+		AudioManager audioManager;
+		
 	public Launcher(){
 		try {
 		     //Load Fonts
@@ -212,6 +214,8 @@ public class Launcher{
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+        
+        audioManager = new AudioManager();
         
         //switchCards("Create New Character Panel");
 	}
@@ -1006,7 +1010,7 @@ public class Launcher{
 		//Maybe check to make sure we're connected to server first, before
 		//switching over to the login screen??
 		switchCards("Login Panel");
-		song("resources/Sounds/LauncherMusic.wav");
+		audioManager.playSong("resources/Sounds/LauncherMusic.wav");
     }
 	
 	private void logIn(ActionEvent evt)
@@ -1482,6 +1486,7 @@ public class Launcher{
 	
 	public void intoGame(String[] playerInfo)
 	{
+		audioManager.stopSong();
 		JFrame window = new JFrame("SWE Game");
  		window.setContentPane(new GamePanel(playerInfo, client, window));
  		window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -1517,22 +1522,6 @@ public class Launcher{
 		String username = JOptionPane.showInputDialog(null, "What is your username?", "Forgot Password", JOptionPane.INFORMATION_MESSAGE);
 		if(username != null)
 			client.sendMessage("FORGOTPASSWORD#" + username);
-	}
-	
-	public void song(String Filename)
-	{
-		try{
-	        File f = new File(Filename);
-	        Clip clip = AudioSystem.getClip();
-	        AudioInputStream ais = AudioSystem.getAudioInputStream(f);
-	        clip.open(ais);
-	        clip.loop(Clip.LOOP_CONTINUOUSLY);
-	        //clip.setMicrosecondPosition(1000000);
-	        //clip.stop();
-	    }
-		catch(Exception exception){
-			System.out.println("Failed To Play The WAV File!");
-		}
 	}
 	
 	public void close(){
