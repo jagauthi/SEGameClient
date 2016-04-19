@@ -321,6 +321,7 @@ public class CountryViewState extends IState
         sm.client.sendMessage("UPDATECHARINFO#" + player.getAllCharInfo());
     	sm.disposeWindow();
     	sm.client.sendMessage("LOGOUT#" + player.getName());
+    	sm.countryViewSong.stopSong();
     }
   
     public void onEnter()
