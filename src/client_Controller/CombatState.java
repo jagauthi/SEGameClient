@@ -10,12 +10,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import client_Model.Enemy;
 import client_Model.Location;
 import client_Model.Player;
 import client_View.GamePanel;
+import client_View.Launcher;
+import client_View.NinePatchImage;
 
 public class CombatState extends IState
 {
