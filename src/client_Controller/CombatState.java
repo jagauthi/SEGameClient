@@ -183,8 +183,8 @@ public class CombatState extends IState
     	//g.drawImage(backgroundImage, 0, 0, null);
     	g.setColor(Color.BLUE);
     	g.fillRect(0, 0, GamePanel.WIDTH, GamePanel.HEIGHT);
-    	g.drawImage(player.getImage(), 3*GamePanel.WIDTH/4, GamePanel.HEIGHT/4, 
-    				player.getImage().getWidth()*2, player.getImage().getHeight()*2, null);
+    	g.drawImage(player.getCombatImage(), 3*GamePanel.WIDTH/4, GamePanel.HEIGHT/4, 
+    				player.getCombatImage().getWidth()*2, player.getCombatImage().getHeight()*2, null);
     	
     	if(enemies.size() > 0)
     	{
@@ -211,7 +211,7 @@ public class CombatState extends IState
     	g.setColor(Color.lightGray);
     	g.fillRect(0, 2*GamePanel.HEIGHT/3, GamePanel.WIDTH/2, GamePanel.HEIGHT/3);
     	//Right Box Background
-    	g.setColor(Color.black);
+    	g.setColor(Launcher.FAKETRANS);
     	g.fillRect(GamePanel.WIDTH/2, 2*GamePanel.HEIGHT/3, GamePanel.WIDTH/2, GamePanel.HEIGHT/3);
     	
     	//Left Box Info
