@@ -69,7 +69,7 @@ public class Launcher{
 		private Image warriorPort;
 		private Image newPort;
 		private Image unknownPort;
-		static BufferedImage npBackground, npBasic_50_7;
+		public static BufferedImage npBackground, npBasic_50_7;
 
 		private JFrame frame;
 		
