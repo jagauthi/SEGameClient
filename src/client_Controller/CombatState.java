@@ -43,9 +43,16 @@ public class CombatState extends IState
             System.out.println("Unable to load image file.");
         }
 		
+		//Get ninepatch image for button backgrounds
+		NinePatchImage np = new NinePatchImage(50, 50, 7, 7, Launcher.npBasic_50_7);
+		
 		//Sets up buttons for later use
 		attackButton = new JButton("Attack");
 		attackButton.setBounds(GamePanel.WIDTH/2 + 10, 2*GamePanel.HEIGHT/3 + 10, 300, 110);
+		attackButton.setHorizontalTextPosition(JButton.CENTER);
+		attackButton.setBackground(Launcher.TRANSPARENT);
+		attackButton.setIcon(new ImageIcon(np.getScaledImage(attackButton.getWidth(), attackButton.getHeight())));
+		attackButton.setBorder(Launcher.emptyBorder);
 		attackButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 attackMenu();
@@ -53,6 +60,10 @@ public class CombatState extends IState
         });
 		magicButton = new JButton("Magic");
 		magicButton.setBounds(GamePanel.WIDTH/2 + 310, 2*GamePanel.HEIGHT/3 + 10, 300, 110);
+		magicButton.setHorizontalTextPosition(JButton.CENTER);
+		magicButton.setBackground(Launcher.TRANSPARENT);
+		magicButton.setIcon(new ImageIcon(np.getScaledImage(magicButton.getWidth(), magicButton.getHeight())));
+		magicButton.setBorder(Launcher.emptyBorder);
 		magicButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 magicMenu();
@@ -60,6 +71,10 @@ public class CombatState extends IState
         });
 		inventoryButton = new JButton("Inventory");
 		inventoryButton.setBounds(GamePanel.WIDTH/2 + 10, 2*GamePanel.HEIGHT/3 + 120, 300, 110);
+		inventoryButton.setHorizontalTextPosition(JButton.CENTER);
+		inventoryButton.setBackground(Launcher.TRANSPARENT);
+		inventoryButton.setIcon(new ImageIcon(np.getScaledImage(inventoryButton.getWidth(), inventoryButton.getHeight())));
+		inventoryButton.setBorder(Launcher.emptyBorder);
 		inventoryButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 inventoryMenu();
@@ -67,6 +82,10 @@ public class CombatState extends IState
         });
 		runButton = new JButton("Run");
 		runButton.setBounds(GamePanel.WIDTH/2 + 310, 2*GamePanel.HEIGHT/3 + 120, 300, 110);
+		runButton.setHorizontalTextPosition(JButton.CENTER);
+		runButton.setBackground(Launcher.TRANSPARENT);
+		runButton.setIcon(new ImageIcon(np.getScaledImage(runButton.getWidth(), runButton.getHeight())));
+		runButton.setBorder(Launcher.emptyBorder);
 		runButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 runAway();
