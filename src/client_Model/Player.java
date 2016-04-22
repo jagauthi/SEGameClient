@@ -253,6 +253,11 @@ public class Player {
 		return animation.getImage();
 	}
 	
+	public BufferedImage getCombatImage()
+	{
+		return sprites.get(MOVINGLEFT)[3];
+	}
+	
 	public String getName() {
 		return name;
 	}
