@@ -33,6 +33,7 @@ import client_Model.OtherPlayer;
 import client_Model.Player;
 import client_View.CharacterSheetPanel;
 import client_View.GamePanel;
+import client_View.HUDPanel;
 
 public class CountryViewState extends IState
 {
@@ -49,6 +50,7 @@ public class CountryViewState extends IState
 	boolean keepMoving = false;
 	
 	JPanel characterSheetPanel, optionsPanel;
+	HUDPanel HUD;
     JTextField textField = new JTextField(40);
     JTextArea messageArea = new JTextArea(8, 40);
     JScrollPane scrollPane;
@@ -106,6 +108,9 @@ public class CountryViewState extends IState
 		optionsPanel.setLayout(null);
 		optionsPanel.setBounds(GamePanel.WIDTH/4, GamePanel.HEIGHT/4, GamePanel.WIDTH/2, GamePanel.HEIGHT/2);
 		optionsPanel.setBackground(Color.BLACK);
+		
+		HUD = new HUDPanel(player, sm);
+		sm.addComponent(HUD);
 		
 		JButton logoutButton = new JButton("Logout");
 		logoutButton.setFont(new Font("TimesRoman", Font.BOLD, 20));
@@ -245,6 +250,8 @@ public class CountryViewState extends IState
 	    	g.drawString("Coords: " + player.getX() + ", " + player.getY(), 10, 75);
 	    	g.drawString("Exp: " + player.getExperience() + "/" + player.getExpToNextLevel(), 10, 95);
 	    	
+	    	HUD.render(g);
+	    	
 	    	drawOtherPlayers(g);
 	    	drawLocations(g);
 		}
@@ -329,12 +336,14 @@ public class CountryViewState extends IState
 	    sm.addComponent(textField);
 	    sm.addComponent(scrollPane);
         textField.setText("");
+        HUD.show();
     }
   
     public void onExit()
     {
 	    sm.removeComponent(textField);
 	    sm.removeComponent(scrollPane);
+	    HUD.hide();
     }
     
     public void getLocations()
