@@ -31,8 +31,9 @@ public class StateMachine //extends Thread
 	public static ArrayList<OtherPlayer> otherPlayers = new ArrayList<OtherPlayer>();
 
 	//Player Sprites
-	public static BufferedImage mageSpriteSheet, rogueSpriteSheet, warriorSpriteSheet;
-	public static Image mageSprite, rogueSprite, warriorSprite;
+	public static BufferedImage mageSpriteSheet, rogueSpriteSheet, warriorSpriteSheet,
+								healthBarNP, manaBarNP, expBarNP, HUDBase, HUDLvlUpImage, barBoundsNP;
+	public static Image mageSprite, rogueSprite, warriorSprite, enemySprite;
 	
 	Boolean started = false;
 	
@@ -49,7 +50,7 @@ public class StateMachine //extends Thread
     public StateMachine(String[] playerInfo, ChatClient c, GamePanel gp)
     {	
     	panel = gp;
-    	this.loadSprites();
+    	this.loadImages();
     	if(playerInfo[2].equals("Mage"))
 		{
 			player = new Player(playerInfo, mageSpriteSheet);
@@ -90,12 +91,20 @@ public class StateMachine //extends Thread
     	}
     }
     
-    public void loadSprites()
+    public void loadImages()
     {
     	try {
 			mageSpriteSheet = ImageIO.read(new File("resources/Sprites/mageSprite.png"));
 			rogueSpriteSheet = ImageIO.read(new File("resources/Sprites/rogueSprite.png"));
 			warriorSpriteSheet = ImageIO.read(new File("resources/Sprites/warriorSprite.png"));
+			enemySprite = ImageIO.read(new File("resources/Sprites/wolfSprite.png"));
+			
+			healthBarNP = ImageIO.read(new File("resources/GUI/HUD/health_np_18x18_4x4.png"));
+			manaBarNP = ImageIO.read(new File("resources/GUI/HUD/mana_np_18x18_4x4.png"));
+			expBarNP = ImageIO.read(new File("resources/GUI/HUD/exp_np_5x5_2x2.png"));
+			barBoundsNP = ImageIO.read(new File("resources/GUI/HUD/bar_np_26x26_6x6.png"));
+			HUDBase = ImageIO.read(new File("resources/GUI/HUD/HUDbase.png"));
+			HUDLvlUpImage = ImageIO.read(new File("resources/GUI/HUD/levelUpBar.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
