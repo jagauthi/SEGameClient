@@ -10,8 +10,8 @@ public class Enemy {
 	int health, maxHealth, damage, experience;
 	boolean alive;
 	Rectangle enemyRect;
-	public static int WIDTH = 60;
-	public static int HEIGHT = 100;
+	public static int WIDTH = 150;
+	public static int HEIGHT = 75;
 	
 	public Enemy(String newName, int newHealth, int newDamage)
 	{
