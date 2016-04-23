@@ -239,16 +239,16 @@ public class CountryViewState extends IState
 			*/
 	
 	    	player.draw(g);
-	    	g.setColor(Color.lightGray);
-	    	g.fillRect(0, 0, 300, 120);
-	    	g.setColor(Color.black);
-	    	g.drawString("Name: " + player.getName() + ", level " + player.getLevel(), 10, 15);
-	    	g.drawString("HP: " + player.getHealth(), 10, 35);
-	    	if(player.getPointsToSpend() > 0)
-	    		g.drawString("(points to spend)", 160, 35);
-	    	g.drawString("Mana: " + player.getMana(), 10, 55);
-	    	g.drawString("Coords: " + player.getX() + ", " + player.getY(), 10, 75);
-	    	g.drawString("Exp: " + player.getExperience() + "/" + player.getExpToNextLevel(), 10, 95);
+	    	// g.setColor(Color.lightGray);
+	    	// g.fillRect(0, 0, 300, 120);
+	    	// g.setColor(Color.black);
+	    	// g.drawString("Name: " + player.getName() + ", level " + player.getLevel(), 10, 15);
+	    	// g.drawString("HP: " + player.getHealth(), 10, 35);
+	    	// if(player.getPointsToSpend() > 0)
+	    	// 	g.drawString("(points to spend)", 160, 35);
+	    	// g.drawString("Mana: " + player.getMana(), 10, 55);
+	    	// g.drawString("Coords: " + player.getX() + ", " + player.getY(), 10, 75);
+	    	// g.drawString("Exp: " + player.getExperience() + "/" + player.getExpToNextLevel(), 10, 95);
 	    	
 	    	HUD.render(g);
 	    	
