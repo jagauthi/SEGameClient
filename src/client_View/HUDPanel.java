@@ -39,7 +39,6 @@ public class HUDPanel extends JPanel{
 		levelUpButton.setBounds(167, 100, sm.HUDLvlUpImage.getWidth(), sm.HUDLvlUpImage.getHeight());
 		levelUpButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                System.out.println("HIT ON HUD LEVELUPBUT");
                 levelUpButtonClick();
             }
         });
