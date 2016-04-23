@@ -38,9 +38,15 @@ public class NinePatchImage{
 		return scaledImage;
 	}
 	public BufferedImage getScaledImage(int w, int h){
-		if(scaledImage != null && scaledImage.getWidth() == w & scaledImage.getHeight() == h){
+		if(w <= 0 || h <= 0)
+		{
+			return null;
+		}
+		else if(scaledImage != null && scaledImage.getWidth() == w & scaledImage.getHeight() == h)
+		{
 			return scaledImage;
-		} else {
+		} else 
+		{
 			return initScaledImage(w, h);
 		}
 	}
