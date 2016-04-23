@@ -26,6 +26,7 @@ public class CombatState extends IState
 	ArrayList<Enemy> enemies;
 	JButton attackButton, magicButton, inventoryButton, runButton;
 	JButton enemy1Button, enemy2Button, enemy3Button, enemy4Button;
+	NinePatchImage barBackNP, healthNP;
 	int selectedEnemy = 0;
 	static int numEnemiesKilled = 0;
 	boolean started = false;
@@ -48,6 +49,8 @@ public class CombatState extends IState
 		
 		//Get ninepatch image for button backgrounds
 		NinePatchImage np = new NinePatchImage(50, 50, 7, 7, Launcher.npBasic_50_7);
+		barBackNP = new NinePatchImage(26, 26, 6, 6, sm.barBoundsNP);
+		healthNP = new NinePatchImage(18, 18, 4, 4, sm.healthBarNP);
 		
 		//Sets up buttons for later use
 		attackButton = new JButton("Attack");
@@ -95,29 +98,41 @@ public class CombatState extends IState
             }
         });
 				
-		enemy1Button = new JButton("Enemy1");
+		enemy1Button = new JButton("");
 		enemy1Button.setBounds(GamePanel.WIDTH/8, GamePanel.HEIGHT/8, Enemy.WIDTH, Enemy.HEIGHT);
+		enemy1Button.setIcon(new ImageIcon(s.enemySprite));
+		enemy1Button.setBackground(Launcher.TRANSPARENT);
+		enemy1Button.setBorder(Launcher.emptyBorder);
 		enemy1Button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 selectEnemy(1);
             }
         });
-		enemy2Button = new JButton("Enemy2");
+		enemy2Button = new JButton("");
 		enemy2Button.setBounds(GamePanel.WIDTH/8, GamePanel.HEIGHT/8 + 140, Enemy.WIDTH, Enemy.HEIGHT);
+		enemy2Button.setIcon(new ImageIcon(s.enemySprite));
+		enemy2Button.setBackground(Launcher.TRANSPARENT);
+		enemy2Button.setBorder(Launcher.emptyBorder);
 		enemy2Button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
             	selectEnemy(2);
             }
         });
-		enemy3Button = new JButton("Enemy3");
+		enemy3Button = new JButton("");
 		enemy3Button.setBounds(GamePanel.WIDTH/8, GamePanel.HEIGHT/8 + 280, Enemy.WIDTH, Enemy.HEIGHT);
+		enemy3Button.setIcon(new ImageIcon(s.enemySprite));
+		enemy3Button.setBackground(Launcher.TRANSPARENT);
+		enemy3Button.setBorder(Launcher.emptyBorder);
 		enemy3Button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
             	selectEnemy(3);
             }
         });
-		enemy4Button = new JButton("Enemy4");
+		enemy4Button = new JButton("");
 		enemy4Button.setBounds(GamePanel.WIDTH/8, GamePanel.HEIGHT/8 + 420, Enemy.WIDTH, Enemy.HEIGHT);
+		enemy4Button.setIcon(new ImageIcon(s.enemySprite));
+		enemy4Button.setBackground(Launcher.TRANSPARENT);
+		enemy4Button.setBorder(Launcher.emptyBorder);
 		enemy4Button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
             	selectEnemy(4);
@@ -199,14 +214,16 @@ public class CombatState extends IState
 					Enemy enemy = enemies.get(i);
 					Rectangle enemyRect = enemy.getRect();
 					//Drawing Enemy Rectangle
-					g.fillRect(enemyRect.x, enemyRect.y, enemyRect.width, enemyRect.height);
+//					g.fillRect(enemyRect.x, enemyRect.y, enemyRect.width, enemyRect.height);
 					
 					//Enemy HealthBar
 					float currentHealth = (float)enemy.getHealth()/(float)enemy.getMaxHealth() * 100.0f;
-					g.setColor(Color.white);
-					g.fillRect(enemyRect.x - 20, enemyRect.y - 25, 104, 20);
-					g.setColor(Color.red);
-					g.fillRect(enemyRect.x - 18, enemyRect.y - 23, (int) currentHealth, 16);
+//					g.setColor(Color.white);
+//					g.fillRect(enemyRect.x - 20, enemyRect.y - 25, 104, 20);
+//					g.setColor(Color.red);
+//					g.fillRect(enemyRect.x - 18, enemyRect.y - 23, (int) currentHealth, 16);
+					g.drawImage(barBackNP.getScaledImage(108, 26), enemyRect.x + (enemyRect.width/2) - 54, enemyRect.y - 31, null);
+					g.drawImage(healthNP.getScaledImage((int)(currentHealth), 18), enemyRect.x + (enemyRect.width/2) - 50, enemyRect.y - 27, null);
 				}
 			}
     	}
