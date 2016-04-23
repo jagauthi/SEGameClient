@@ -64,9 +64,7 @@ public class Launcher{
 		private Image closeIcon;
 		static Image plusIcon;
 		static Image minusIcon;
-		private Image magePort;
-		private Image roguePort;
-		private Image warriorPort;
+		public static Image magePort, roguePort, warriorPort;
 		private Image newPort;
 		private Image unknownPort;
 		public static BufferedImage npBackground, npBasic_50_7;
