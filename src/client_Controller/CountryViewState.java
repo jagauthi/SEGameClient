@@ -47,7 +47,7 @@ public class CountryViewState extends IState
 	int levelUpStrCount, levelUpDexCount, levelUpConCount = 0;
 	int levelUpIntCount, levelUpWilCount, levelUpLckCount = 0;
 	
-	boolean keepMoving = false;
+//	boolean keepMoving = false;
 	
 	JPanel characterSheetPanel, optionsPanel;
 	HUDPanel HUD;
@@ -221,34 +221,8 @@ public class CountryViewState extends IState
 	    	//This Takes only the part of the image that will be drawn
 			//If you are too close to the edge it wont seem like your moving untill you get far enough away from the edge
 	    	g.drawImage(mapImage.getSubimage(0+xOffset/2, 0+yOffset/2, GamePanel.WIDTH/2, GamePanel.HEIGHT/2), 0, 0, GamePanel.WIDTH, GamePanel.HEIGHT, null);
-	    	//g.drawImage(mapImage, 0-xOffset, 0-yOffset, GamePanel.WIDTH*4, GamePanel.HEIGHT*4, null);
-	    	for(int y = 0; y < 100; y++)
-	    	{
-	    		for(int x = 0; x < 200; x++)
-	    		{
-	    	    	//g.drawString(String.valueOf(map.get(y).get(x).getType()), x*40-xOffset, y*40-yOffset);
-	    		}
-	    	}
-			/*
-			 * The next three are just so that there is a fuller map to play on, instead
-			 * of starting in the top left corner of the map.
-			 
-			g.drawImage(mapImage, 0-xOffset-mapImage.getWidth(null), 0-yOffset, mapImage.getWidth(null), mapImage.getHeight(null), null);
-			g.drawImage(mapImage, 0-xOffset, 0-yOffset-mapImage.getHeight(null), mapImage.getWidth(null), mapImage.getHeight(null), null);
-			g.drawImage(mapImage, 0-xOffset-mapImage.getWidth(null), 0-yOffset-mapImage.getHeight(null), mapImage.getWidth(null), mapImage.getHeight(null), null);
-			*/
 	
 	    	player.draw(g);
-	    	// g.setColor(Color.lightGray);
-	    	// g.fillRect(0, 0, 300, 120);
-	    	// g.setColor(Color.black);
-	    	// g.drawString("Name: " + player.getName() + ", level " + player.getLevel(), 10, 15);
-	    	// g.drawString("HP: " + player.getHealth(), 10, 35);
-	    	// if(player.getPointsToSpend() > 0)
-	    	// 	g.drawString("(points to spend)", 160, 35);
-	    	// g.drawString("Mana: " + player.getMana(), 10, 55);
-	    	// g.drawString("Coords: " + player.getX() + ", " + player.getY(), 10, 75);
-	    	// g.drawString("Exp: " + player.getExperience() + "/" + player.getExpToNextLevel(), 10, 95);
 	    	
 	    	HUD.render(g);
 	    	
@@ -270,14 +244,29 @@ public class CountryViewState extends IState
     			
     			if(!other.getName().equals(player.getName()))
     			{
-    				g.setColor(Color.BLACK);
-	    			g.fillRect(other.getX()*40-xOffset, 
-	    					other.getY()*40-yOffset, 
-	    					other.getWidth(), 
-	    					other.getHeight());
+    				
+	    			System.out.print(other.getDirection());
+    				if(other.getPlayerClass().equals("Mage"))
+    				{
+    					g.drawImage(sm.mageSprite[other.getDirection()], other.getX()*40-xOffset, other.getY()-yOffset, null); 
+    				}
+    				else if(other.getPlayerClass().equals("Warrior"))
+    				{
+    					g.setColor(Color.BLACK);
+    	    			g.fillRect(other.getX()*40-xOffset, 
+    	    					other.getY()*40-yOffset, 
+    	    					other.getWidth(), 
+    	    					other.getHeight());
+    					g.drawImage(sm.warriorSprite[other.getDirection()], other.getX()*40-xOffset, other.getY()*40-yOffset, null);
+    				}
+    				else if(other.getPlayerClass().equals("Rogue"))
+    				{
+    					g.drawImage(sm.rogueSprite[other.getDirection()], other.getX()*40-xOffset, other.getY()-yOffset, null);
+    				}
+    				
 //    				
 	    			g.setColor(Color.WHITE);
-	    			g.drawString(other.getName(), other.getX()*40-xOffset, other.getY()*40-yOffset+10);
+//	    			g.drawString(other.getName(), other.getX()*40-xOffset, other.getY()*40-yOffset+10);
     			}
     		}
     	}
