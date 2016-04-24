@@ -245,7 +245,6 @@ public class CountryViewState extends IState
     			if(!other.getName().equals(player.getName()))
     			{
     				
-	    			System.out.print(other.getDirection());
     				if(other.getPlayerClass().equals("Mage"))
     				{
     					g.drawImage(sm.mageSprite[other.getDirection()], other.getX()*40-xOffset, other.getY()-yOffset, null); 
