@@ -224,10 +224,10 @@ public class CountryViewState extends IState
 	
 	    	player.draw(g);
 	    	
-	    	HUD.render(g);
-	    	
 	    	drawOtherPlayers(g);
 	    	drawLocations(g);
+	    	
+	    	HUD.render(g);
 		}
 		else{
 			g.drawImage(mapImage, 0, 0, GamePanel.WIDTH, GamePanel.HEIGHT, null);
@@ -244,28 +244,18 @@ public class CountryViewState extends IState
     			
     			if(!other.getName().equals(player.getName()))
     			{
-    				
     				if(other.getPlayerClass().equals("Mage"))
     				{
-    					g.drawImage(sm.mageSprite[other.getDirection()], other.getX()*40-xOffset, other.getY()-yOffset, null); 
+    					g.drawImage(sm.mageSprite[other.getDirection()], other.getX()*40-xOffset, other.getY()*40-yOffset-20, null); 
     				}
     				else if(other.getPlayerClass().equals("Warrior"))
     				{
-    					g.setColor(Color.BLACK);
-    	    			g.fillRect(other.getX()*40-xOffset, 
-    	    					other.getY()*40-yOffset, 
-    	    					other.getWidth(), 
-    	    					other.getHeight());
-    					g.drawImage(sm.warriorSprite[other.getDirection()], other.getX()*40-xOffset, other.getY()*40-yOffset, null);
+    					g.drawImage(sm.warriorSprite[other.getDirection()], other.getX()*40-xOffset, other.getY()*40-yOffset-20, null);
     				}
     				else if(other.getPlayerClass().equals("Rogue"))
     				{
-    					g.drawImage(sm.rogueSprite[other.getDirection()], other.getX()*40-xOffset, other.getY()-yOffset, null);
+    					g.drawImage(sm.rogueSprite[other.getDirection()], other.getX()*40-xOffset, other.getY()*40-yOffset-20, null);
     				}
-    				
-//    				
-	    			g.setColor(Color.WHITE);
-//	    			g.drawString(other.getName(), other.getX()*40-xOffset, other.getY()*40-yOffset+10);
     			}
     		}
     	}
