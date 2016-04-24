@@ -190,8 +190,7 @@ public class CountryViewState extends IState
     {
     	Tile currentTile = map.get( player.getY() ).get( player.getX() );
     	System.out.println("Current tile: " + currentTile.getType());
-    	if( (currentTile.getType() != 1) && !(currentTile.getType() > 31 && currentTile.getType() < 48) && 
-    			!(currentTile.getType() > 64 && currentTile.getType() < 70) && (currentTile.getType() != 12))
+    	if( (currentTile.getType() != 1) && !(currentTile.getType() > 15 && currentTile.getType() < 48) && (currentTile.getType() != 12))
     		randomEncounterChance += currentTile.getRandomEncounterChance();
     	else
     		randomEncounterChance = 0;
