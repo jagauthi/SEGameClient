@@ -33,7 +33,8 @@ public class StateMachine //extends Thread
 	//Player Sprites
 	public static BufferedImage mageSpriteSheet, rogueSpriteSheet, warriorSpriteSheet,
 								healthBarNP, manaBarNP, expBarNP, HUDBase, HUDLvlUpImage, barBoundsNP;
-	public static Image mageSprite, rogueSprite, warriorSprite, enemySprite;
+	public static Image[] mageSprite, rogueSprite, warriorSprite;
+	public static Image enemySprite;
 	
 	Boolean started = false;
 	
@@ -109,9 +110,15 @@ public class StateMachine //extends Thread
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	mageSprite = mageSpriteSheet.getSubimage(80, 240, 40, 60);
-    	rogueSprite = rogueSpriteSheet.getSubimage(80, 240, 40, 60);
-    	warriorSprite = warriorSpriteSheet.getSubimage(80, 240, 40, 60);
+    	mageSprite = new Image[4];
+    	rogueSprite = new Image[4];
+    	warriorSprite = new Image[4];
+    	for(int n = 0; n < 4; n++)
+    	{
+    		mageSprite[n] = mageSpriteSheet.getSubimage(40*n, 240, 40, 60);
+    		rogueSprite[n] = rogueSpriteSheet.getSubimage(40*n, 240, 40, 60);
+    		warriorSprite[n] = warriorSpriteSheet.getSubimage(40*n, 240, 40, 60);
+    	}
     }
     
     public void finalize()
@@ -140,7 +147,7 @@ public class StateMachine //extends Thread
     
     public void updateCharsAroundMe(String[] charsAroundMe)
     {
-    	//charUpdated:char1Name char1x char1y char1Direction char1EquippedItems char1Sex:char2Name char2x char2y...
+    	//charUpdated:char1Name char1x char1y char1Direction char1EquippedItems char1Class:char2Name char2x char2y...
     	otherPlayers.clear();
     	if(charsAroundMe.length > 1)
     	{
@@ -148,7 +155,7 @@ public class StateMachine //extends Thread
 	    	{
 	    		String[] otherGuy = charsAroundMe[i].split(" ");
 	    		otherPlayers.add(new OtherPlayer(otherGuy[0],
-	    				Integer.parseInt(otherGuy[1]), Integer.parseInt(otherGuy[2])));
+	    				Integer.parseInt(otherGuy[1]), Integer.parseInt(otherGuy[2]), Integer.parseInt(otherGuy[3]), otherGuy[5]));
 	    	}
     	}
     }
