@@ -862,10 +862,10 @@ public class Launcher{
 ////////Sex Panel
         male = new JRadioButton("Male", true);
         male.setFont(smallFont);
-        male.setBackground(TRANSPARENT);
+        male.setBackground(FAKETRANS);
     	female = new JRadioButton("Female");
     	female.setFont(smallFont);
-    	female.setBackground(TRANSPARENT);
+    	female.setBackground(FAKETRANS);
     	
     	
     	ButtonGroup sexGroup = new ButtonGroup();
@@ -893,13 +893,13 @@ public class Launcher{
 /////////Class Panel
         warrior = new JRadioButton("Warrior", true);
         warrior.setFont(smallFont);
-        warrior.setBackground(TRANSPARENT);
+        warrior.setBackground(FAKETRANS);
     	rogue = new JRadioButton("Rogue");
     	rogue.setFont(smallFont);
-    	rogue.setBackground(TRANSPARENT);
+    	rogue.setBackground(FAKETRANS);
     	mage = new JRadioButton("Mage");
     	mage.setFont(smallFont);
-    	mage.setBackground(TRANSPARENT);
+    	mage.setBackground(FAKETRANS);
     	
     	ButtonGroup classGroup = new ButtonGroup();
     	classGroup.add(warrior);
