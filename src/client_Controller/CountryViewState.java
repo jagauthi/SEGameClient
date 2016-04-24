@@ -191,7 +191,7 @@ public class CountryViewState extends IState
     	Tile currentTile = map.get( player.getY() ).get( player.getX() );
     	System.out.println("Current tile: " + currentTile.getType());
     	if( (currentTile.getType() != 1) && !(currentTile.getType() > 31 && currentTile.getType() < 48) && 
-    			!(currentTile.getType() > 64 && currentTile.getType() < 70))
+    			!(currentTile.getType() > 64 && currentTile.getType() < 70) && (currentTile.getType() != 12))
     		randomEncounterChance += currentTile.getRandomEncounterChance();
     	else
     		randomEncounterChance = 0;
@@ -248,6 +248,7 @@ public class CountryViewState extends IState
     				{
     					g.drawImage(sm.mageSprite[other.getDirection()], other.getX()*40-xOffset, other.getY()*40-yOffset-20, null); 
     				}
+    				
     				else if(other.getPlayerClass().equals("Warrior"))
     				{
     					g.drawImage(sm.warriorSprite[other.getDirection()], other.getX()*40-xOffset, other.getY()*40-yOffset-20, null);
