@@ -151,12 +151,7 @@ public class CharacterSheetPanel extends BackgroundedPanel{
 		this.add(luckField.panel);
 		this.add(comitBut);
 		
-		if(player.getPointsToSpend() == 0)
-		{
-			this.setLevelingUp(false);
-		}
-		else
-			this.setLevelingUp(true);
+		this.setLevelingUp(false);
 	}
 	
 	public void setLevelingUp(boolean b)
