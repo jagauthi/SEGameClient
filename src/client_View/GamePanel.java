@@ -92,7 +92,7 @@ public class GamePanel extends JPanel
 			
 			update();
 			repaint();
-			SwingUtilities.windowForComponent(this).pack();
+			//SwingUtilities.windowForComponent(this).pack();
 			
 			elapsed = System.nanoTime() - start;
 			
