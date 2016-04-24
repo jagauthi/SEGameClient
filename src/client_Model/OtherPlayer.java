@@ -6,15 +6,17 @@ public class OtherPlayer {
 	
 	Rectangle playerRect;
 	String name, playerClass;
-	int x, y;
+	int x, y, direction;
 	final int WIDTH = 40;
 	final int HEIGHT = 60;
 	
-	public OtherPlayer(String n, int x, int y)
+	public OtherPlayer(String n, int x, int y, int dir, String charClass)
 	{
-		name = n;
+		this.name = n;
 		this.x = x;
 		this.y = y;
+		this.direction = dir;
+		this.playerClass = charClass;
 		playerRect = new Rectangle(x, y, WIDTH, HEIGHT);
 	}
 
@@ -41,6 +43,11 @@ public class OtherPlayer {
 	public int getY()
 	{
 		return y;
+	}
+	
+	public int getDirection()
+	{
+		return direction;
 	}
 	
 	public int getWidth()
