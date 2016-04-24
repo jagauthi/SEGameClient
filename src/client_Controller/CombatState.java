@@ -1,6 +1,7 @@
 package client_Controller;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
@@ -26,16 +27,19 @@ public class CombatState extends IState
 	ArrayList<Enemy> enemies;
 	JButton attackButton, magicButton, inventoryButton, runButton;
 	JButton enemy1Button, enemy2Button, enemy3Button, enemy4Button;
-	NinePatchImage barBackNP, healthNP;
+	NinePatchImage barBackNP, healthNP, manaNP;
 	int selectedEnemy = 0;
 	static int numEnemiesKilled = 0;
 	boolean started = false;
 	boolean playerTurn;
-	
+	Font nameFont, numFont;
 	public CombatState(Player p, StateMachine s)
 	{
 		super(p, s);
 		enemies = new ArrayList<Enemy>();
+		
+		nameFont = Launcher.normalFont.deriveFont(25F);
+		numFont = Launcher.normalFont.deriveFont(18F);
 		
 		String backgroundPath = "resources/MKMap.jpg";
     	backgroundImage = null;
@@ -51,6 +55,7 @@ public class CombatState extends IState
 		NinePatchImage np = new NinePatchImage(50, 50, 7, 7, Launcher.npBasic_50_7);
 		barBackNP = new NinePatchImage(26, 26, 6, 6, sm.barBoundsNP);
 		healthNP = new NinePatchImage(18, 18, 4, 4, sm.healthBarNP);
+		manaNP = new NinePatchImage(18, 18, 4, 4, sm.manaBarNP);
 		
 		//Sets up buttons for later use
 		attackButton = new JButton("Attack");
@@ -235,24 +240,20 @@ public class CombatState extends IState
     	g.fillRect(GamePanel.WIDTH/2, 2*GamePanel.HEIGHT/3, GamePanel.WIDTH/2, GamePanel.HEIGHT/3);
     	
     	//Left Box Info
-    	g.setColor(Color.black);
-    	g.drawString("Name: " + player.getName(), 10, (3*GamePanel.HEIGHT/4)+10);
-    	
-    	float currentHealth = (float)player.getHealth()/(float)player.getMaxHealth() * 100.0f;
-		g.setColor(Color.white);
-		g.fillRect(10, (3*GamePanel.HEIGHT/4)+30, 104, 20);
-		g.setColor(Color.red);
-		g.fillRect(12, (3*GamePanel.HEIGHT/4)+32, (int) currentHealth, 16);
-		g.setColor(Color.BLACK);
-    	g.drawString(player.getHealth() + "/" + player.getMaxHealth(), 40, (3*GamePanel.HEIGHT/4)+45);
+    	float currentHealth = (float)player.getHealth()/(float)player.getMaxHealth();
+    	g.drawImage(barBackNP.getScaledImage(188, 26), 10, (3*GamePanel.HEIGHT/4)+30, null);
+    	g.drawImage(healthNP.getScaledImage((int)(180 * currentHealth), 18), 14, (3*GamePanel.HEIGHT/4)+34, null);
 		
-		float currentMana = (float)player.getMana()/(float)player.getMaxMana() * 100.0f;
-		g.setColor(Color.white);
-		g.fillRect(10, (3*GamePanel.HEIGHT/4)+60, 104, 20);
-		g.setColor(Color.cyan);
-		g.fillRect(12, (3*GamePanel.HEIGHT/4)+62, (int) currentMana, 16);
-		g.setColor(Color.BLACK);
-    	g.drawString(player.getMana() + "/" + player.getMaxMana(), 40, (3*GamePanel.HEIGHT/4)+75);
+		float currentMana = (float)player.getMana()/(float)player.getMaxMana() ;
+		g.drawImage(barBackNP.getScaledImage(188, 26), 10, (3*GamePanel.HEIGHT/4)+60, null);
+    	g.drawImage(manaNP.getScaledImage((int)(180 * currentMana), 18), 14, (3*GamePanel.HEIGHT/4)+64, null);
+    	
+    	g.setColor(Color.BLACK);
+    	g.setFont(nameFont);
+    	g.drawString(player.getName(), 10, (3*GamePanel.HEIGHT/4)+25);
+    	g.setFont(numFont);
+    	g.drawString(player.getHealth()+" / "+player.getMaxHealth(), 25, (3*GamePanel.HEIGHT/4)+49);
+    	g.drawString(player.getMana()+" / "+player.getMaxMana(), 25, (3*GamePanel.HEIGHT/4)+79);
     }
     
     public void truncateEnemies()
