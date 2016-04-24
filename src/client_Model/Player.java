@@ -212,7 +212,7 @@ public class Player {
 	
 	public String getLocationInfo()
 	{
-		String message = name + "#" + x + "#" + y + "#" + location;
+		String message = name + "#" + x + "#" + y + "#" + location + "#" + direction;
 		return message;
 	}
 	
