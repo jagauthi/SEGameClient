@@ -1406,7 +1406,7 @@ public class Launcher{
 	{
 		loginNameText.setText("");
 		loginPasswordText.setText("");
-		JOptionPane.showMessageDialog(null, "Account has been locked. Please call (719)352-7025, and tell him he to unlock your account.", "ERROR", 
+		JOptionPane.showMessageDialog(null, "Account has been locked. Please try 'Forgot Password'", "ERROR", 
 				JOptionPane.INFORMATION_MESSAGE);
 	}
 	
@@ -1414,7 +1414,7 @@ public class Launcher{
 	{
 		loginNameText.setText("");
 		loginPasswordText.setText("");
-		JOptionPane.showMessageDialog(null, "Account has been banned, probably because you're lame.", "ERROR", 
+		JOptionPane.showMessageDialog(null, "Account has been banned.", "ERROR", 
 				JOptionPane.INFORMATION_MESSAGE);
 	}
 	
