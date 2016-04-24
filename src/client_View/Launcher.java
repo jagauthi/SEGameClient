@@ -873,7 +873,7 @@ public class Launcher{
     	sexGroup.add(female);
     	Border sexBorder = BorderFactory.createLineBorder(Color.BLACK);
     	sexPanel.setBorder(BorderFactory.createTitledBorder(sexBorder, "Gender", TitledBorder.CENTER, TitledBorder.TOP, smallFont, Color.BLACK));
-    	sexPanel.setBackground(TRANSPARENT);
+    	sexPanel.setBackground(FAKETRANS);
     	sexPanel.setLayout(new GridBagLayout());
     	GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.BOTH;
@@ -908,7 +908,7 @@ public class Launcher{
     	
     	Border classBorder = BorderFactory.createLineBorder(Color.BLACK);
     	classPanel.setBorder(BorderFactory.createTitledBorder(classBorder, "Class", TitledBorder.CENTER, TitledBorder.TOP, smallFont, Color.BLACK));
-    	classPanel.setBackground(TRANSPARENT);
+    	classPanel.setBackground(FAKETRANS);
     	
     	classPanel.setLayout(new GridBagLayout());
         c = new GridBagConstraints();
