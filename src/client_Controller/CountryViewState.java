@@ -34,6 +34,7 @@ import client_Model.Player;
 import client_View.CharacterSheetPanel;
 import client_View.GamePanel;
 import client_View.HUDPanel;
+import client_View.Launcher;
 
 public class CountryViewState extends IState
 {
@@ -230,6 +231,12 @@ public class CountryViewState extends IState
 		}
 		else{
 			g.drawImage(mapImage, 0, 0, GamePanel.WIDTH, GamePanel.HEIGHT, null);
+			g.setColor(Color.red);
+			float scaleX = (float)GamePanel.WIDTH /(float)mapImage.getWidth();
+			float scaleY = (float)GamePanel.HEIGHT/(float)mapImage.getHeight();
+			g.fillRect((int) ((player.getX()*20)*scaleX), (int) ((player.getY()*20)*scaleY), (int)(player.getWidth()*scaleX), (int)(player.getHeight()*scaleY));
+			g.setFont(Launcher.smallFont.deriveFont(13F));
+			g.drawString("You Are Here", (int) ((player.getX()*20)*scaleX) + (int)(player.getWidth()*scaleX)+5, (int) ((player.getY()*20)*scaleY) + (int)(player.getHeight()*scaleY));
 		}
     }
     
@@ -365,6 +372,10 @@ public class CountryViewState extends IState
 		}
     	if(keyCode == KeyEvent.VK_M){
     		showMap = !showMap;
+    		if(showMap)
+    			HUD.hide();
+    		else
+    			HUD.show();
 		}
     	if(keyCode == KeyEvent.VK_C){
     		if(!charSheetOpen)
