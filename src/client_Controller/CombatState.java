@@ -28,14 +28,16 @@ public class CombatState extends IState
 	JButton attackButton, magicButton, inventoryButton, runButton;
 	JButton enemy1Button, enemy2Button, enemy3Button, enemy4Button;
 	NinePatchImage barBackNP, healthNP, manaNP;
-	int selectedEnemy = 0;
+	int selectedEnemy = 1;
 	static int numEnemiesKilled = 0;
 	boolean started = false;
-	boolean playerTurn;
+	boolean playerTurn, doneLoading;
 	Font nameFont, numFont;
 	public CombatState(Player p, StateMachine s)
 	{
 		super(p, s);
+		doneLoading = false;
+		
 		enemies = new ArrayList<Enemy>();
 		
 		nameFont = Launcher.normalFont.deriveFont(25F);
@@ -227,11 +229,20 @@ public class CombatState extends IState
 //					g.fillRect(enemyRect.x - 20, enemyRect.y - 25, 104, 20);
 //					g.setColor(Color.red);
 //					g.fillRect(enemyRect.x - 18, enemyRect.y - 23, (int) currentHealth, 16);
-					g.drawImage(barBackNP.getScaledImage(108, 26), enemyRect.x + (enemyRect.width/2) - 54, enemyRect.y - 31, null);
-					g.drawImage(healthNP.getScaledImage((int)(currentHealth), 18), enemyRect.x + (enemyRect.width/2) - 50, enemyRect.y - 27, null);
+					g.drawImage(barBackNP.getScaledImage(108, 26), enemyRect.x + (enemyRect.width/2) - 54, enemyRect.y - 31 - 5, null);
+					g.drawImage(healthNP.getScaledImage((int)(currentHealth), 18), enemyRect.x + (enemyRect.width/2) - 50, enemyRect.y - 27 - 5, null);
 				}
 			}
     	}
+    	//Draw box around selected enimie
+    	if(doneLoading)
+    	{
+	    	g.setColor(Color.yellow);
+	    	int boxPad = 5;
+	    	g.drawRoundRect(enemies.get(selectedEnemy-1).getRect().x - boxPad, enemies.get(selectedEnemy-1).getRect().y - boxPad,
+	    			enemies.get(selectedEnemy-1).getRect().width + (boxPad*2), enemies.get(selectedEnemy-1).getRect().height + (boxPad*2), 10, 10);
+    	}
+    	
     	//Left Box Background
     	g.setColor(Color.lightGray);
     	g.fillRect(0, 2*GamePanel.HEIGHT/3, GamePanel.WIDTH/2, GamePanel.HEIGHT/3);
@@ -275,6 +286,16 @@ public class CombatState extends IState
 	    				sm.removeComponent(enemy4Button);
 	    		}
 	    	}
+	    	
+	    	if(!enemies.get(selectedEnemy-1).isAlive())
+	    	{
+	    		for(int i = 0; i < enemies.size(); i++)
+	    	    {
+	    			if(enemies.get(i).isAlive())
+	    				selectedEnemy = i+1;
+	    	    }
+	    	}
+	    	
     	}
     	else
     	{
@@ -359,6 +380,7 @@ public class CombatState extends IState
     		newEnemy.setRect(GamePanel.WIDTH/8, GamePanel.HEIGHT/8 + ((i-1)*140), Enemy.WIDTH, Enemy.HEIGHT);
     		enemies.add(newEnemy);
     	}
+		doneLoading = true;
     	onEnter();
     }
     
