@@ -192,6 +192,10 @@ public class ChatClient extends Thread{
 	            		sm.currentState.loadInfo(message);
 	            	}
 	            }
+	            else if (message[0].equals("LOGOUT")) { 
+	            	//charUpdated:char1Name char1x char1y:char2Name char2x char2y:...
+	            	sm.countryViewState.logout();
+	            }
 	            else
 	            {
 	            	System.out.println("Not sure how to handle this error... the error is: ");
