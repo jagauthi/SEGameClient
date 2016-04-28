@@ -1308,8 +1308,8 @@ public class Launcher{
 		switchCards("Modify Account Panel");
 		modifyNameText.setEditable(false);
 		modifyNameText.setText(accountInfo[0]);
-		modifyPasswordText.setText(accountInfo[1]);
-		modifyVerifyPasswordText.setText(accountInfo[1]);
+		modifyPasswordText.setText("");
+		modifyVerifyPasswordText.setText("");
 		modifyEmailText.setText(accountInfo[2]);
 		secQuestions1.setSelectedIndex(0);
 		modifySecAnswer1Text.setText(accountInfo[4]);
