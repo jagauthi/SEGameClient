@@ -36,7 +36,7 @@ public class StateMachine //extends Thread
 	public static Image[] mageSprite, rogueSprite, warriorSprite;
 	public static Image enemySprite;
 	
-	Boolean started = false;
+	static Boolean started = false;
 	
 	Player player;
 	
@@ -90,6 +90,8 @@ public class StateMachine //extends Thread
     		currentState = countryViewState;
     		countryViewSong.playSong("resources/Sounds/SnowZone.wav");
     	}
+    	
+    	started = true;
     }
     
     public void loadImages()
