@@ -230,12 +230,15 @@ public class CountryViewState extends IState
 	    	HUD.render(g);
 		}
 		else{
-			g.drawImage(mapImage, 0, 0, GamePanel.WIDTH, GamePanel.HEIGHT, null);
+		g.drawImage(mapImage, 0, 0, GamePanel.WIDTH, GamePanel.HEIGHT, null);
 			g.setColor(Color.red);
 			float scaleX = (float)GamePanel.WIDTH /(float)mapImage.getWidth();
 			float scaleY = (float)GamePanel.HEIGHT/(float)mapImage.getHeight();
 			g.fillRect((int) ((player.getX()*20)*scaleX), (int) ((player.getY()*20)*scaleY), (int)(player.getWidth()*scaleX), (int)(player.getHeight()*scaleY));
 			g.setFont(Launcher.smallFont.deriveFont(13F));
+			g.setColor(Color.black);
+			g.fillRect((int) ((player.getX()*20)*scaleX) + (int)(player.getWidth()*scaleX) + 2, (int) ((player.getY()*20)*scaleY) -3, 85, 18);
+			g.setColor(Color.red);
 			g.drawString("You Are Here", (int) ((player.getX()*20)*scaleX) + (int)(player.getWidth()*scaleX)+5, (int) ((player.getY()*20)*scaleY) + (int)(player.getHeight()*scaleY));
 		}
     }
